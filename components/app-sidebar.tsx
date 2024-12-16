@@ -50,7 +50,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-2" >
         <Link href={"/"}>
-        <Image src={icon_v1_dark} alt="Logo" width={40} className="cursor-pointer"/>
+        <Image src={icon_v1_dark} alt="Logo" width={40} priority={true} className="cursor-pointer"/>
         </Link>
         {/* <h1 className="text-2xl font-">Tweetly</h1> */}
 

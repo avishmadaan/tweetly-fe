@@ -5,6 +5,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
+import { NotificationProvider } from "@/components/notification/notificationContext";
 
 const firaCode = Fira_Code({
   variable: "--font-fira-code",
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body
         className={`${firaCode.variable} antialiased`}
       >
+        <NotificationProvider>
                   <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -49,6 +51,7 @@ export default function RootLayout({
 
         </SidebarProvider>
         </ThemeProvider>
+        </NotificationProvider>
       </body>
     </html>
   );

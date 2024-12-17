@@ -60,7 +60,7 @@ export function AppSidebar() {
   return (
     <div className={` border-r h-screen 
       
-    ${open? "w-[20%] min-w-[250px] p-4":"w-[60px] p-1 pt-4" } transition-all duration-250
+    ${open? "min-w-[250px] p-4":"w-[60px] p-1 pt-4" } transition-all duration-400 ease-in-out
     
      `}>
       <div

@@ -1,6 +1,8 @@
 "use client"
 import { createContext, useContext, useState } from "react";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { useNotification } from "@/components/notification/notificationContext";
 
 type AuthContextType = {
     isAuthenticated: boolean,
@@ -13,8 +15,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthContextProvider = ({children}:{children:React.ReactNode}) => {
 
-    const [isAuthenticated, setIsAuthenticated]
+const [isAuthenticated, setIsAuthenticated]
 = useState(false);
+
+const router = useRouter();
+const {showNotification} = useNotification();
 
 
     const login = (token:string) => {
@@ -27,6 +32,8 @@ export const AuthContextProvider = ({children}:{children:React.ReactNode}) => {
     
         Cookies.remove("token");
         setIsAuthenticated(false);
+        router.push("/login");
+        showNotification({message:"Logged Out Successfully", type:'positive'})
     }
 
     return (

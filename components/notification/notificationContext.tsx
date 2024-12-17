@@ -1,10 +1,16 @@
 "use client";
 import { CircleX } from "lucide-react";
 import React, { createContext, useContext, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 type Notification = {
   message: string;
   type: "positive" | "negative";
+};
+type NotificationInserted = {
+  message: string;
+  type: "positive" | "negative";
+  id:string
 };
 
 type NotificationContextType = {
@@ -14,26 +20,40 @@ type NotificationContextType = {
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 export const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
-  const [notification, setNotification] = useState<Notification | null>(null);
 
-  const closeNotification = () => {
-    setNotification(null);
-  }
+  const [notifications, setNotifications] = useState<NotificationInserted[] >([]);
 
   const showNotification = (notification: Notification) => {
-    setNotification(notification);
+    const newNotification = {...notification, id:uuidv4()} 
 
-    const timer = setTimeout(() => {
-      setNotification(null);
+    setNotifications((prev) => [...prev, newNotification]);
+
+   setTimeout(() => {
+    setNotifications((prev) => prev.filter((n) => n.id !== newNotification.id));
     }, 5000);
 
-    return () => clearTimeout(timer);
+  };
+
+
+  const closeNotification = (id: string) => {
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
   return (
     <NotificationContext.Provider value={{ showNotification }}>
       {children}
-      {notification && <Notification {...notification}  closeNotification={closeNotification} />}
+      {
+      
+      notifications.map((item) => {
+
+        return (
+          <Notification key={item.id} 
+          {...item}  closeNotification={() => closeNotification(item.id)} />
+
+        )
+      })
+      }
+      
     </NotificationContext.Provider>
   );
 };

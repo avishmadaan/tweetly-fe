@@ -1,5 +1,5 @@
 "use client"
-import { CircleUserRound, DockIcon } from 'lucide-react'
+import { CircleUserRound } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import ProfileMenu from './profile-menu'
 

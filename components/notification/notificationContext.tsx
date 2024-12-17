@@ -1,5 +1,5 @@
 "use client";
-import { CircleX, Cross } from "lucide-react";
+import { CircleX } from "lucide-react";
 import React, { createContext, useContext, useState } from "react";
 
 type Notification = {
@@ -45,12 +45,12 @@ type NotificationProps = Notification & {
 export const Notification = ({ message, type, closeNotification }: NotificationProps) => {
   return (
     <div
-      className={`fixed bottom-5 left-5 p-4 rounded-md shadow-lg text-white z-10 flex gap-2 ${
-        type === "positive" ? "bg-green-500" : "bg-red-500"
+      className={`fixed bottom-5 left-5 p-4 rounded-lg shadow-lg text-white z-10 flex gap-2 ${
+        type === "positive" ? "bg-customBlue" : "bg-red-500"
       }`}
     >
-      <CircleX className="cursor-pointer " onClick={closeNotification} />
       <h1>{message}</h1>
+      <CircleX className="cursor-pointer " onClick={closeNotification} />
     </div>
   );
 };

@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import { Fira_Code } from "next/font/google";
+import { Fira_Code, Geist } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { ThemeProvider } from "@/components/theme-provider";
-import { ModeToggle } from "@/components/mode-toggle";
 import { NotificationProvider } from "@/components/notification/notificationContext";
+import { AuthContextProvider } from "@/lib/authContext";
+import { Theme } from "@/lib/providers";
 
 const firaCode = Fira_Code({
   variable: "--font-fira-code",
+  subsets: ["latin"],
+});
+const geistCode = Geist({
+  variable: "--font-geist-code",
   subsets: ["latin"],
 });
 
@@ -29,28 +31,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${firaCode.variable} antialiased`}
+        className={`${firaCode.variable}  ${geistCode.variable} antialiased`}
       >
         <NotificationProvider>
-                  <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-        <SidebarProvider>
-          <AppSidebar />
-          <main>
-            <SidebarTrigger />
-        {children}
-
-          </main>
-          <ModeToggle />
-
-        </SidebarProvider>
-        </ThemeProvider>
+        <AuthContextProvider>
+                  <Theme>
+   {children}
+        </Theme>
+        </AuthContextProvider>
         </NotificationProvider>
       </body>
     </html>

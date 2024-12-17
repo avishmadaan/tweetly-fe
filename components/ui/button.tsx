@@ -1,57 +1,48 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+import { Loader2 } from "lucide-react";
+import { ReactElement } from "react";
 
-import { cn } from "@/lib/utils"
-
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-      },
-      size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-)
-
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+export interface ButtonProps {
+    variant: "primary" | "secondary" | "outline",
+    children:React.ReactNode;
+    onClick?: ()=> void;
+    size?:"sm" | "md" | "lg";
+    text?:string;
+    startIcon?:ReactElement;
+    endIcon?:ReactElement;
+    className?:string;
+    type?:"submit" | "reset" |"button";
+    loading?:boolean;
+    disabled?:boolean
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
-Button.displayName = "Button"
+const variantStyles = {
+    "primary":"bg-customBlack text-white  dark:bg-white dark:text-customBlack",
 
-export { Button, buttonVariants }
+    "outline":"text-customBlack dark:text-white border dark:border-customWhite border-black border-opacity-20 bg-transparent" ,
+
+    "secondary":"bg-white text-customBlack"
+}
+
+const defaultStyles = `rounded-md px-6 py-3 flex justify-center gap-2 h hover:-translate-y-1 duration-200 dark:border-opacity-20 `;
+
+
+
+export const Button = (props:ButtonProps)=> {
+
+    return <button type={props.type} onClick={props.onClick} className={`${variantStyles[props.variant]} ${defaultStyles} ${props.className}  ${props.disabled ? " ":""}`} >
+
+        {!props.loading && (
+            <>
+            {props.startIcon}
+            {props.children}
+            {props.endIcon}
+            </>
+        )}
+    
+    {props.loading && <Loader2 className="animate-spin" />}
+    
+    </button>
+
+
+
+}

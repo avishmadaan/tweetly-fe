@@ -1,6 +1,7 @@
 "use client";
 import {
   Calendar,
+  CircleX,
   Home,
   Inbox,
   Search,
@@ -12,7 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavbarItem } from "./ui/navbar-item";
-import { ReactElement, useContext, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 
 type menuItems = {
@@ -55,16 +56,16 @@ const items: menuItems[] = [
 export function AppSidebar() {
   const pathname = usePathname(); 
 
-  const {open} = useSidebarContext();
+  const {open, setOpen} = useSidebarContext();
 
   return (
-    <div className={` border-r h-screen 
+    <div className={`absolute md:static border-r h-screen z-10 dark:bg-black bg-white
       
-    ${open? "min-w-[250px] p-4":"w-[60px] p-1 pt-4" } transition-all duration-400 ease-in-out
+    ${open? "md:min-w-[250px] md:w-[20%] p-4 w-full":"md:w-[60px] -translate-x-full md:translate-x-0 p-1 pt-4" } transition-all duration-400 ease-in-out
     
      `}>
       <div
-        className="
+        className="flex justify-between items-center
           "
       >
         <Link href={"/dashboard"} className="flex items-center gap-1 py-2">
@@ -77,9 +78,11 @@ export function AppSidebar() {
 />
           {open && (
 
-          <h1 className="text-4xl font-bold">Tweetly</h1>
+          <h1 className="text-4xl font-bold cursor-pointer">Tweetly</h1>
           )}
         </Link>
+
+        <CircleX size={28} className="md:hidden block" onClick={()=> setOpen((val) => !val)} />
       </div>
       
 
@@ -88,21 +91,16 @@ export function AppSidebar() {
           "
         id="menus"
       >
-        {items.map((item, index) => {
-
-         
-            return (
-              <NavbarItem
-                name={item.title}
-                icon={item.icon}
-                key={index}
-                url={item.url}
-                open={open}
-                isActive={pathname === `/dashboard/${item.title.toLowerCase()}`}
-              />
-            );
-    
-        })}
+{items.map((item, index) => (
+  <NavbarItem
+    name={item.title}
+    icon={item.icon}
+    key={index}
+    url={item.url}
+    open={open}
+    isActive={pathname === `/dashboard/${item.title.toLowerCase()}`}
+  />
+))}
       </div>
     
 
@@ -119,8 +117,26 @@ type SidebarContextType = {
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
+
+
 export const SidebarContextProvider = ({children}:{children:React.ReactNode}) => {
   const [open, setOpen] = useState<boolean>(true);
+
+  useEffect(() => {
+    // Check screen size when the component is mounted
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setOpen(false); // Close sidebar on mobile screens (width < 768px)
+      } else {
+        setOpen(true); // Open sidebar on larger screens
+      }
+    };
+
+     // Run on mount and resize
+     handleResize();
+     window.addEventListener("resize", handleResize);
+
+  }, []);
 
   return (<SidebarContext.Provider value={{open, setOpen}}>
     {children}

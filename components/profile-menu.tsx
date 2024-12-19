@@ -35,7 +35,7 @@ const ProfileMenu = () => {
     const {logout} = useAuth();
 
   return (
-    <div className='border px-4 rounded-md  absolute top-[130%] right-0 w-[150%] bg-black'>
+    <div className='border px-4 rounded-md  absolute top-[130%] right-0 w-[150%] bg-white dark:bg-black'>
 
 {items.map((item, index) => {
 
@@ -59,6 +59,7 @@ return (
     url='/'
     isActive={false}
     onClick={logout}
+    className='hover:bg-red-500 dark:hover:bg-red-500 hover:text-white'
   />
       
     </div>

@@ -7,16 +7,17 @@ export function NavbarItem(props:{
     url:string,
     isActive?:boolean,
     open?:boolean,
+    className?:string
     onClick?:()=>void
 }) {
 
     if(props.onClick) {
 
         return (
-            <div className={`flex  p-2  w-full dark:hover:bg-customHover cursor-pointer hover:bg-gray-100 rounded-md my-4 dark:text-white text-customBlack ${
+            <div className={`flex  p-2  w-full dark:hover:bg-customHover cursor-pointer hover:bg-gray-100 rounded-md my-4 dark:text-white text-customBlack  ${
                 props.isActive ? "dark:bg-customHover bg-gray-100 " : ""
               }
-              `} onClick={props.onClick} >
+             ${props.className} ` } onClick={props.onClick} >
       
                   <span className="pr-4
                   ">

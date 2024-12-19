@@ -5,7 +5,7 @@ import React from "react";
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarContextProvider>
-    <div className="flex ">
+    <div className="md:flex ">
       <AppSidebar />
       {children}
     </div>

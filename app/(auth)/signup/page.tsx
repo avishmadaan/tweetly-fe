@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import Input from '@/components/ui/input';
 import VisibilityButton from '@/components/ui/visibility-button';
 import { useAuth } from '@/lib/authContext';
+import OrLoginWith from '@/components/or-login-with';
 
 type RegistrationData = {
   email: string;
@@ -68,7 +69,7 @@ const Signup = () => {
           <Input type='text'
            {...register("email", { required: "Email is Required",
               pattern:{
-                value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/, 
+                value:/^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/, 
                 message: "Please enter a valid email address",
               }
              })} 
@@ -133,10 +134,9 @@ const Signup = () => {
             Signup
           </Button>
         </form>
+        
+          <OrLoginWith />
 
-        <Button className="mt-8 w-full text-center py-2  " variant={"outline"} type="submit" disabled={!isValid}>
-            Login with Google
-          </Button>
         <span className="text-center block w-full  pt-4 text-sm">
           Already have an account? <Link href={"/login"} className='underline'> Login</Link>
         </span>

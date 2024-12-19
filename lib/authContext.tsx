@@ -37,7 +37,7 @@ const {showNotification} = useNotification();
 
   
   useEffect(() => {
-    const token = Cookies.get("token");
+    const token = Cookies.get("auth_token");
     if (token) {
       setIsAuthenticated(true);
     }
@@ -84,7 +84,7 @@ const {showNotification} = useNotification();
   
         setIsAuthenticated(true);
 
-        Cookies.set("token", result.data.token, {expires:7, path:"/"});
+        Cookies.set("auth_token", result.data.token, {expires:7, path:"/"});
 
         router.push("//dashboard/home");
         
@@ -116,7 +116,6 @@ const {showNotification} = useNotification();
         const response = await axios.post(URL, {},{
           withCredentials:true,
         });
-        Cookies.remove("token");
         setIsAuthenticated(false);
         router.push("/login");
         showNotification({

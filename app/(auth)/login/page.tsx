@@ -1,5 +1,6 @@
 "use client";
 
+import OrLoginWith from "@/components/or-login-with";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import VisibilityButton from "@/components/ui/visibility-button";
@@ -107,14 +108,9 @@ const Login = () => {
           </Button>
         </form>
 
-        <Button
-          className="mt-8 w-full text-center py-2  "
-          variant={"outline"}
-          type="submit"
-          disabled={!isValid}
-        >
-          Login with Google
-        </Button>
+        <OrLoginWith />
+
+
         <span className="text-center block w-full  pt-4">
           Don&apos;t have an account?{" "}
           <Link href={"/signup"} className="underline">

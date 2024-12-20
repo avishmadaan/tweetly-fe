@@ -10,7 +10,9 @@ type AuthContextType = {
     isAuthenticated: boolean,
     login: (data:LoginData)=> Promise<boolean>,
     logout:()=> void,
-    signUp:(data:RegistrationData)=> Promise<boolean>
+    signUp:(data:RegistrationData)=> Promise<boolean | undefined>
+    otpVerfication:(data:OTPVerificationData) => Promise<boolean | undefined>
+    reSendOtp:(email:string)=> Promise<boolean>
 }
 type RegistrationData = {
   email: string;
@@ -21,6 +23,12 @@ type RegistrationData = {
 type LoginData = {
   email: string;
   password: string;
+};
+
+type OTPVerificationData = {
+  email: string;
+  otp: string;
+
 };
 
 
@@ -49,7 +57,7 @@ const {showNotification} = useNotification();
 
     try{
       console.log(data)
-      const URL = `${domain}/api/v1/user/signup`;
+      const URL = `${domain}/api/v1/user/otp/signup`;
       console.log(URL);
       const result = await axios.post(URL, data)
 
@@ -58,8 +66,69 @@ const {showNotification} = useNotification();
         message:result.data.message,
         type:"positive"
       })
-      router.push("/login");
+
+      router.push(`/signup/verification?email=${encodeURIComponent(result.data.email)}`)
+      
+      
+    }
+    catch(e) {
+      console.log(e)
+      showNotification({
+        //@ts-expect-error  because of message
+        message:e.response.data.message,
+        type:"negative"
+      })
+      return false;
+    }
+
+  }
+
+  const otpVerfication = async (data: OTPVerificationData) => {
+
+    try{
+      console.log(data)
+      const URL = `${domain}/api/v1/user/signup/verification`;
+      console.log(URL);
+      const result = await axios.post(URL, data)
+
+      
+      showNotification({
+        message:result.data.message,
+        type:"positive"
+      })
+
+      router.push(`/login`)
+      
+      
+    }
+    catch(e) {
+      console.log(e)
+      showNotification({
+        //@ts-expect-error  because of message
+        message:e.response.data.message,
+        type:"negative"
+      })
+      return false;
+    }
+
+  }
+
+  const reSendOtp = async (email:string) => {
+
+    try{
+
+      const URL = `${domain}/api/v1/user/signup/verification/newotp`;
+      console.log(URL);
+      const result = await axios.post(URL, {email})
+
+      
+      showNotification({
+        message:result.data.message,
+        type:"positive"
+      })
+
       return true;
+
       
       
     }
@@ -137,7 +206,7 @@ const {showNotification} = useNotification();
     }
 
     return (
-        <AuthContext.Provider value={{login, logout, signUp,  isAuthenticated}}>
+        <AuthContext.Provider value={{login, logout, signUp,  isAuthenticated, otpVerfication, reSendOtp}}>
             {children}
         </AuthContext.Provider>
     )

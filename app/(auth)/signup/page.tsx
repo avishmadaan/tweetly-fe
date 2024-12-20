@@ -53,10 +53,10 @@ const Signup = () => {
   const onSubmit = async (data: RegistrationData) => {
 
     setLoading(true);
-    const response = await signUp(data);
-    if(!response) {
-      setLoading(false);
-    }
+    await signUp(data);
+    setLoading(false);
+   
+  
   };
 
   return (

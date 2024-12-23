@@ -66,7 +66,7 @@ const OrLoginWith = () => {
     }
 
   return (
-    <div className='mt-4'>
+    <div className='mt-2'>
 
         <div className="flex items-center">
             <hr className='w-1/2' />
@@ -78,7 +78,7 @@ const OrLoginWith = () => {
         <div className="" >
           
 
-                <Button className="mt-8 w-full text-center py-2 flex gap-4 "variant={"outline"} type="button"  
+                <Button className="mt-4 w-full text-center py-2 flex gap-4 "variant={"outline"} type="button"  
                 onClick={openLoginGooglePopup}
                 >
                 

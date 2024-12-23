@@ -48,19 +48,19 @@ const Login = () => {
   const onSubmit = async (data: LoginData) => {
 
       setLoading(true);
-      const response = await login(data);
-      if(!response) {
+      await login(data);
+
         setLoading(false);
-      }
+      
 
 
   }
 
 
   return (
-    <div className="">
-      <div className=" p-5 border rounded-md  md:w-[30%] min-w-[350px] min-h-[70%] flex flex-col shadow-[1px_1px_2px_rgba(255,255,255,0.1)] ">
-        <h1 className="text-2xl font-bold py-2 ">Login</h1>
+    <div className="md:w-[30%] min-w-[350px]">
+      <div className=" p-4 border rounded-md  shadow-[1px_1px_2px_rgba(255,255,255,0.1)] ">
+        <h1 className="text-2xl font-bold py-2 ">Login with Tweetly</h1>
         <p className="dark:text-gray-300 text-gray-500 text-sm pb-2">
           Enter your email below to login to your account
         </p>
@@ -71,19 +71,26 @@ const Login = () => {
             {...register("email", { required: "Email is Required" })}
             placeholder="m@example.com"
           />
+
+          <div className="h-3 p-0">
           {errors.email && (
-            <span className="text-red-500 text-left text-sm">
+            <span className="text-red-500 text-left text-sm mt-0">
               {errors.email.message}
             </span>
           )}
-          <div className="flex justify-between items-center mt-4">
+            
+          </div>
+          <div className="flex justify-between items-center mt-3">
             <label className="">Password</label>
-            {/* <p className="">Forgot your password?</p> */}
+            <Link href={"/login/passwordreset"} >
+           <p className=" cursor-pointer">Forgot your password?</p> 
+           </Link>
           </div>
           <div className="relative">
             <Input
               type={isPasswordVisible ? 'text' : 'password'}
               {...register("password", { required: "Password is Required" })}
+              placeholder="Password"
             />
 
             <VisibilityButton
@@ -92,11 +99,16 @@ const Login = () => {
             ></VisibilityButton>
           </div>
 
+          <div className="h-2">
+
           {errors.password && (
             <span className="text-red-500 text-left text-sm">
               {errors.password.message}
             </span>
           )}
+
+          </div>
+
           <Button
             className="mt-6 w-full text-center py-3"
             variant={"primary"}

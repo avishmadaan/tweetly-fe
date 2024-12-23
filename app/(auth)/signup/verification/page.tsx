@@ -5,7 +5,7 @@ import otp from "../../../../assets/otp.svg"
 import { Button } from '@/components/ui/button'
 import OtpBox from '@/components/otp-box'
 import Link from 'next/link'
-import { MoveLeft, RefreshCcw, RotateCcw } from 'lucide-react'
+import { MoveLeft, RefreshCcw } from 'lucide-react'
 import {  useSearchParams } from 'next/navigation'
 import { useAuth } from '@/lib/authContext'
 
@@ -66,9 +66,9 @@ const OtpVerification = () => {
     
 
   return (
-    <div className='flex justify-center'>
+    <div className='md:w-[30%] min-w-[350px]'>
 
-      <div className=" p-5 border border-opacity-20  rounded-md  md:w-[30%] min-w-[350px] min-h-[70%] flex flex-col shadow-[1px_1px_2px_rgba(255,255,255,0.1)] ">
+      <div className=" p-4 border rounded-md  shadow-[1px_1px_2px_rgba(255,255,255,0.1)]  ">
     <Link href={"/signup"} >
     <div className="flex gap-1 items-center cursor-pointer hover:underline">
     <MoveLeft size={18} />
@@ -94,14 +94,14 @@ const OtpVerification = () => {
       </div>
 
 
-      <Button type='submit' variant='primary' className='mt-4' loading={loading} onClick={onSubmit} >
-        Submit
+      <Button type='submit' variant='primary' className='mt-4 w-full' loading={loading} onClick={onSubmit} >
+        Verify OTP
       </Button>
 
       <span className="text-center w-full  pt-4 text-sm  flex gap-2 justify-center items-center">
           OTP not received?
           {timer>0 ? (
-            <span className=''> Resend in 00:{timer}
+            <span className=''> Resend in {timer}s
                 </span>
           ):(
             

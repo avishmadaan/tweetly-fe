@@ -11,135 +11,151 @@ import { useAuth } from '@/lib/authContext';
 import OrLoginWith from '@/components/or-login-with';
 
 type RegistrationData = {
+  name: string;
   email: string;
   password: string;
-  confirmPassword:string
+  confirmPassword: string;
 };
 
 const Signup = () => {
-
-
-  const { register, handleSubmit, formState: { errors, isValid }, watch } = useForm<RegistrationData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    watch,
+  } = useForm<RegistrationData>({
     defaultValues: {
+      name: '',
       email: '',
       password: '',
-      confirmPassword:''
+      confirmPassword: '',
     },
-    mode: 'onChange', 
+    mode: 'onChange',
   });
 
   const router = useRouter();
-
   const [loading, setLoading] = useState<boolean>(false);
-  const { isAuthenticated, signUp} = useAuth();
+  const { isAuthenticated, signUp } = useAuth();
 
   useEffect(() => {
-    if(isAuthenticated) {
-      router.push("dashboard/home")
+    if (isAuthenticated) {
+      router.push('dashboard/home');
     }
-  }, [isAuthenticated, router])
+  }, [isAuthenticated, router]);
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+  // const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
 
-  function togglePasswordVisibility() {
-    setIsPasswordVisible((prevState) => !prevState);
-  }
-  function toggleConfirmPasswordVisibility() {
-    setIsConfirmPasswordVisible((prevState) => !prevState);
-  }
-  
+  const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
+  // const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible((prev) => !prev);
 
   const onSubmit = async (data: RegistrationData) => {
-
     setLoading(true);
     await signUp(data);
     setLoading(false);
-   
-  
   };
 
   return (
-    <div className="flex justify-center">
-      <div className=" p-5 border border-opacity-20  rounded-md  md:w-[30%] min-w-[350px] min-h-[70%] flex flex-col shadow-[1px_1px_2px_rgba(255,255,255,0.1)] ">
-        <h1 className="text-2xl font-bold  py-2 ">Create an account</h1>
-        <p className="dark:text-gray-300 text-gray-500 text-sm pb-2">Enter your email below to create your account</p>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col py-3">
-          <label className="">Email</label>
-          <Input type='text'
-           {...register("email", { required: "Email is Required",
-              pattern:{
-                value:/^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/, 
-                message: "Please enter a valid email address",
-              }
-             })} 
-            placeholder="m@example.com"
-
-             
-             />
-
-          {errors.email && (
-            <span className="text-red-500 text-left text-sm">{errors.email.message}</span>
-          )}
-
-
-          <div className="flex justify-between items-center mt-4">
-          <label className="">Password</label>
-          {/* <p className="">Forgot your password?</p> */}
+    <div className=" md:w-[30%] sm:min-w-[350px]">
+      <div className="p-4  border rounded-md hadow-[1px_1px_2px_rgba(255,255,255,0.1)] ">
+        <h1 className="text-3xl font-bold  mb-2">Create an account</h1>
+        <p className="text-gray-500  mb-4">
+          Enter your email below to create your account
+        </p>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium">Name</label>
+            <Input
+              type="text"
+              {...register('name', {
+                required: 'Name is Required',
+                minLength: { value: 3, message: 'Name should be at least 3 characters' },
+              })}
+              placeholder="Enter your name"
+            />
+            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
           </div>
-          <div className="relative  ">
-          <Input 
-          type={isPasswordVisible ? 'text' : 'password'}
-          {...register("password", { required: "Password is Required",
-            pattern:{
-              value:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/ ,
-              message:"Password must contain atleast one uppercase letter, one lowercase letter, one number, and one special character."
-            },
-            minLength:{
-              value:8,
-              message:"Minimum length is 8"
-            }
-           })}
 
-          />
+          <div>
+            <label className="block text-sm font-medium">Email</label>
+            <Input
+              type="email"
+              {...register('email', {
+                required: 'Email is Required',
+                pattern: {
+                  value: /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                  message: 'Please enter a valid email address',
+                },
+              })}
+              placeholder="m@example.com"
+            />
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+          </div>
 
-          <VisibilityButton isPasswordVisible={isPasswordVisible} togglePasswordVisibility={togglePasswordVisibility} ></VisibilityButton>
+          <div>
+            <label className="block text-sm font-medium">Password</label>
+            <div className="relative">
+              <Input
+                type={isPasswordVisible ? 'text' : 'password'}
+                {...register('password', {
+                  required: 'Password is Required',
+                  pattern: {
+                    value:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
+                    message:
+                      'Password must contain at least one uppercase, lowercase, number, and special character.',
+                  },
+                  minLength: { value: 8, message: 'Minimum length is 8' },
+                })}
+                placeholder="Enter password"
+              />
+              <VisibilityButton
+                isPasswordVisible={isPasswordVisible}
+                togglePasswordVisibility={togglePasswordVisibility}
+              />
+            </div>
+            <div className="w-full flex flex-wrap">
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+            </div>
+          </div>
 
-</div>
-        
+          {/* <div>
+            <label className="block text-sm font-medium">Confirm Password</label>
+            <div className="relative">
+              <Input
+                type={isConfirmPasswordVisible ? 'text' : 'password'}
+                {...register('confirmPassword', {
+                  required: 'Please confirm your password',
+                  validate: (value) => value === watch('password') || 'Passwords do not match',
+                })}
+                placeholder="Confirm password"
+              />
+              <VisibilityButton
+                isPasswordVisible={isConfirmPasswordVisible}
+                togglePasswordVisibility={toggleConfirmPasswordVisibility}
+              />
+            </div>
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
+            )}
+          </div> */}
 
-          {errors.password && (
-            <span className="text-red-500 text-left text-sm">{errors.password.message}</span>
-          )}
-
-<label className="mt-4">Confirm Password</label>
-          <div className="relative">
-          <Input 
-          type={isConfirmPasswordVisible ? 'text' : 'password'}
-          {...register("confirmPassword", { required: "Please confirm your password",
-            validate: (value)=> 
-              value === watch('password') || 'Password do not match'
-             })}
-             />
-
-<VisibilityButton isPasswordVisible={isConfirmPasswordVisible} togglePasswordVisibility={toggleConfirmPasswordVisibility} ></VisibilityButton>
-
-</div>
-          {errors.confirmPassword && (
-            <span className="text-red-500 text-left text-sm">{errors.confirmPassword.message}</span>
-          )}
-        
-  
-          <Button className="mt-6 w-full text-center py-3" variant={"primary"} type="submit" disabled={!isValid} loading={loading}>
+          <Button
+            className="w-full py-3"
+            variant="primary"
+            type="submit"
+            disabled={!isValid}
+            loading={loading}
+          >
             Signup
           </Button>
         </form>
-        
-          <OrLoginWith />
 
-        <span className="text-center block w-full  pt-4 text-sm">
-          Already have an account? <Link href={"/login"} className='underline'> Login</Link>
-        </span>
+        <OrLoginWith />
+
+        <p className="text-center text-sm mt-4">
+          Already have an account? <Link href="/login" className="underline">Login</Link>
+        </p>
       </div>
     </div>
   );

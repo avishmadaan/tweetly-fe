@@ -2,10 +2,14 @@
 import { CircleUserRound } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import ProfileMenu from './profile-menu'
+import { useAuth } from '@/lib/authContext'
+import Image from 'next/image'
 
 const Profile = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const menuref = useRef<HTMLDivElement>(null);
+
+  const {user} = useAuth();
 
   useEffect(() => {
     const handleClickOutside = (event:MouseEvent) => {
@@ -17,18 +21,40 @@ const Profile = () => {
     }
     document.addEventListener("mousedown",handleClickOutside);
 
+console.log("user")
+console.log(user)
+
     return ()=> {
       document.removeEventListener("mousedown", handleClickOutside);
     }
 
   })
   return (
-    <div ref={menuref} className='flex bg-gray-100 p-2 rounded-md gap-2 cursor-pointer dark:bg-gray-800 relative'>
+    <div ref={menuref} className='flex bg-gray-100 p-2 rounded-md gap-2 cursor-pointer dark:bg-gray-800 relative items-center'>
         
-        <div className="flex gap-2" onClick={()=> setMenuOpen(!menuOpen)}>
+        <div className="flex items-center gap-2" onClick={()=> setMenuOpen(!menuOpen)}>
 
-        <h2 className="font-normal">Avish M.</h2>
-        <CircleUserRound />
+        <h2 className="font-semibold">
+         {user?.name?.split(" ")[0]}
+          
+        </h2>
+        {user?.profilePicture ?(
+          <div>
+        
+          <Image
+          src={user?.profilePicture}
+          alt={"Profile Picutre"}
+          width={30}
+          className='rounded-full'
+          height={30}
+          />
+          </div>
+
+        ):(
+
+          <CircleUserRound />
+
+        )}
         </div>
         {
           menuOpen && (

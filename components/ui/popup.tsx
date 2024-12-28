@@ -1,14 +1,28 @@
-import { CircleX } from 'lucide-react'
+"use client"
 import React from 'react'
+import { IoCloseCircleSharp } from "react-icons/io5";
 
-const Popup = () => {
+const Popup = ({children, className, closePopup}:{
+  children:React.ReactNode,
+  className?:string,
+  closePopup:React.Dispatch<React.SetStateAction<boolean>>
+}) => {
   return (
-    <div className='border rounded-md w-[450px] h-[450px] relative p-4'>
-        <CircleX className='absolute -right-3 -top-2 cursor-pointer' size={20}/>
+    <div className={`bg-black/80 flex items-center justify-center inset-0 fixed z-50 ${className}`}>
+
+      <div className={`border rounded-md p-8 w-1/2  bg-gray-100 dark:bg-black z-10 drop-shadow-2xl ${className} flex flex-col`} id="inside">
+
+        <IoCloseCircleSharp className='text-black bg-white rounded-full absolute -right-4 -top-2 cursor-pointer' 
+        size={28}
+        onClick={() => closePopup((val: boolean) => !val)}
+        />
 
         <div className="">
-        Popup Content
+        {children}
         </div>
+
+      </div>
+
       
       
     </div>

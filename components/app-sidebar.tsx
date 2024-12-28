@@ -1,10 +1,12 @@
 "use client";
 import {
-  Calendar,
+  Bot,
+  Brain,
+
+  Calendar1Icon,
   CircleX,
   Home,
-  Inbox,
-  Search,
+  Send,
   Settings,
 } from "lucide-react";
 import icon_v1_dark from "../assets/iocn_v1_dark.png";
@@ -32,25 +34,35 @@ const items: menuItems[] = [
     icon: <Home />,
   },
   {
-    title: "Inbox",
-    url: "/dashboard/inbox",
-    icon: <Inbox />,
+    title: "Schedule",
+    url: "/dashboard/schedule/view",
+    icon: <Calendar1Icon />,
   },
   {
-    title: "Calendar",
-    url: "/dashboard/#",
-    icon: <Calendar />,
+    title: "Publish",
+    url: "/dashboard/publish",
+    icon: <Send />,
   },
   {
-    title: "Search",
-    url: "/dashboard/#",
-    icon: <Search />,
+    title: "AI Brain",
+    url: "/dashboard/brain",
+    icon: <Brain />,
   },
   {
-    title: "Settings",
-    url: "/dashboard/#",
+    title: "Bots",
+    url: "/dashboard/bots/view",
+    icon: <Bot />,
+  },
+  {
+    title: "Integrations",
+    url: "/dashboard/integrations",
     icon: <Settings />,
   },
+  // {
+  //   title: "Settings",
+  //   url: "/dashboard/#",
+  //   icon: <Settings />,
+  // },
 ];
 
 export function AppSidebar() {
@@ -59,7 +71,7 @@ export function AppSidebar() {
   const {open, setOpen} = useSidebarContext();
 
   return (
-    <div className={`absolute md:static border-r h-screen z-10 dark:bg-black bg-white
+    <div className={`absolute md:static border-r h-full overflow-auto  z-10 dark:bg-black bg-white
       
     ${open? "md:min-w-[250px] md:w-[20%] p-4 w-full":"md:w-[60px] -translate-x-full md:translate-x-0 p-1 pt-4" } transition-all duration-400 ease-in-out
     
@@ -93,12 +105,13 @@ export function AppSidebar() {
       >
 {items.map((item, index) => (
   <NavbarItem
+  className="my-4"
     name={item.title}
     icon={item.icon}
     key={index}
     url={item.url}
     open={open}
-    isActive={pathname === `/dashboard/${item.title.toLowerCase()}`}
+    isActive={pathname.startsWith(item.url)}
   />
 ))}
       </div>

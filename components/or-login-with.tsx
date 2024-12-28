@@ -58,10 +58,6 @@ const OrLoginWith = () => {
              "googleLoginPopup",
             "width=500,height=600"
         )
-
-
-        
-
         
     }
 

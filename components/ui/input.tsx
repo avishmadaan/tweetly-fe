@@ -1,4 +1,4 @@
-// "use client"
+"use client"
 
 import React, { ChangeEvent } from 'react'
 
@@ -9,11 +9,12 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     ref?:React.Ref<HTMLInputElement>
     onChangeValue?:(event:ChangeEvent<HTMLInputElement>, index:number) => void
     onBackSpace?:(event:React.KeyboardEvent<HTMLInputElement>, index:number) => void
+    childred?:React.ReactNode
 }
 
 
 const Input = (
-    {type, className,ref,onChangeValue,onBackSpace, index,...props}:InputProps
+    {type, className,ref,onChangeValue,onBackSpace, index,children, ...props}:InputProps
 ) => {
 
   
@@ -50,7 +51,9 @@ const customOnBackspace = (event:React.KeyboardEvent<HTMLInputElement>) => {
     ${className || " "}`}
    {...props}
    
-   />
+   >
+    {children}
+    </input>
   )
 }
 

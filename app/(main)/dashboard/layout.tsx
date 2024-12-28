@@ -1,22 +1,19 @@
 "use client"
 
-import { useSidebarContext } from '@/components/app-sidebar';
-import Profile from '@/components/profile';
-import SidebarSwitch from '@/components/ui/sidebar-switch'
-import { ThemeSwitcher } from '@/components/ui/theme-switcher';
+import AppNavbar from '@/components/app.navbar';
+
+
 import React from 'react'
 
 const Layout = ({children}:{children:React.ReactNode}) => {
-    const { setOpen} = useSidebarContext();
-  return (
-    <div className='w-full'>
-        <div className="relative w-full border-b h-24 flex justify-end items-center px-5 gap-4" >
-        <SidebarSwitch onClick={setOpen} />
-        <ThemeSwitcher />
-        <Profile />
 
-        </div>
-        <div className="p-4">
+
+  return (
+    <div className='w-full h-full flex flex-col'>
+      <AppNavbar />
+      
+       
+        <div id='dashboarditems' className="flex flex-grow p-6 overflow-auto">
 
         {children}
         </div>

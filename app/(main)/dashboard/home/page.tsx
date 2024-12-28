@@ -1,7 +1,7 @@
 
 "use client"
 
-import Link from "next/link"
+
 
 export default function Home() {
 
@@ -12,7 +12,9 @@ export default function Home() {
   return (
     <div className="">
       This is home
-      <Link href={"/login"}>Login</Link>
+      {/* <Link href={"/login"}>Login</Link>
+      <PreviewTweet />
+      <Skeleton count={3} height={20} className="bg-black block" /> */}
 
       {/* <Button variant="primary" onClick={() => {
         showNotification({

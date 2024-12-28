@@ -47,6 +47,7 @@ return (
     key={index}
     url={item.url}
     open={true}
+    className='my-4'
     isActive={pathname === `/dashboard/${item.title.toLowerCase()}`}
   />
 );
@@ -59,7 +60,7 @@ return (
     url='/'
     isActive={false}
     onClick={logout}
-    className='hover:bg-red-500 dark:hover:bg-red-500 hover:text-white'
+    className='hover:bg-red-500 dark:hover:bg-red-500 hover:text-white my-4 '
   />
       
     </div>

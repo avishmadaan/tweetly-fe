@@ -22,7 +22,7 @@ const Signup = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    watch,
+   
   } = useForm<RegistrationData>({
     defaultValues: {
       name: '',

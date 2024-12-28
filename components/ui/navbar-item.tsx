@@ -14,7 +14,7 @@ export function NavbarItem(props:{
     if(props.onClick) {
 
         return (
-            <div className={`flex  p-2  w-full dark:hover:bg-customHover cursor-pointer hover:bg-gray-100 rounded-md my-4 dark:text-white text-customBlack  ${
+            <div className={`flex  p-2  w-full dark:hover:bg-customHover cursor-pointer hover:bg-gray-100 rounded-md  dark:text-white text-customBlack  
                 props.isActive ? "dark:bg-customHover bg-gray-100 " : ""
               }
              ${props.className} ` } onClick={props.onClick} >
@@ -43,7 +43,7 @@ export function NavbarItem(props:{
 
     return(
         <Link href={props.url}>
-        <div className={`flex  p-2  w-full dark:hover:bg-customHover cursor-pointer hover:bg-gray-100 rounded-md my-4 dark:text-white text-customBlack ${
+        <div className={`flex  p-2  w-full dark:hover:bg-customHover cursor-pointer hover:bg-gray-100 rounded-md dark:text-white text-customBlack ${props.className} ${
           props.isActive ? "dark:bg-customHover bg-gray-100 " : ""
         }
         `} onClick={props.onClick? props.onClick:undefined} >

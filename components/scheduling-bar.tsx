@@ -1,0 +1,60 @@
+"use client"
+import React from 'react'
+import { Button } from './ui/button'
+import { Clock, Send } from 'lucide-react'
+import WhenToPost from './when-to-post'
+import { UseX } from '@/lib/xContext'
+import ToolTip from './ui/tooltip'
+
+const SchedulingBar = () => {
+
+  const {whenToPost} = UseX();
+
+  return (
+    <div className='w-full h-16 bg-gray-200 dark:bg-gray-800 rounded-md flex items-center justify-between p-10 relative'>
+      <div className="flex items-center gap-4" id="section1">
+        <div className="absolute left-4">
+        <ToolTip>Select here when you want to post</ToolTip>
+        </div>
+      
+
+        
+        When to post
+
+       <WhenToPost />
+        
+        </div>
+      <div className="" id="section2">
+
+        {whenToPost == "now"? (
+           <Button 
+           className='py-1'
+           endIcon={<Send />}
+           variant='primary' 
+           >
+             Post Now
+   
+           </Button>
+
+        ):
+        (
+          <Button 
+          className='py-1'
+          endIcon={<Clock />}
+          variant='primary' 
+          >
+            Schedule
+  
+          </Button>
+
+
+        )}
+
+
+       
+      </div>
+    </div>
+  )
+}
+
+export default SchedulingBar

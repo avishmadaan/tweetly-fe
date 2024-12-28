@@ -16,6 +16,7 @@ export default {
 			customBlue:"#1C9AF0",
 			customSearch:"#212326"
   		},
+		
   	
   	}
   },

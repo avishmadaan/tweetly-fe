@@ -183,7 +183,7 @@ const {showNotification} = useNotification();
       console.log(e)
       showNotification({
         //@ts-expect-error  because of message
-        message:e.response.data.message,
+        message:e.response.data.message || "Internal Server Error",
         type:"negative"
       })
       return false;
@@ -336,7 +336,7 @@ const {showNotification} = useNotification();
       console.log(e)
       showNotification({
         //@ts-expect-error  because of message
-        message:e.response.data.message,
+        message:e.response.data.message ||" Internal Server Error",
         type:"negative"
       })
       return false;

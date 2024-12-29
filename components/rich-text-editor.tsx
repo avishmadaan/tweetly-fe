@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Bold from "@tiptap/extension-bold";
@@ -11,12 +11,32 @@ import { SmilePlus, Trash2, ImageIcon } from "lucide-react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import AreYouSure from "./are-you-sure";
 import ToolTip from "./ui/tooltip";
+import AddMediaPopup from "./add-media";
 
 const RichTextEditor = ({ className }: { className: string }) => {
   const { setCurrentTweet, currentTweet } = UseX();
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
+  const emojiRef = useRef<HTMLDivElement>(null);
 
   const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false);
+  const [addMedia, setAddMedia] = useState<boolean>(false);
+
+  useEffect(() => {
+
+    const handleClickOutside = (event:MouseEvent) => {
+
+      if(emojiRef.current && !emojiRef.current.contains(event.target as Node)) {
+        setShowEmojiPicker(false);
+      }
+
+    }
+    document.addEventListener("mousedown",handleClickOutside);
+
+    return ()=> {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+  }, [])
 
 
   const addEmoji = (emojiObject: EmojiClickData) => {
@@ -53,7 +73,7 @@ const RichTextEditor = ({ className }: { className: string }) => {
         {/* Editor Input */}
         <EditorContent 
         editor={editor} 
-        className="font-normal min-h-[150px] " 
+        className="font-normal min-h-[150px]  " 
         />
       </div>
 
@@ -72,20 +92,27 @@ const RichTextEditor = ({ className }: { className: string }) => {
 
 {showEmojiPicker && (
   <div 
-    className="absolute z-50 mt-2 left-0" // Positions below the emoji icon
-    style={{ maxHeight: "300px", overflowY: "auto" }} // Optional internal scroll
+  ref={emojiRef}
+    className="absolute z-50 shadow-md left-[130%] top-0 -translate-y-1/2"
+    
   >
-    <EmojiPicker onEmojiClick={addEmoji} />
+    <EmojiPicker width={300} height={400} onEmojiClick={addEmoji} />
   </div>
 )}
           </div>
             <ImageIcon
             size={20}
-            onClick={clearText}
+            onClick={() => setAddMedia(!addMedia)}
             className="text-gray-500 cursor-pointer"
+          
 
             
             />
+            {addMedia && (
+              <AddMediaPopup closePopup={setAddMedia} />
+            )
+
+            }
       
         </div>
 

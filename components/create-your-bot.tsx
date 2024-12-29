@@ -1,13 +1,14 @@
 import React from 'react'
 import Popup from './ui/popup'
 
-const CreateYourBot = () => {
+const CreateYourBot = ({closePopup}:{closePopup:React.Dispatch<React.SetStateAction<boolean>>}) => {
   return (
-    // <Popup 
-    // >
-    //     This is a popup
-    // </Popup>
-    <div className="">Popup</div>
+    <Popup 
+    closePopup={closePopup}
+    >
+        Create your Bot Here
+    </Popup>
+
   )
 }
 

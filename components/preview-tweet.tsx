@@ -28,9 +28,9 @@ const PreviewTweet = ({
   }
 
   return (
-    <div className={`${className} bg-[#F7F7F7] dark:bg-gray-800 p-8 `}>
+    <div className={`${className} bg-[#F7F7F7] dark:bg-gray-800 p-6 `}>
 
-      <div className="border p-4 rounded-md bg-white dark:bg-black flex gap-2 w-full">
+      <div className="border p-4 rounded-md bg-white dark:bg-black grid grid-cols-[1fr_9fr] gap-2 w-full">
         
         <div className="min-w-8" id="left">
           {Xdata?.profilePicture ? (
@@ -46,7 +46,7 @@ const PreviewTweet = ({
           )}
         </div>
 
-        <div className="flex-grow" id="right">
+        <div className="" id="right">
 
           <div className="flex flex-grow gap-2 items-center" id="meta">
             <h2 className="font-bold ">{Xdata?.name || "Your Name Here"}</h2>
@@ -57,10 +57,12 @@ const PreviewTweet = ({
 
           </div>
 
-          <div className="mt-2" id="content" >
-        
-        <div className="" id="content2" dangerouslySetInnerHTML={{__html:currentTweet}}>
+          <div className="mt-2 " id="content" >
+
+            <div className="min-h-16" id="contentsskeleton">
+            <div className="break-all " id="content2" dangerouslySetInnerHTML={{__html:currentTweet}}>
         </div>
+
 
             {isEmptyContent(currentTweet)&& (
                 <div className="">
@@ -69,6 +71,11 @@ const PreviewTweet = ({
                 <Skeleton count={1} height={8} className="block bg-gray-300 -mb-3 w-1/2"/>
                 </div>
             )}
+
+            </div>
+
+        
+       
             
 
        
@@ -78,7 +85,7 @@ const PreviewTweet = ({
            
           
             <div
-              className="flex justify-between text-gray-400 mt-4"
+              className="flex gap-2 justify-between text-gray-400 mt-4"
               id="reaction"
             >
               <MessageCircle className="cursor-pointer" />

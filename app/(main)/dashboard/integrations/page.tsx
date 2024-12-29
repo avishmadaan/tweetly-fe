@@ -4,7 +4,7 @@ import React from 'react'
 
 const Integrations = () => {
   return (
-    <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-6 h-fit' >
+    <div className='grid gap-6 lg:grid-cols-3 md:grid-cols-2 h-fit' >
         <TwitterIntegration />
         <OpenAiIntegration />
       

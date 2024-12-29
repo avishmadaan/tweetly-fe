@@ -1,17 +1,19 @@
+"use client"
 import BotCard from '@/components/bot-card'
 import CreateYourBot from '@/components/create-your-bot'
 import { Button } from '@/components/ui/button'
 import ToolTip from '@/components/ui/tooltip'
 import { Pencil } from 'lucide-react'
 
-import React from 'react'
+import React, { useState } from 'react'
 
 
 
 const View = () => {
+  const [createBotBox,setCreateBotBox] = useState<boolean>(false);
+
   return (
     <div className=''>
-      {/* <CreateYourBot /> */}
 
       <div className="" id="predefined">
 <div className="flex justify-between items-center mb-4">
@@ -24,9 +26,17 @@ const View = () => {
           className='text-sm'
           startIcon={<Pencil size={16} />}
           variant='primary'
+          onClick={() => setCreateBotBox(!createBotBox)}
           >
           Create Your Bot
           </Button>
+          
+          {createBotBox && (
+
+      <CreateYourBot 
+      closePopup={setCreateBotBox}
+      />
+          )}
           </div>
 
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 mt-4 gap-4" id="prebuiltbots">
@@ -53,6 +63,14 @@ const View = () => {
         name='Code With Harry'
         tag="Best Teacher"
         xProfile='https://x.com/codewithharry'
+        
+        />
+        <BotCard
+        tooltip='This bot has been trained on EzSnippets&apos;s Twitter Profile'
+        imageURL='https://i.postimg.cc/Fk5pbjB6/Playground-Image12.avif'
+        name='EzSnippet'
+        tag="Build In Public"
+        xProfile='https://www.instagram.com/ezsnippet/?hl=en'
         
         />
         

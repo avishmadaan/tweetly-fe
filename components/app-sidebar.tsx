@@ -73,7 +73,7 @@ export function AppSidebar() {
   return (
     <div className={`absolute md:static border-r h-full overflow-auto  z-10 dark:bg-black bg-white
       
-    ${open? "md:min-w-[250px] md:w-[20%] p-4 w-full":"md:w-[60px] -translate-x-full md:translate-x-0 p-1 pt-4" } transition-all duration-400 ease-in-out
+    ${open? "md:min-w-[250px] md:w-[250px] p-4 w-full":"md:w-[60px] -translate-x-full md:translate-x-0 p-1 pt-4" } transition-all duration-400 ease-in-out
     
      `}>
       <div

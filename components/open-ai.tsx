@@ -44,7 +44,7 @@ const OpenAiIntegration = () => {
 
   return (
     <div 
-    className="border p-6 rounded-md relative flex flex-col min-h-[400px] "
+    className=" max-w-1/3 border p-6 rounded-md relative flex flex-col min-h-[400px] "
     >
       <div className="tooltip absolute right-4 ">
 

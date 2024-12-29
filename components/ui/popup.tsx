@@ -17,9 +17,9 @@ const Popup = ({children, className, closePopup}:{
         onClick={() => closePopup((val: boolean) => !val)}
         />
 
-        <div className="">
+       
         {children}
-        </div>
+     
 
       </div>
 

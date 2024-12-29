@@ -37,6 +37,7 @@ const Bots = ({children}:{children:React.ReactNode}) => {
 
     const pathname = usePathname(); 
 
+
   
 
   return (

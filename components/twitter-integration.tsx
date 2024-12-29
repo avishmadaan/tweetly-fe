@@ -53,7 +53,7 @@ const TwitterIntegration = () => {
 
     }, [])
   return (
-    <div className=' border p-6 rounded-md relative flex flex-col min-h-[400px]'>
+    <div className='max-w-1/3 border p-6 rounded-md relative flex flex-col min-h-[400px]'>
             <div className="tooltip absolute right-4 ">
 
 <ToolTip>Integrate your X (formally twitter) account here</ToolTip>
@@ -76,7 +76,7 @@ const TwitterIntegration = () => {
          className='my-4' 
          />
          <h1 className="text-2xl font-bold py-2 ">Integrate Your X Profile</h1>
-        <p className="dark:text-gray-300 text-gray-500 text-sm pb-4">
+        <p className="flex-wrap dark:text-gray-300 text-gray-500 text-sm pb-4">
         Connect your X (formerly Twitter) account to enable seamless automation for tasks like posting tweets, scheduling updates, and monitoring activity.
         </p>
 

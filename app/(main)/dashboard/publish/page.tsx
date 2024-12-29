@@ -6,7 +6,7 @@ import React from 'react'
 
 const Publish = () => {
   return (
-    <div className='flex-grow flex flex-col w-full' id='publish'>
+    <div className=' flex flex-col w-full' id='publish'>
 
         <div className="flex  items-center gap-2" id="top">
 
@@ -16,19 +16,19 @@ const Publish = () => {
         </div>
 
 
-        <div className="flex flex-col flex-grow justify-between" id="main">
+        <div className="flex flex-col flex-grow justify-between w-full" id="main">
 
 
 
-        <div className="flex flex-wrap gap-2 mt-4 w-full overflow-auto" id="contentpreviw">
+        <div className="grid grid-cols-2  gap-2 mt-4 w-full " id="contentpreviw">
 
-    <RichTextEditor className="flex-1  overflow-y-auto" />
-    <PreviewTweet className="flex-1  overflow-y-auto" />
+    <RichTextEditor className=" " />
+    <PreviewTweet className=" " />
 </div>
 
 
 
-        <div className="" id='schedulingbar'>
+        <div className="mt-8" id='schedulingbar'>
         <SchedulingBar />
 
         </div>

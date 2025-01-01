@@ -1,6 +1,6 @@
 "use client";
 import React, { ChangeEvent, forwardRef, useImperativeHandle, useRef, useState } from "react";
-import Input from "./ui/input";
+import OTPInput from "./ui/otp-input";
 
 const OtpBox = forwardRef(({
     otpLength
@@ -78,7 +78,7 @@ const OtpBox = forwardRef(({
   return (
     <div className="flex gap-5 my-5">
         {Array(otpLength).fill(1).map((item, index) => (
-   <Input
+   <OTPInput
    key={index}
    type="number"
    ref={arr[index]}

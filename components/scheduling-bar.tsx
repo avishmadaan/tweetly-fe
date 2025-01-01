@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import { Button } from './ui/button'
-import { Clock, Send } from 'lucide-react'
+import { Clock, NotepadText, Send } from 'lucide-react'
 import WhenToPost from './when-to-post'
 import { UseX } from '@/lib/xContext'
 import ToolTip from './ui/tooltip'
@@ -24,7 +24,15 @@ const SchedulingBar = () => {
        <WhenToPost />
         
         </div>
-      <div className="" id="section2">
+      <div className="flex item-center gap-4" id="section2">
+
+        <Button
+        startIcon={<NotepadText />}
+        variant='outline'
+        className=''
+        >
+          Save as Draft
+        </Button>
 
         {whenToPost == "now"? (
            <Button 

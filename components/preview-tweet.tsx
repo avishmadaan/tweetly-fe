@@ -60,7 +60,7 @@ const PreviewTweet = ({
           <div className="mt-2 " id="content" >
 
             <div className="min-h-16" id="contentsskeleton">
-            <div className="break-all " id="content2" dangerouslySetInnerHTML={{__html:currentTweet}}>
+            <div className="break-all whitespace-pre-line  [&>p]:mb-4" id="content2" dangerouslySetInnerHTML={{ __html: currentTweet }}>
         </div>
 
 

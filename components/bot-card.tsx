@@ -17,7 +17,7 @@ type bot = {
 const BotCard = (props:bot) => {
   return (
       <div className='border rounded-md  p-4 flex flex-col justify-center items-center hover:shadow-md relative'>
-        <div className="absolute right-2 top-2">
+        <div className="absolute right-2 top-2 text-center">
         <ToolTip className='text-gray-300'>{props.tooltip} </ToolTip>
 
         </div>
@@ -29,9 +29,9 @@ const BotCard = (props:bot) => {
         className='rounded-full'
         />
 
-        <h3 className="font-semibold text-xl mt-2">{props.name}</h3>
+        <h3 className="font-semibold text-xl mt-2 text-center">{props.name}</h3>
 
-                 <div className="bg-customBlue text-white px-4 rounded-3xl text-xs mt-1">{props.tag}</div>
+                 <div className="bg-customBlue text-white px-4 rounded-3xl text-xs mt-1 text-center">{props.tag}</div>
          
          <div className="flex items-center gap-4" id="icons">
          <Link 

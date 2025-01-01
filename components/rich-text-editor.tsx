@@ -12,6 +12,7 @@ import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import AreYouSure from "./are-you-sure";
 import ToolTip from "./ui/tooltip";
 import AddMediaPopup from "./add-media";
+import HardBreak from '@tiptap/extension-hard-break';
 
 const RichTextEditor = ({ className }: { className: string }) => {
   const { setCurrentTweet, currentTweet } = UseX();
@@ -44,7 +45,7 @@ const RichTextEditor = ({ className }: { className: string }) => {
   };
 
   const editor = useEditor({
-    extensions: [StarterKit, Bold, Italic, Underline, Link],
+    extensions: [StarterKit, Bold, Italic, Underline, Link, HardBreak],
     content: currentTweet,
     onUpdate: ({ editor }) => setCurrentTweet(editor.getHTML()),
   });
@@ -137,7 +138,7 @@ const RichTextEditor = ({ className }: { className: string }) => {
       </div>
 
       {deleteConfirm && (
-        <AreYouSure closePopup={setDeleteConfirm} confirmFunction={clearText} />
+        <AreYouSure closePopup={setDeleteConfirm} confirmFunction={clearText} description="Are you sure you want to clear the text and/or attachments of the post?" className="w-1/3 max-w-[500px]" />
       )}
     </div>
   );

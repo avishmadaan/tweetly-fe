@@ -13,7 +13,7 @@ const AppNavbar = () => {
     const pathName = usePathname()
 
   return (
-    <div className="relative w-full border-b h-24 flex justify-between items-center px-5 " >
+    <div className="relative w-full border-b h-28  flex justify-between items-center px-5 flex-none" >
         <div className="flex gap-4 items-center">
 
     <SidebarSwitch onClick={setOpen} />

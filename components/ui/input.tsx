@@ -5,55 +5,40 @@ import React, { ChangeEvent } from 'react'
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     type:string,
     className?:string;
-    index?:number
     ref?:React.Ref<HTMLInputElement>
-    onChangeValue?:(event:ChangeEvent<HTMLInputElement>, index:number) => void
-    onBackSpace?:(event:React.KeyboardEvent<HTMLInputElement>, index:number) => void
-    childred?:React.ReactNode
+    onChange?:(event:ChangeEvent<HTMLInputElement>) => void
+    onBackSpace?:(event:React.KeyboardEvent<HTMLInputElement>) => void
+    startIcon?:React.ReactNode
+ 
 }
 
 
 const Input = (
-    {type, className,ref,onChangeValue,onBackSpace, index,children, ...props}:InputProps
+    {type, className,ref,onChange,onBackSpace,startIcon, ...props}:InputProps
 ) => {
 
   
-const customOnChangeInput = (event:ChangeEvent<HTMLInputElement>) => {
-
-
-  if(onChangeValue && index !=undefined)  {
-
-    
-    onChangeValue(event, index);
-    
-  }
-}
-
-const customOnBackspace = (event:React.KeyboardEvent<HTMLInputElement>) => {
-
-  if(onBackSpace && index !=undefined)  {
-  
-    onBackSpace(event, index);
-    
-  }
-
-
-}
 
 
   return (
+    <div className="m-0 p-0 relative">
    <input 
    ref={ref}
    type={type} 
-   onChange={customOnChangeInput}
-   onKeyUp={customOnBackspace}
-   className={`border  p-2 my-1 w-full rounded-md 
+   onChange={onChange}
+   onKeyUp={onBackSpace}
+   className={`border  p-2  w-full rounded-md pr-10
     ${className || " "}`}
    {...props}
    
    >
-    {children}
+    
     </input>
+
+    <div className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500" id="icon">
+      {startIcon}
+    </div>
+    </div>
   )
 }
 

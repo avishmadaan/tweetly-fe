@@ -72,7 +72,7 @@ const WhenToPost = () => {
         {
           postingMenu && (
 
-            <div className=" border p-2 rounded-md gap-2  dark:bg-gray-800 absolute left-0 bottom-[120%] w-[120%] items-center z-10 "
+            <div className=" border p-2 rounded-md gap-2 bg-white  dark:bg-gray-800 absolute left-0 bottom-[120%] w-[120%] items-center z-10 "
             
             >
 

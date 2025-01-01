@@ -69,7 +69,7 @@ const View = () => {
         tooltip='This bot has been trained on EzSnippets&apos;s Twitter Profile'
         imageURL='https://i.postimg.cc/Fk5pbjB6/Playground-Image12.avif'
         name='EzSnippet'
-        tag="Build In Public"
+        tag="Build In Public Pro"
         xProfile='https://www.instagram.com/ezsnippet/?hl=en'
         
         />

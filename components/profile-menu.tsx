@@ -35,7 +35,7 @@ const ProfileMenu = () => {
     const {logout} = useAuth();
 
   return (
-    <div className='border px-4 rounded-md  absolute top-[130%] right-0 w-[160px] bg-white dark:bg-black'>
+    <div className='border px-4 rounded-md  absolute top-[130%] right-0 w-[160px] bg-white dark:bg-black z-10'>
 
 {items.map((item, index) => {
 

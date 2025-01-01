@@ -6,8 +6,7 @@ import Input from "@/components/ui/input";
 import VisibilityButton from "@/components/ui/visibility-button";
 import { useAuth } from "@/lib/authContext";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useForm } from "react-hook-form";
 
 type LoginData = {
@@ -16,15 +15,9 @@ type LoginData = {
 };
 
 const Login = () => {
-  const router = useRouter();
 
-  const {login, isAuthenticated} = useAuth();
+  const {login} = useAuth();
 
-  useEffect(() => {
-    if(isAuthenticated) {
-      router.push("dashboard/home")
-    }
-  }, [isAuthenticated, router])
 
   const [loading, setLoading] = useState<boolean>(false);
 

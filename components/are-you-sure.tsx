@@ -3,11 +3,12 @@ import React from 'react'
 import { Button } from './ui/button'
 import Popup from './ui/popup'
 
-const AreYouSure = ({ className, closePopup, confirmFunction}:{
+const AreYouSure = ({ className, closePopup, confirmFunction, description}:{
   children?:React.ReactNode,
   className?:string,
   closePopup:React.Dispatch<React.SetStateAction<boolean>>,
-  confirmFunction:() => void
+  confirmFunction:() => void,
+  description:string
 }) => {
   return (
 
@@ -17,7 +18,7 @@ const AreYouSure = ({ className, closePopup, confirmFunction}:{
     >
 
 <h1 className="text-3xl font-bold text-gray-600 dark:text-white">Are You Sure?</h1>
-    <p className="mt-2 text-gray-500">Are you sure you want to clear the text and/or attachments of the post?</p>
+    <p className="mt-2 text-gray-500">{description}</p>
 
     <div className="button flex items-center justify-end gap-4 mt-8">
         <Button variant='primary'
@@ -25,7 +26,7 @@ const AreYouSure = ({ className, closePopup, confirmFunction}:{
         
         >No
         </Button>
-        <Button variant='primary' className='bg-customBlue dark:bg-customBlue dark:text-white'
+        <Button variant='primary' className='bg-red-500  dark:text-white dark:bg-red-500'
         onClick={() => {
             confirmFunction();
             closePopup(val => !val);

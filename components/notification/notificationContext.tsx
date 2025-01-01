@@ -65,7 +65,7 @@ type NotificationProps = Notification & {
 export const Notification = ({ message, type, closeNotification }: NotificationProps) => {
   return (
     <div
-      className={`fixed top-5 left-1/2 -translate-x-1/2 p-4 rounded-lg shadow-lg text-white z-10 flex gap-2 ${
+      className={`fixed top-5 left-1/2 -translate-x-1/2 p-4 rounded-lg shadow-lg text-white z-50 flex gap-2 ${
         type === "positive" ? "bg-customBlue" : "bg-red-500"
       }`}
     >

@@ -37,7 +37,7 @@ const Categories = () => {
           )}
           </div>
 
-          <div className="w-full" id="content">
+          <div className="w-full pb-6" id="content">
             {savedCategories.length == 0  && (
               <p className="">There are no categories...</p>
             )}

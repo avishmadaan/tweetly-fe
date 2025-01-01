@@ -46,6 +46,7 @@ export const BrainContextProvider = ({children}:{children:React.ReactNode}) => {
      const [filteredTweets, setFilteredTweets] = useState<savedTweetsType[]>([]);
      const [savedCategories, setSavedCategories] = useState<savedCategoriesType[]>([]);
      const [selectedCategory, setSelectedCategory] = useState<string>("all");
+     const [searchQuery, setSearchQuery] = useState<string>("");
 
      function extractTweetId(url:string):string | null {
         console.log("tweeturl", url)
@@ -249,7 +250,7 @@ export const BrainContextProvider = ({children}:{children:React.ReactNode}) => {
 
     const filterBasedOnSearch = async (query:string) => {
         
-
+        setSearchQuery(query);
         const newTweets = categoryWiseTweets.filter((tweet) => {
 
             if(tweet.description.toLowerCase().includes(query) || tweet.username.toLowerCase().includes(query)) {
@@ -307,12 +308,14 @@ export const BrainContextProvider = ({children}:{children:React.ReactNode}) => {
     useEffect(() => {
         if(savedTweets.length>0) {
             filterTweets(selectedCategory);
+           
         }
     }, [selectedCategory, savedTweets])
 
     useEffect(() => {
             console.log("inside use effect of category wise")
             setFilteredTweets(categoryWiseTweets);
+            filterBasedOnSearch(searchQuery);
         
 
     }, [categoryWiseTweets])

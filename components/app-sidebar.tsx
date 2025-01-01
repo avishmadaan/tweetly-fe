@@ -34,23 +34,25 @@ const items: menuItems[] = [
     icon: <Home />,
   },
   {
-    title: "Schedule",
-    url: "/dashboard/schedule/view",
-    icon: <Calendar1Icon />,
-  },
-  {
-    title: "Publish",
-    url: "/dashboard/publish/editor",
-    icon: <Send />,
-  },
-  {
     title: "Tweet Brain",
-    url: "/dashboard/brain/view",
+    url: "/dashboard/brain",
     icon: <Brain />,
   },
   {
+    title: "Publish",
+    url: "/dashboard/publish",
+    icon: <Send />,
+  },
+  {
+    title: "Schedule",
+    url: "/dashboard/schedule",
+    icon: <Calendar1Icon />,
+  },
+  
+  
+  {
     title: "Bots",
-    url: "/dashboard/bots/view",
+    url: "/dashboard/bots",
     icon: <Bot />,
   },
   {

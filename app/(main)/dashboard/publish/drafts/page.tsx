@@ -1,18 +1,43 @@
+import DraftPostMenu from '@/components/draft-post-menu'
 import { Button } from '@/components/ui/button'
 import ToolTip from '@/components/ui/tooltip'
-import { EllipsisVertical } from 'lucide-react'
 import React from 'react'
 
 const posts = [
   {
-    content:"This is just a display test, and this is what its going to showing as a preview in the frontend This page will show you all your saved drafts posts you have saved till date.",
-    dateCreated:"12th Jan",
-    media:"yes"
+    content: "Exploring the latest advancements in AI and how it impacts everyday life.",
+    dateCreated: "15th Jan",
+    media: "no"
   },
   {
-    content:"This page will show you all your saved drafts posts you have saved.",
-    dateCreated:"20th March",
-    media:"no"
+    content: "Top 10 tips to improve productivity while working remotely in 2024.",
+    dateCreated: "20th Jan",
+    media: "yes"
+  },
+  {
+    content: "An overview of the new web design trends for modern and responsive websites.",
+    dateCreated: "25th Jan",
+    media: "yes"
+  },
+  {
+    content: "Breaking down the pros and cons of React vs Angular for frontend development.",
+    dateCreated: "1st Feb",
+    media: "no"
+  },
+  {
+    content: "The importance of cybersecurity practices to protect personal data online.",
+    dateCreated: "5th Feb",
+    media: "yes"
+  },
+  {
+    content: "How cloud computing is reshaping the future of businesses and scalability. Explaining the basics of blockchain technology and its potential use cases.",
+    dateCreated: "10th Feb",
+    media: "no"
+  },
+  {
+    content: "Explaining the basics of blockchain technology and its potential use cases.",
+    dateCreated: "15th Feb",
+    media: "yes"
   }
 
 
@@ -41,11 +66,11 @@ const Drafts = () => {
 
     </div>
 
-    <div className="mt-6" id="drafts">
+    <div className="my-6" id="drafts">
 
       <table className="w-full">
 
-      <thead className='border-b p-2 '>
+      <thead className='p-2 '>
         <tr className="w-full flex  font-semibold">
           <th className='p-4 w-[40%] font-semibold self-center text-left'>Content</th>
           <th className='p-4 w-[20%] font-semibold self-center'>Date Created</th>
@@ -56,7 +81,7 @@ const Drafts = () => {
 
         {posts.map((item,index) => (
 
-          <tr key={index} className="flex flex-wrap border-b py-2">
+          <tr key={index} className="flex flex-wrap border-t py-2">
 
 <td className="p-4 w-[40%] text-left self-center">
      {showTweetContent(item.content)}
@@ -81,10 +106,8 @@ const Drafts = () => {
       </td>
     <td className="p-4 w-[5%] text-center self-center">
 
-  <EllipsisVertical
-   className='cursor-pointer'
-   size={24} 
-   />
+ 
+   <DraftPostMenu />
       
       
       </td>

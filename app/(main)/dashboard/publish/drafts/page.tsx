@@ -68,6 +68,16 @@ const Drafts = () => {
 
     <div className="my-6" id="drafts">
 
+      {posts.length ===0 ? (
+        <div className="">
+          There are no drafts post saved...
+        </div>
+
+      ):(
+
+
+   
+
       <table className="w-full">
 
       <thead className='p-2 '>
@@ -95,7 +105,7 @@ const Drafts = () => {
 
       <Button
       variant='primary'
-      className='text-sm bg-customBlue dark:bg-customBlue'
+      className='text-sm'
 
       >
       Use Draft
@@ -124,6 +134,7 @@ const Drafts = () => {
       </tbody>
 
       </table>
+         )}
     </div>
 
 

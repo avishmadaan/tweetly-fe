@@ -4,6 +4,8 @@ import { FileUp, Upload, XCircle } from 'lucide-react'
 import { Button } from './ui/button'
 import Image from 'next/image'
 import { useNotification } from './notification/notificationContext'
+import { ButtonUpload } from './ui/upload-button'
+
 
 const AddMediaPopup = ({closePopup}:{closePopup:React.Dispatch<React.SetStateAction<boolean>>}) => {
 
@@ -70,6 +72,10 @@ const AddMediaPopup = ({closePopup}:{closePopup:React.Dispatch<React.SetStateAct
     >
         Browse from PC
     </Button>
+
+    
+
+ <ButtonUpload />
 
     <input 
     title='Upload file'

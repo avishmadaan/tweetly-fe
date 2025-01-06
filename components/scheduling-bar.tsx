@@ -4,7 +4,9 @@ import { Button } from './ui/button'
 import { Clock, NotepadText, Send } from 'lucide-react'
 import WhenToPost from './when-to-post'
 import { UseX } from '@/lib/xContext'
-import ToolTip from './ui/tooltip'
+import ToolTip from './ui/tooltip';
+import DateTimePicker from './date-time-picker'
+
 
 const SchedulingBar = () => {
 
@@ -22,6 +24,13 @@ const SchedulingBar = () => {
         When to post
 
        <WhenToPost />
+       {whenToPost != "now" && (
+
+         <DateTimePicker />
+       )
+
+       }
+
         
         </div>
       <div className="flex item-center gap-4" id="section2">
@@ -37,7 +46,7 @@ const SchedulingBar = () => {
         {whenToPost == "now"? (
            <Button 
            className='py-1'
-           endIcon={<Send />}
+           startIcon={<Send />}
            variant='primary' 
            >
              Post Now
@@ -48,7 +57,7 @@ const SchedulingBar = () => {
         (
           <Button 
           className='py-1'
-          endIcon={<Clock />}
+          startIcon={<Clock />}
           variant='primary' 
           >
             Schedule

@@ -1,7 +1,7 @@
 "use client"
 import { FaEllipsisVertical } from "react-icons/fa6";
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
-import { Pencil, Trash } from "lucide-react";
+import { Eye, Pencil, Trash } from "lucide-react";
 import { NavbarItem } from "./ui/navbar-item";
 
 type menuItems = {
@@ -19,7 +19,12 @@ const items: menuItems[] = [
       title: "Use Draft",
       url: "/dashbord/publish/editor",
       icon: <Pencil size={20} />,
-    }
+    },
+    {
+      title: "Preview Draft",
+      url: "/dashbord/publish/editor",
+      icon: <Eye size={20} />,
+    },
 
 ]
 
@@ -46,17 +51,17 @@ const DraftPostMenu = () => {
 
 
   return (
-    <div className='relative'>
+    <div className='relative' ref={menuref}>
     <FaEllipsisVertical
     title="Draft Post Menu"
    className='cursor-pointer'
    size={20} 
-   onClick={() => setMenuOpen(!menuOpen)}
+   onClick={() => setMenuOpen(val => !val )}
    />
 
    {menuOpen && (
 
-    <div ref={menuref} className="border px-2 rounded-md  absolute right-full -translate-y-1/2 w-[180px] bg-white dark:bg-black z-10">
+    <div className="border px-2 rounded-md  absolute right-full -translate-y-1/2 w-[180px] bg-white dark:bg-black z-10">
 
         {items.map((item, index) => (
             

@@ -1,11 +1,11 @@
 "use client"
 
-import SchedulePostMenu from '@/components/scheduled-post-menu'
 import TweetPreviewPopup from '@/components/tweet-preview-popup'
 import { Button } from '@/components/ui/button'
 import ToolTip from '@/components/ui/tooltip'
-import { Eye } from 'lucide-react'
+import {  Eye } from 'lucide-react'
 import React, { useState } from 'react'
+import { FaTwitter } from "react-icons/fa";
 
 const posts = [
   {
@@ -47,7 +47,7 @@ const posts = [
 
 ]
 
-const ListView = () => {
+const Posted = () => {
 
   const [previewPopup, setPreviewPopup] = useState<boolean>(false);
 
@@ -75,8 +75,8 @@ const ListView = () => {
 
         <div className="flex  items-center gap-2" id="top">
 
-        <h1 className="text-2xl font-semibold">Upcoming Posts</h1>
-        <ToolTip>This section will show your scheduled posts from this tweetly.</ToolTip>
+        <h1 className="text-2xl font-semibold">Published Posts</h1>
+        <ToolTip>This section will show your posts already published.</ToolTip>
 
         </div>
 
@@ -97,7 +97,7 @@ const ListView = () => {
 <thead className='p-2 '>
   <tr className="w-full flex  font-semibold">
     <th className='p-4 w-[40%] font-semibold self-center text-left'>Content</th>
-    <th className='p-4 w-[20%] font-semibold self-center '>Schedule Date</th>
+    <th className='p-4 w-[20%] font-semibold self-center '>Published Date</th>
     <th className='p-4 w-[15%] font-semibold self-center'>Media</th>
   </tr>
 </thead>
@@ -130,10 +130,24 @@ Preview
 
 
 </td>
+
 <td className="p-4 w-[5%] text-center self-center">
 
 
-<SchedulePostMenu />
+<FaTwitter
+size={24}
+title='Visit Tweet On Twitter'
+className='cursor-pointer text-customBlue'
+href='http://www.x.com'
+target='_blank'
+
+/>
+
+
+</td>
+<td className="p-4 w-[5%] text-center self-center">
+
+
 
 
 </td>
@@ -165,4 +179,4 @@ Preview
   )
 }
 
-export default ListView
+export default Posted

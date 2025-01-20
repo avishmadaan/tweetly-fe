@@ -2,7 +2,8 @@ import React, { useRef, useState } from 'react'
 import Popup from './ui/popup'
 import { UseBrain } from '@/lib/brainContext';
 import { Button } from './ui/button';
-import { SquarePen } from 'lucide-react';
+import { Pen, SquarePen } from 'lucide-react';
+import ToolTip from './ui/tooltip';
 
 const CategoryChangePopup = ({ className, closePopup, categoryChangeTweetId}:{
   children?:React.ReactNode,
@@ -32,10 +33,21 @@ const CategoryChangePopup = ({ className, closePopup, categoryChangeTweetId}:{
   return (
     <Popup
     closePopup={closePopup}
-    className={className}
+    className={`${className} ${"p-[0px]  flex flex-col"}`}
     >
 
-<h1 className="text-3xl font-bold text-gray-600 dark:text-white">Change Tweet Category</h1>
+      <div className="flex  items-center gap-2 p-6 border-b" id="top">
+      <Pen
+      size={18}
+      />
+      
+      <h1 className="text-2xl font-semibold">Change Tweet Category</h1>
+      <ToolTip>Your can change your category here.</ToolTip>
+      
+      </div>
+      <div className="mt-4 px-6 my-4 flex-grow pb-4" id="contentInside">
+
+<h1 className="text-3xl font-bold text-gray-600 dark:text-white"></h1>
 <p className="mt-2 text-gray-500">You can select the category you want for this tweet.</p>
 
 <p className="mt-6 ">Select Category:</p>
@@ -50,7 +62,7 @@ const CategoryChangePopup = ({ className, closePopup, categoryChangeTweetId}:{
 
     <Button
     variant='primary'
-    className='mt-6 bg-customBlue dark:bg-customBlue cursor-pointer'
+    className='mt-6 bg-customBlue dark:bg-customBlue cursor-pointer w-full'
     loading={loading}
     startIcon={<SquarePen size={20} className='' />}
     onClick={changeCategory}
@@ -58,7 +70,7 @@ const CategoryChangePopup = ({ className, closePopup, categoryChangeTweetId}:{
       Change Category
     </Button>
 
-   
+    </div>
     </Popup>
       
    

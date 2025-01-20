@@ -4,6 +4,8 @@ import Input from './ui/input'
 import { Button } from './ui/button';
 import { Plus } from 'lucide-react';
 import { UseBrain } from '@/lib/brainContext';
+import { BiCategory } from "react-icons/bi";
+import ToolTip from './ui/tooltip';
 
 const AddCategoryPopup = ({closePopup}:{closePopup:React.Dispatch<React.SetStateAction<boolean>>}) => {
 
@@ -26,11 +28,20 @@ const AddCategoryPopup = ({closePopup}:{closePopup:React.Dispatch<React.SetState
   return (
    <Popup
    closePopup={closePopup}
-   className='w-[500px]'
+   className={` ${"p-[0px]  flex flex-col w-[500px]"}`}
    >
-    <h1 className="text-2xl font-semibold flex gap-2 items-center"> Add Your Category Here</h1>
-    <p className="text-sm opacity-40">You can use these cateorgies to organize your tweets better.</p>
-   
+
+<div className="flex  items-center gap-2 p-6 border-b" id="top">
+      <BiCategory
+      size={24}
+      />
+      
+      <h1 className="text-2xl font-semibold">Add Your Favourite Tweet Here</h1>
+      <ToolTip>You can use these cateorgies to organize your tweets better.</ToolTip>
+      
+      </div>
+      
+      <div className="mt-4 px-6 my-4 flex-grow pb-4" id="contentInside">
 
     <Input
     className='mt-4'
@@ -43,7 +54,7 @@ const AddCategoryPopup = ({closePopup}:{closePopup:React.Dispatch<React.SetState
 
     <Button
     variant='primary'
-    className={`mt-6 bg-customBlue dark:bg-customBlue  `}
+    className={`mt-6 bg-customBlue dark:bg-customBlue w-full `}
     onClick={addCategory}
     loading={loading}
     startIcon={<Plus size={20} className='' />}
@@ -51,6 +62,7 @@ const AddCategoryPopup = ({closePopup}:{closePopup:React.Dispatch<React.SetState
     >
       Add Category To Brain
     </Button>
+    </div>
 
    </Popup>
   )

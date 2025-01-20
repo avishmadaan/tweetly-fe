@@ -14,7 +14,7 @@ const Categories = () => {
 
 
   return (
-    <div className='w-full'>
+    <div className=''>
       <div className="flex justify-between items-center mb-8 w-full ">
         <h2 className="font-semibold text-2xl flex items-center gap-2">Your Categories
 

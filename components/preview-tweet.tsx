@@ -9,6 +9,20 @@ import { CgProfile } from "react-icons/cg";
 import { FaXTwitter } from "react-icons/fa6";
 import Skeleton from 'react-loading-skeleton';
 
+const urls = [
+  // "https://utfs.io/f/aIroXtB9CoHUd25XOAZ2rvMDbGKSW1ecZ6lUnRL4qFXwgkVH",
+
+
+  // "https://utfs.io/f/aIroXtB9CoHUnn4LTorEWO0mMKUL8H1pA7Zo6R9nzViyvTGt",
+
+
+  // "https://utfs.io/f/aIroXtB9CoHURdDMiqNVjtTDCBbn20Khu9IUcSZM3LXzOiRr",
+
+
+  // "https://utfs.io/f/aIroXtB9CoHUd25XOAZ2rvMDbGKSW1ecZ6lUnRL4qFXwgkVH"
+
+]
+
 const PreviewTweet = ({
   className
 }: {
@@ -25,6 +39,15 @@ const PreviewTweet = ({
     const doc = new DOMParser().parseFromString(html,"text/html");
     const bodyText = doc.body.textContent || "";
     return !bodyText.trim();
+  }
+
+  const length = urls.length;
+  const alignment = {
+
+    1:"grid-cols-1",
+    2:"grid-cols-2",
+    3:"grid-cols-2",
+    4:"grid-cols-2"
   }
 
   return (
@@ -71,6 +94,19 @@ const PreviewTweet = ({
                 <Skeleton count={1} height={8} className="block bg-gray-300 -mb-3 w-1/2"/>
                 </div>
             )}
+
+            </div>
+
+            <div className={`grid ${alignment[length]} gap-1`} id="media">
+               {urls.map((url, index) => (
+                      
+                      
+                          <Image  key={index} src={url} alt="media preview" title="twitter image"
+                          width={26} height={4} className={`w-full h-full  ${urls.length ==3 && index ==0 && "row-span-2"} `}  />
+
+                        
+               ))}
+
 
             </div>
 

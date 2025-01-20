@@ -2,6 +2,8 @@
 import React from 'react'
 import { Button } from './ui/button'
 import Popup from './ui/popup'
+import ToolTip from './ui/tooltip'
+import { CiWarning } from "react-icons/ci";
 
 const AreYouSure = ({ className, closePopup, confirmFunction, description}:{
   children?:React.ReactNode,
@@ -14,10 +16,25 @@ const AreYouSure = ({ className, closePopup, confirmFunction, description}:{
 
     <Popup
     closePopup={closePopup}
-    className={className}
+    className={`${className} ${"p-[0px]  flex flex-col"}`}
     >
+      
 
-<h1 className="text-3xl font-bold text-gray-600 dark:text-white">Are You Sure?</h1>
+<div className="flex  items-center gap-2 p-6 border-b" id="top">
+<CiWarning
+size={26}
+/>
+
+<h1 className="text-2xl font-semibold">Are You Sure?</h1>
+
+
+</div>
+<div className="mt-4 px-6 my-4 flex-grow" id="contentInside">
+
+
+
+
+
     <p className="mt-2 text-gray-500">{description}</p>
 
     <div className="button flex items-center justify-end gap-4 mt-8">
@@ -34,6 +51,7 @@ const AreYouSure = ({ className, closePopup, confirmFunction, description}:{
         
         >Yes, Clear It
         </Button>
+    </div>
     </div>
 
 

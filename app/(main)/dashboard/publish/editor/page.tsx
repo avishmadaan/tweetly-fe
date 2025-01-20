@@ -1,3 +1,4 @@
+import MediaPreview from '@/components/media-preview'
 import PreviewTweet from '@/components/preview-tweet'
 import RichTextEditor from '@/components/rich-text-editor'
 import SchedulingBar from '@/components/scheduling-bar'
@@ -19,11 +20,20 @@ const Editor = () => {
         <div className="flex flex-col flex-grow justify-between w-full" id="main">
 
 
+<div className="" id="withmediaandeditor">
+
+
 
         <div className="grid grid-cols-2  gap-2 mt-4 w-full " id="contentpreviw">
 
     <RichTextEditor className=" " />
     <PreviewTweet className="rounded-md " />
+</div>
+
+<div className="mt-4" id="media">
+  <MediaPreview />
+
+</div>
 </div>
 
 

@@ -7,12 +7,15 @@ import Italic from "@tiptap/extension-italic";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import { UseX } from "@/lib/xContext";
-import { SmilePlus, Trash2, ImageIcon } from "lucide-react";
+import { SmilePlus, Trash2, ImageIcon, WandSparkles } from "lucide-react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import AreYouSure from "./are-you-sure";
 import ToolTip from "./ui/tooltip";
 import AddMediaPopup from "./add-media";
 import HardBreak from '@tiptap/extension-hard-break';
+import { FaMagic } from "react-icons/fa";
+import TweetlyIntelligencePopup from "./tweetly-intelligence-post";
+
 
 const RichTextEditor = ({ className }: { className: string }) => {
   const { setCurrentTweet, currentTweet } = UseX();
@@ -21,6 +24,7 @@ const RichTextEditor = ({ className }: { className: string }) => {
 
   const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false);
   const [addMedia, setAddMedia] = useState<boolean>(false);
+  const [tweetlyIntelligence, setTweetlyIntelligence] =useState<boolean>(false);
 
   useEffect(() => {
 
@@ -114,6 +118,23 @@ const RichTextEditor = ({ className }: { className: string }) => {
             )
 
             }
+            <FaMagic
+            size={18}
+            title="Tweetly Intelligence"
+            className="text-gray-500 cursor-pointer hover:text-customBlue"
+            onClick={() => setTweetlyIntelligence(val => !val)}
+            />
+            {
+              tweetlyIntelligence && (
+                <TweetlyIntelligencePopup
+                closePopup={setTweetlyIntelligence}
+                />
+              )
+            }
+
+
+
+
       
         </div>
 

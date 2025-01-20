@@ -89,7 +89,7 @@ const View = () => {
 
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 mt-4 gap-4" id="custombots">
 
-          <p className="">There are no custom bots yet...</p>
+          <p className="">Coming soon......</p>
 
 
 

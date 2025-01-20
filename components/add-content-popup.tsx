@@ -2,9 +2,10 @@ import React, { useRef, useState } from 'react'
 import Popup from './ui/popup'
 import Input from './ui/input'
 import { Button } from './ui/button';
-import { Plus } from 'lucide-react';
+import { CirclePlus, Plus } from 'lucide-react';
 import { UseBrain } from '@/lib/brainContext';
 import Link from 'next/link';
+import ToolTip from './ui/tooltip';
 
 const AddContentPopup = ({closePopup}:{closePopup:React.Dispatch<React.SetStateAction<boolean>>}) => {
   const [tweetUrl, setTweetUrl] = useState<string>("");
@@ -29,10 +30,19 @@ const AddContentPopup = ({closePopup}:{closePopup:React.Dispatch<React.SetStateA
   return (
    <Popup
    closePopup={closePopup}
-   className='w-[500px]'
+   className={` ${"p-[0px]  flex flex-col w-[500px]"}`}
    >
-    <h1 className="text-2xl font-semibold flex gap-2 items-center"> Add Your Favourite Tweet Here</h1>
-    <p className="text-sm opacity-40">Click on the share button on tweet in twitter and paste is here</p>
+
+<div className="flex  items-center gap-2 p-6 border-b" id="top">
+      <CirclePlus
+      size={18}
+      />
+      
+      <h1 className="text-2xl font-semibold">Add Your Favourite Tweet Here</h1>
+      <ToolTip>Click on the share button on tweet in twitter and paste is here.</ToolTip>
+      
+      </div>
+      <div className="mt-0 px-6 my-4 flex-grow pb-4" id="contentInside">
    
     <p className="mt-6 ">Tweet Link:</p>
     <Input
@@ -62,7 +72,7 @@ const AddContentPopup = ({closePopup}:{closePopup:React.Dispatch<React.SetStateA
 
     <Button
     variant='primary'
-    className='mt-6 bg-customBlue dark:bg-customBlue cursor-pointer'
+    className='mt-6 bg-customBlue dark:bg-customBlue cursor-pointer w-full' 
     onClick={addTweetToBrain}
     loading={loading}
     startIcon={<Plus size={20} className='' />}
@@ -70,6 +80,7 @@ const AddContentPopup = ({closePopup}:{closePopup:React.Dispatch<React.SetStateA
       Add To Brain
     </Button>
 
+    </div>
    </Popup>
   )
 }

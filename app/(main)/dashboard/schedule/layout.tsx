@@ -1,6 +1,6 @@
 "use client";
 import { NavbarItem } from '@/components/ui/navbar-item';
-import { Calendar1Icon, List } from 'lucide-react';
+import {  CalendarCheck2, CircleCheckBig } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
@@ -13,16 +13,22 @@ type menuItems = {
 const items: menuItems[] = [
 
   
-  {
-    title: "Calendar View",
-    url: "/dashboard/schedule/view",
-    icon: <Calendar1Icon />,
+  // {
+  //   title: "Calendar View",
+  //   url: "/dashboard/schedule/view",
+  //   icon: <Calendar1Icon />,
   
-  },
+  // },
   {
-    title: "List View",
+    title: "Scheduled Posts",
     url: "/dashboard/schedule/list",
-    icon: <List />,
+    icon: <CalendarCheck2 />,
+  },
+
+  {
+    title: "Posted",
+    url: "/dashboard/schedule/posted",
+    icon: <CircleCheckBig />,
   },
 
 ]
@@ -50,7 +56,7 @@ const Schedule = ({children}:{children:React.ReactNode}) => {
 
    
       </div>
-      <div className="mt-10 h-full w-full" id="chagingpart">
+      <div className="mt-6 h-full w-full" id="chagingpart">
         {children}
       </div>
        

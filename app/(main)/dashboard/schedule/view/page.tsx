@@ -21,7 +21,7 @@ const localizer = dateFnsLocalizer({
 });
 
 const CalendarView = () => {
-  const [events, setEvents] = useState([
+  const [events] = useState([
     {
       title: "Meeting",
       start: new Date(),

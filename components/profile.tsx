@@ -30,11 +30,11 @@ const Profile = () => {
     <div ref={menuref} className='flex border bg-gray-100 p-2 rounded-md gap-2 cursor-pointer dark:bg-gray-800 relative items-center'>
         
         <div className="flex items-center gap-2" onClick={()=> setMenuOpen(!menuOpen)}>
-
+{/* 
         <h2 className="font-semibold">
          Hi, {user?.name?.split(" ")[0] || "User"}
           
-        </h2>
+        </h2> */}
         {user?.profilePicture ?(
           <div>
         

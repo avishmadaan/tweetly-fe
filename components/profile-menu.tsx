@@ -1,4 +1,4 @@
-import { Bug, CircleUserRound, Power, UserPen } from 'lucide-react';
+import { Bug, CircleUserRound, HelpCircle, Power, UserPen } from 'lucide-react';
 import React, { ReactElement } from 'react'
 import { NavbarItem } from './ui/navbar-item';
 import { usePathname } from 'next/navigation';
@@ -15,16 +15,16 @@ type menuItems = {
   const items: menuItems[] = [
   
     
-    {
-      title: "Profile",
-      url: "/dashboard/profile",
-      icon: <UserPen />,
-    },
+    // {
+    //   title: "Profile",
+    //   url: "/dashboard/profile",
+    //   icon: <UserPen />,
+    // },
     
     {
-      title: "Report Bug",
-      url: "/dashboard/billing",
-      icon: < Bug/>,
+      title: "Help",
+      url: "/dashboard/help",
+      icon: < HelpCircle/>,
     }
 
 ]

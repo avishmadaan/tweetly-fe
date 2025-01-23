@@ -12,18 +12,18 @@ const Popup = ({children, className, closePopup}:{
 
   useEffect(() => {
 
-    const handleOutSideClick = (event:MouseEvent) => {
+    // const handleOutSideClick = (event:MouseEvent) => {
 
-      if(popupRef.current && !popupRef.current.contains(event.target as Node)) {
-        closePopup(val => !val);
-      }
-    }
+    //   if(popupRef.current && !popupRef.current.contains(event.target as Node)) {
+    //     closePopup(val => !val);
+    //   }
+    // }
 
-    document.addEventListener("mousedown", handleOutSideClick);
+    // document.addEventListener("mousedown", handleOutSideClick);
 
-    return () => {
-      document.removeEventListener("mousedown", handleOutSideClick);
-    }
+    // return () => {
+    //   document.removeEventListener("mousedown", handleOutSideClick);
+    // }
 
 
   })

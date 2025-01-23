@@ -253,7 +253,8 @@ export const BrainContextProvider = ({children}:{children:React.ReactNode}) => {
         setSearchQuery(query);
         const newTweets = categoryWiseTweets.filter((tweet) => {
 
-            if(tweet.description.toLowerCase().includes(query) || tweet.username.toLowerCase().includes(query)) {
+            if(tweet.description.toLowerCase().includes(query.toLowerCase()) || tweet.username.toLowerCase().includes(query)) {
+              
                 return true;
             }
             else {
@@ -332,10 +333,10 @@ export const BrainContextProvider = ({children}:{children:React.ReactNode}) => {
 
 export const UseBrain = () => {
     const context = useContext(BrainContext);
-        if (!context) {
-          throw new Error("UseBrain must be used within an Brain Provider");
-        }
-        return context;
-
+      
+    if (!context) {
+        throw new Error("UseBrain must be used within an Brain Provider");
+      }
+      return context;
 
 }

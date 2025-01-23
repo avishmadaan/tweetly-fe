@@ -1,31 +1,37 @@
+"use client"
+import { FileType, UseX } from '@/lib/xContext'
 import { XCircle } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useContext } from 'react'
 
 const MediaPreview = () => {
-    const urls = [
-        "https://utfs.io/f/aIroXtB9CoHUd25XOAZ2rvMDbGKSW1ecZ6lUnRL4qFXwgkVH"
-        ,
-        "https://utfs.io/f/aIroXtB9CoHUnn4LTorEWO0mMKUL8H1pA7Zo6R9nzViyvTGt",
-        "https://utfs.io/f/aIroXtB9CoHURdDMiqNVjtTDCBbn20Khu9IUcSZM3LXzOiRr"
-]
+
+  const {currentPostMedia, setCurrentPostMedia} = UseX();
+
+  const removeMediaFromPost = (file:FileType) => {
+
+    setCurrentPostMedia(currentPostMedia.filter((entry) => entry !=file));
+
+  }
+
   return (
     <div className='flex items-center gap-4 flex-wrap'>
 
 
-      {urls.map((url, index) => (
+      {currentPostMedia.map((file, index) => (
         <div key={index} className="relative rounded-md border overflow-hidden w-24 h-24">
         
-            <Image src={url} alt="media preview" width={54} height={54} className='w-full h-full '  />
+            <Image src={file.fileURL} alt="media preview" width={54} height={54} className='w-full h-full '  />
           
 
           <button
           title='Close Button'
           type="button"
           className='absolute top-1 right-1 hover:text-red-500 rounded-full text-white shadow-md bg-black'
-        //   onClick={() => removeMediaFiles(index)}
+          onClick={() => removeMediaFromPost(file)}
           >
-            <XCircle size={16} />
+            <XCircle size={16}
+             />
           </button>
 
         </div>

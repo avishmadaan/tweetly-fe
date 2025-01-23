@@ -1,16 +1,35 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { Clock, NotepadText, Send } from 'lucide-react'
 import WhenToPost from './when-to-post'
 import { UseX } from '@/lib/xContext'
 import ToolTip from './ui/tooltip';
 import DateTimePicker from './date-time-picker'
+import { useNotification } from './notification/notificationContext'
 
 
 const SchedulingBar = () => {
 
-  const {whenToPost} = UseX();
+  const {whenToPost,createDraftPost,currentPostMedia,currentTweet } = UseX();
+  const [loading, setLoading] = useState<boolean>(false);
+  const {showNotification} = useNotification();
+
+  const saveToDraft = async () => {
+
+    if(currentTweet.length ==0 && currentPostMedia.length ==0) {
+      showNotification({
+        message:"Your Post Don't Have Anything To Save",
+        type:"negative"
+      })
+      return ;
+
+    }
+
+    setLoading(true);
+    await createDraftPost();
+    setLoading(false);
+  }
 
   return (
     <div className='w-full h-16 bg-gray-200 dark:bg-gray-800 rounded-md flex items-center justify-between p-10 relative'>
@@ -39,6 +58,8 @@ const SchedulingBar = () => {
         startIcon={<NotepadText />}
         variant='outline'
         className=''
+        onClick={() => saveToDraft()}
+        loading={loading}
         >
           Save as Draft
         </Button>

@@ -4,7 +4,8 @@ import {
   Brain,
 
   Calendar1Icon,
-  CircleX,
+
+  HelpCircle,
   Home,
   Send,
   Settings,
@@ -73,13 +74,13 @@ export function AppSidebar() {
   const {open, setOpen} = useSidebarContext();
 
   return (
-    <div className={`absolute md:static border-r h-full overflow-auto  z-10 dark:bg-black bg-white
+    <div className={`absolute md:static border-r h-full overflow-auto  z-10 dark:bg-black bg-white flex flex-col
       
     ${open? "md:min-w-[250px] md:w-[250px] p-4 w-full":"md:w-[64px] flex-none -translate-x-full md:translate-x-0 p-1 pt-4" } transition-all duration-400 ease-in-out
     
      `}>
       <div
-        className="flex justify-between items-center
+        className="flex justify-between items-center relative
           "
       >
         <Link href={"/dashboard"} className="flex items-center gap-1 py-2">
@@ -96,12 +97,12 @@ export function AppSidebar() {
           )}
         </Link>
 
-        <CircleX size={28} className="md:hidden block" onClick={()=> setOpen((val) => !val)} />
+        {/* <CircleX size={28} className="md:hidden block" onClick={()=> setOpen((val) => !val)} /> */}
       </div>
       
 
       <div
-        className=" mt-5 text-gray-600
+        className=" mt-5 text-gray-600 relative
           "
         id="menus"
       >
@@ -116,11 +117,24 @@ export function AppSidebar() {
     isActive={pathname.startsWith(item.url)}
   />
 ))}
+
+
+
+      </div>
+
+      <div className="mt-auto" id="help">
+      <NavbarItem
+  className="my-4"
+    name={"Help"}
+    icon={<HelpCircle />}
+    url={"/dashboard/help"}
+    open={open}
+    isActive={pathname.startsWith("/dashboard/help")}
+  />
+
+
       </div>
     
-
-      {/* <Button variant={"primary"} startIcon={<LogOutIcon />} className="absolute bottom-5 left-5 right-5 bg-red-500" >   Logout
-    </Button> */}
     </div>
   );
 }

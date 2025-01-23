@@ -29,7 +29,7 @@ const defaultStyles = `rounded-md px-6 py-3 flex items-center justify-center gap
 
 export const Button = (props:ButtonProps)=> {
 
-    return <button type={props.type} onClick={props.onClick} className={`${variantStyles[props.variant]} ${defaultStyles} ${props.className}  ${props.disabled ? " ":""}`}
+    return <button type={props.type} onClick={props.onClick} className={`  ${props.className} ${variantStyles[props.variant]} ${defaultStyles}  ${props.disabled ? " ":""}`}
     disabled={props.disabled}
     >
 

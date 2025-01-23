@@ -14,7 +14,7 @@ export default withUt( {
 			customBlack:"#000101",
 			customWhite:"#EEF3F5",
 			customHover:"#191819",
-			customBlue:"#1C9AF0",
+			customBlue:"#1C9AF2",
 			customSearch:"#212326"
   		},
 		

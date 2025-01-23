@@ -7,7 +7,7 @@ import Italic from "@tiptap/extension-italic";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import { UseX } from "@/lib/xContext";
-import { SmilePlus, Trash2, ImageIcon, WandSparkles } from "lucide-react";
+import { SmilePlus, Trash2, ImageIcon, WandSparkles, TriangleAlert } from "lucide-react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import AreYouSure from "./are-you-sure";
 import ToolTip from "./ui/tooltip";
@@ -51,7 +51,7 @@ const RichTextEditor = ({ className }: { className: string }) => {
   const editor = useEditor({
     extensions: [StarterKit, Bold, Italic, Underline, Link, HardBreak],
     content: currentTweet,
-    onUpdate: ({ editor }) => setCurrentTweet(editor.getHTML()),
+    onUpdate: ({ editor }) => setCurrentTweet(editor.getText().slice(0,280)),
   });
 
   const clearText = () => {
@@ -143,9 +143,21 @@ const RichTextEditor = ({ className }: { className: string }) => {
 <ToolTip >
   Word limit for normal X users is 280 characters including hashtags and emoji takes 2 characters.
 
-
 </ToolTip>
-          <p className="text-md">{editor?.getText().length}</p>
+<p className={`text-red-500 text-sm flex items-center gap-2 
+          ${(editor?.getText().length 
+          || 1)>280?"block":"hidden"}`}>
+            <TriangleAlert size={16} />
+            Upto 280 Characters Allowed</p>
+
+
+          <p className={`
+          ${(editor?.getText().length 
+          || 1)>280?"text-red-500":""}`}>
+            {editor?.getText().length}
+
+            
+            </p>
 
 
             <Trash2

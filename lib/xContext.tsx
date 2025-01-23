@@ -9,10 +9,30 @@ type xContextType = {
     setCurrentTweet:React.Dispatch<React.SetStateAction<string>>;
     whenToPost:WhenToPost;
     setWhenToPost:React.Dispatch<React.SetStateAction<WhenToPost>>
+    currentPostMedia:FileType[];
+    setCurrentPostMedia:React.Dispatch<React.SetStateAction<FileType[]>>
+    createDraftPost:() => Promise<boolean>,
+    fetchAllDrafts:() => Promise<boolean>,
+    draftPosts:PostsType[]
       
 }
 
-type WhenToPost = "now" | "schedule"
+export type FileType = {
+    id:string,
+    fileName:string,
+    fileType:string, 
+    fileSize:number,
+    fileURL:string
+}
+
+type WhenToPost = "now" | "schedule";
+
+type PostsType = {
+    id:string,
+    postContent:string,
+    updatedAt:string,
+    file:FileType[],
+}
 
 const XContext =  createContext<xContextType | undefined>(undefined);
 
@@ -20,20 +40,29 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
 
     const {showNotification} = useNotification();
     const [whenToPost, setWhenToPost] = useState<WhenToPost>("now");
-    const [draftPosts, setDraftsPosts] = useState<string[]>([]);
+    const [draftPosts, setDraftsPosts] = useState<PostsType[]>([]);
     const [currentTweet, setCurrentTweet] = useState<string>("");
-    const [currentPost, setCurrentPost] = useState<string>("");
+    const [currentPostMedia, setCurrentPostMedia] = useState<FileType[]>([]);
 
     const createDraftPost = async () => {
 
         try {
             const URL = `${domain}/api/v1/user/posts/createdraft`;
-            const result = await axios.post(URL, null,{withCredentials:true});
+            const result = await axios.post(URL, {
+                postContent:currentTweet,
+                mediaFiles:currentPostMedia
+            },{withCredentials:true});
 
-            console.log(result.data);
+            showNotification({
+                message:result.data.message,
+                type:"positive"
+            })
 
-            const draftPostsData = result.data.draftPosts;
-            setDraftsPosts(draftPostsData);
+            setCurrentTweet("");
+            setCurrentPostMedia([]);
+
+            return true;
+
 
         }
         catch(err) {
@@ -42,6 +71,7 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
                 message:"Failed To Create Draft Post",
                 type:"negative"
             })
+            return false;
         }
     }
 
@@ -51,22 +81,18 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
             const URL = `${domain}/api/v1/user/posts/getalldrafts`;
             const result = await axios.get(URL,{withCredentials:true});
 
-            showNotification({
-                message:"Draft Post Created Successfully",
-                type:"positive"
-            })
-            console.log(result.data);
+            setDraftsPosts(result.data.draftPosts);
+            return true;
 
-            const postId = result.data.post.id;
-            setCurrentPost(postId);
 
         }
         catch(err) {
             console.log(err);
             showNotification({
-                message:"Failed To Create Draft Post",
+                message:"Failed To Fetch Draft Posts",
                 type:"negative"
             })
+            return false;
         }
 
     }
@@ -78,7 +104,7 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
     },[])
 
     return (
-        <XContext.Provider value={{currentTweet,setCurrentTweet, whenToPost, setWhenToPost}} >
+        <XContext.Provider value={{currentTweet,setCurrentTweet, whenToPost, setWhenToPost, currentPostMedia, setCurrentPostMedia, createDraftPost, fetchAllDrafts, draftPosts}} >
             {children}
         </XContext.Provider>
     )

@@ -9,18 +9,30 @@ import YourImages from './your-images';
 
 const AddMediaPopup = ({closePopup}:{closePopup:React.Dispatch<React.SetStateAction<boolean>>}) => {
 
-    const [selectedMenu, setSelectedMenu] = useState<string>("UPLOAD");
+    const [selectedMenu, setSelectedMenu] = useState<string>("GALLERY");
 
 
   return (
     <Popup
    closePopup={closePopup}
-   className='p-[0px] w-[50%] min-h-[50%]'
+   className='p-[0px] w-[70%] min-h-[70%] flex '
    >
 
-    <div className="flex h-[400px]" id="layoutmedia">
+    <div className="flex flex-grow" id="layoutmedia">
 
-<div className="min-w-[200px] border-r p-4 py-6" id="menu">
+<div className="min-w-[200px] border-r p-4 py-6 flex-grow" id="menu">
+
+<NavbarItem
+name='Gallery'
+className='item-center mb-2'
+icon={<Images />}
+url='/'
+isActive = {selectedMenu == "GALLERY"}
+open={true}
+onClick={() => {
+  setSelectedMenu("GALLERY")
+}}
+/>
 
 <NavbarItem
 name='Upload'
@@ -34,26 +46,22 @@ onClick={() => {
 }}
 />
 
-<NavbarItem
-name='Gallery'
-className='item-center'
-icon={<Images />}
-url='/'
-isActive = {selectedMenu == "YOUR_IMAGES"}
-open={true}
-onClick={() => {
-  setSelectedMenu("YOUR_IMAGES")
-}}
-/>
+
 
 </div>
 
-<div className="p-4 overflow-auto" id="contentpart">
+<div className="p-4 pb-0 overflow-auto w-full" id="contentpart">
   {selectedMenu == "UPLOAD"? (
-    <UploadMediaZone />
+    <UploadMediaZone
+    setSelectedMenu={setSelectedMenu}
+    
+    />
 
   ):(
-    <YourImages />
+    <YourImages
+    setSelectedMenu={setSelectedMenu}
+    closePopup = {closePopup}
+     />
   )}
 
 

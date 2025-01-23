@@ -2,6 +2,7 @@ import { domain } from "@/lib/utils";
 import { UploadButton } from "@uploadthing/react";
 import { FileRouter } from "uploadthing/types";
 import { UploadDropzone } from "@uploadthing/react";
+import { useMedia } from "@/lib/mediaContext";
 
 
 
@@ -9,30 +10,27 @@ type OurFileRouter = {
     imageUploader: FileRouter["imageUploader"];
   };
 
-export const ButtonUpload = () => {
 
-  return (
-    <UploadButton<OurFileRouter, "imageUploader">
-  url={`${domain}/api/v1/user/posts/uploadthing`}
-  endpoint={"imageUploader"}
-  className="ut-allowed-content:mt-2"
-  onClientUploadComplete={(res) => console.log(res)}
-  onUploadError={(err) => console.log(err,"some error")}
-  
-/>
+export const OurUploadDropzone = ({ setSelectedMenu} :{
+  setSelectedMenu: React.Dispatch<React.SetStateAction<string>>;
+ }) => {
 
-  )  
+  const {uploadMedia} = useMedia();
 
-}
+  return(
 
-export const OurUploadDropzone = () => (
   <UploadDropzone<OurFileRouter, "imageUploader">
   url={`${domain}/api/v1/user/posts/uploadthing`}
     endpoint="imageUploader"
-    onClientUploadComplete={(res) => {
+    onClientUploadComplete={ async (res) => {
       // Do something with the response
       console.log("Files: ", res);
-      alert("Upload Completed");
+     const result=  await uploadMedia(res);
+     if(result) {
+       setSelectedMenu("YOUR_IMAGES");
+
+     }
+
     }}
     onUploadError={(error: Error) => {
       alert(`ERROR! ${error.message}`);
@@ -46,4 +44,5 @@ export const OurUploadDropzone = () => (
       console.log("Accepted files: ", acceptedFiles);
     }}
   />
-);
+)
+  };

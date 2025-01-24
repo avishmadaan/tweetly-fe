@@ -7,12 +7,14 @@ import { UseX } from '@/lib/xContext'
 import ToolTip from './ui/tooltip';
 import DateTimePicker from './date-time-picker'
 import { useNotification } from './notification/notificationContext'
+import PostPopup from './post-popup'
 
 
 const SchedulingBar = () => {
 
-  const {whenToPost,createDraftPost,currentPostMedia,currentTweet } = UseX();
+  const {whenToPost,createOrUpdateDraftPost,currentPostMedia,currentTweet } = UseX();
   const [loading, setLoading] = useState<boolean>(false);
+  const [postPopup, setPostPopup] = useState<boolean>(false);
   const {showNotification} = useNotification();
 
   const saveToDraft = async () => {
@@ -27,8 +29,12 @@ const SchedulingBar = () => {
     }
 
     setLoading(true);
-    await createDraftPost();
+    await createOrUpdateDraftPost();
     setLoading(false);
+  }
+
+  const postOrSchedule = () => {
+    setPostPopup(true);
   }
 
   return (
@@ -69,6 +75,7 @@ const SchedulingBar = () => {
            className='py-1'
            startIcon={<Send />}
            variant='primary' 
+           onClick={postOrSchedule}
            >
              Post Now
    
@@ -80,6 +87,7 @@ const SchedulingBar = () => {
           className='py-1'
           startIcon={<Clock />}
           variant='primary' 
+          onClick={postOrSchedule}
           >
             Schedule
   
@@ -91,6 +99,10 @@ const SchedulingBar = () => {
 
        
       </div>
+
+      {postPopup && (
+        <PostPopup closePopup={setPostPopup} />
+      )}
     </div>
   )
 }

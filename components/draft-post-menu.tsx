@@ -1,8 +1,10 @@
 "use client"
 import { FaEllipsisVertical } from "react-icons/fa6";
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
-import { Eye, Pencil, Trash } from "lucide-react";
+import { Eye, Trash } from "lucide-react";
 import { NavbarItem } from "./ui/navbar-item";
+import { UseX } from "@/lib/xContext";
+import AreYouSure from "./are-you-sure";
 
 type menuItems = {
     title: string;
@@ -14,12 +16,7 @@ type menuItems = {
 // Menu items.
 const items: menuItems[] = [
   
-    
-    {
-      title: "Use Draft",
-      url: "/dashbord/publish/editor",
-      icon: <Pencil size={20} />,
-    },
+
     {
       title: "Preview Draft",
       url: "/dashbord/publish/editor",
@@ -29,10 +26,12 @@ const items: menuItems[] = [
 ]
 
 
-const DraftPostMenu = () => {
+const DraftPostMenu = ({id}:{id:string}) => {
 
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
      const menuref = useRef<HTMLDivElement>(null);
+     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false);
+     const {deleteDraft} = UseX();
 
      useEffect(() => {
              const handleClickOutside = (event:MouseEvent) => {
@@ -86,6 +85,11 @@ const DraftPostMenu = () => {
             open={true}
             className='my-2 mt-0 hover:bg-red-500 dark:hover:bg-red-500 hover:text-white'
             isActive={false}
+            onClick={() => {
+              setDeleteConfirm(true);
+              setMenuOpen(false);
+            }
+             }
           />
 
 
@@ -93,6 +97,10 @@ const DraftPostMenu = () => {
    )
 
    }
+
+{deleteConfirm && (
+        <AreYouSure closePopup={setDeleteConfirm} confirmFunction={() => {deleteDraft(id)}} description="This tweet will be deleted from the database and you will never be able to recover it." className="w-1/3 max-w-[500px]" />
+      )}
       
     </div>
   )

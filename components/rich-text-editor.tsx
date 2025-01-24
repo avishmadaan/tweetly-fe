@@ -1,24 +1,18 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Bold from "@tiptap/extension-bold";
-import Italic from "@tiptap/extension-italic";
-import Underline from "@tiptap/extension-underline";
-import Link from "@tiptap/extension-link";
+import { EditorContent } from "@tiptap/react";
 import { UseX } from "@/lib/xContext";
-import { SmilePlus, Trash2, ImageIcon, WandSparkles, TriangleAlert } from "lucide-react";
+import { SmilePlus, Trash2, ImageIcon, TriangleAlert } from "lucide-react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import AreYouSure from "./are-you-sure";
 import ToolTip from "./ui/tooltip";
 import AddMediaPopup from "./add-media";
-import HardBreak from '@tiptap/extension-hard-break';
 import { FaMagic } from "react-icons/fa";
 import TweetlyIntelligencePopup from "./tweetly-intelligence-post";
 
 
 const RichTextEditor = ({ className }: { className: string }) => {
-  const { setCurrentTweet, currentTweet } = UseX();
+  const { setCurrentTweet, editor } = UseX();
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const emojiRef = useRef<HTMLDivElement>(null);
 
@@ -48,11 +42,6 @@ const RichTextEditor = ({ className }: { className: string }) => {
     editor?.commands.insertContent(emojiObject.emoji);
   };
 
-  const editor = useEditor({
-    extensions: [StarterKit, Bold, Italic, Underline, Link, HardBreak],
-    content: currentTweet,
-    onUpdate: ({ editor }) => setCurrentTweet(editor.getText().slice(0,280)),
-  });
 
   const clearText = () => {
 
@@ -66,8 +55,12 @@ const RichTextEditor = ({ className }: { className: string }) => {
       className={`border rounded-md p-4  flex flex-col w-full  cursor-text ${className} `}
       onClick={() => editor?.commands.focus()}
     >
+
+
       {/* Editor */}
       <div className="flex-grow p-2 relative">
+
+       
 
         {!editor?.getText() && (
           <p className={`absolute top-2 left-2 text-gray-400 italic pointer-events-none`}>

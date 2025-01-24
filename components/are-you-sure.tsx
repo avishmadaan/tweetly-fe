@@ -1,8 +1,7 @@
-
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import { Button } from './ui/button'
 import Popup from './ui/popup'
-import ToolTip from './ui/tooltip'
 import { CiWarning } from "react-icons/ci";
 
 const AreYouSure = ({ className, closePopup, confirmFunction, description}:{
@@ -12,6 +11,18 @@ const AreYouSure = ({ className, closePopup, confirmFunction, description}:{
   confirmFunction:() => void,
   description:string
 }) => {
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const confirmingFunction = async () => {
+
+    setLoading(true);
+    await confirmFunction();
+    setLoading(false);
+    closePopup(val => !val);
+
+  }
+
   return (
 
     <Popup
@@ -35,19 +46,18 @@ size={26}
 
 
 
-    <p className="mt-2 text-gray-500">{description}</p>
+    <p className="mt-2 text-gray-500 text-left">{description}</p>
 
     <div className="button flex items-center justify-end gap-4 mt-8">
         <Button variant='primary'
         onClick={() => closePopup(val =>!val)}
         
+        
         >No
         </Button>
-        <Button variant='primary' className='bg-red-500  dark:text-white dark:bg-red-500'
-        onClick={() => {
-            confirmFunction();
-            closePopup(val => !val);
-        }}
+        <Button variant='primary' className='bg-red-500  dark:text-white  dark:bg-red-700'
+        loading={loading}
+        onClick={confirmingFunction}
         
         >Yes, Clear It
         </Button>

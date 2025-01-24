@@ -3,8 +3,8 @@ import DraftPostMenu from '@/components/draft-post-menu'
 import { Button } from '@/components/ui/button'
 import ToolTip from '@/components/ui/tooltip'
 import { UseX } from '@/lib/xContext'
-import { Loader2 } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import { Eye, Loader2, Trash, Trash2 } from 'lucide-react'
+import React, { use, useEffect, useState } from 'react'
 
 
 const showTweetContent = (text:string) => {
@@ -21,7 +21,7 @@ const showTweetContent = (text:string) => {
 
 const Drafts = () => {
 
-  const {fetchAllDrafts,draftPosts } = UseX();
+  const {fetchAllDrafts,draftPosts, usingDraft } = UseX();
   const [loading, setLoading] = useState<boolean>(false);
 
   const loadingDrafts = async () => {
@@ -42,13 +42,15 @@ const Drafts = () => {
     <h1 className="text-2xl font-semibold">Draft Posts</h1>
     <ToolTip>This page will show you all your saved drafts posts you have saved till date.</ToolTip>
 
+    {loading && (
+        <Loader2 className='animate-spin' />
+      )}
+
     </div>
 
     <div className="my-6" id="drafts">
 
-      {loading && (
-        <Loader2 className='animate-spin' />
-      )}
+      
 
       {draftPosts.length ===0 && loading ==false ? (
         <div className="">
@@ -82,11 +84,12 @@ const Drafts = () => {
 
     <td className="p-4 w-[15%] text-center self-center">{item.file.length}</td>
 
-    <td className="p-4 w-[20%] text-center self-center">
+    <td className="p-4 w-[15%] text-center self-center">
 
       <Button
       variant='primary'
       className='text-sm'
+      onClick={() => usingDraft(item.id)}
 
       >
       Use Draft
@@ -95,10 +98,20 @@ const Drafts = () => {
       
       
       </td>
-    <td className="p-4 w-[5%] text-center self-center">
+    <td className=" w-[10%] text-center self-center flex p-4">
+{/* 
+           <Eye 
+           size={16}
+            className='cursor-pointer'
+            />
+
+          <Trash2
+          size={18}
+          className='text-red-500'
+           /> */}
 
  
-   <DraftPostMenu />
+   <DraftPostMenu id={item.id} />
       
       
       </td>

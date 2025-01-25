@@ -38,7 +38,7 @@ export type FileType = {
 
 type WhenToPost = "now" | "schedule";
 
-type PostsType = {
+export type PostsType = {
     id:string,
     postContent:string,
     updatedAt:string,
@@ -76,7 +76,7 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
             setCurrentTweet("");
             setCurrentPostMedia([]);
             editor?.commands.clearContent();
-
+            setCurrentPostId(null);
             return true;
 
 

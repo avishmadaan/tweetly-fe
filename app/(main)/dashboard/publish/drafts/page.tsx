@@ -1,10 +1,11 @@
 "use client"
+import AreYouSure from '@/components/are-you-sure'
 import DraftPostMenu from '@/components/draft-post-menu'
 import { Button } from '@/components/ui/button'
 import ToolTip from '@/components/ui/tooltip'
 import { UseX } from '@/lib/xContext'
-import { Eye, Loader2, Trash, Trash2 } from 'lucide-react'
-import React, { use, useEffect, useState } from 'react'
+import { Eye, Loader2, Trash2 } from 'lucide-react'
+import React, {  useEffect, useRef, useState } from 'react'
 
 
 const showTweetContent = (text:string) => {
@@ -21,8 +22,10 @@ const showTweetContent = (text:string) => {
 
 const Drafts = () => {
 
-  const {fetchAllDrafts,draftPosts, usingDraft } = UseX();
+  const {fetchAllDrafts,draftPosts, usingDraft, currentTweet, currentPostMedia } = UseX();
   const [loading, setLoading] = useState<boolean>(false);
+ const [useDraftPopup, setUseDraftPopup] = useState<boolean>(false);
+ const [useDraftPostId, setUseDraftPostId] = useState<string>("");
 
   const loadingDrafts = async () => {
     setLoading(true);
@@ -34,6 +37,21 @@ const Drafts = () => {
   useEffect(() => {
     loadingDrafts();
   }, [])
+
+  const draftUsage = (id:string) => {
+    setUseDraftPostId(id);
+
+    if(currentTweet.length>0 || currentPostMedia.length>0 ) {
+
+      setUseDraftPopup(true);
+      return ;
+    }
+
+    usingDraft(id);
+
+  }
+
+
   return (
     <div className=' flex flex-col w-full h-full' id='publish'>
 
@@ -89,7 +107,7 @@ const Drafts = () => {
       <Button
       variant='primary'
       className='text-sm'
-      onClick={() => usingDraft(item.id)}
+      onClick={() => draftUsage(item.id)}
 
       >
       Use Draft
@@ -111,7 +129,7 @@ const Drafts = () => {
            /> */}
 
  
-   <DraftPostMenu id={item.id} />
+   <DraftPostMenu post={item} id={item.id} />
       
       
       </td>
@@ -130,6 +148,10 @@ const Drafts = () => {
       </table>
          )}
     </div>
+
+    {useDraftPopup && (
+        <AreYouSure closePopup={setUseDraftPopup} confirmFunction={() => {usingDraft(useDraftPostId)}} description="You already have a tweet in your editor, this will override that and show that in editor. If you want you can save that as draft and then use this." className="w-1/3 max-w-[500px]" />
+      )}
 
 
 

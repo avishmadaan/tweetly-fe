@@ -1,11 +1,14 @@
+"use client"
 import MediaPreview from '@/components/media-preview'
 import PreviewTweet from '@/components/preview-tweet'
 import RichTextEditor from '@/components/rich-text-editor'
 import SchedulingBar from '@/components/scheduling-bar'
 import ToolTip from '@/components/ui/tooltip'
+import { UseX } from '@/lib/xContext'
 import React from 'react'
 
 const Editor = () => {
+  const {currentTweet, currentPostMedia}= UseX();
   return (
     <div className=' flex flex-col w-full h-full' id='publish'>
 
@@ -27,7 +30,7 @@ const Editor = () => {
         <div className="grid grid-cols-2  gap-2 mt-4 w-full " id="contentpreviw">
 
     <RichTextEditor className=" " />
-    <PreviewTweet className="rounded-md " />
+    <PreviewTweet className="rounded-md " currentPostMedia={currentPostMedia} currentTweet={currentTweet}/>
 </div>
 
 <div className="mt-4" id="media">

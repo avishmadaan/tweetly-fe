@@ -3,8 +3,9 @@ import { FaEllipsisVertical } from "react-icons/fa6";
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import { Eye, Trash } from "lucide-react";
 import { NavbarItem } from "./ui/navbar-item";
-import { UseX } from "@/lib/xContext";
+import {  PostsType, UseX } from "@/lib/xContext";
 import AreYouSure from "./are-you-sure";
+import TweetPreviewPopup from "./tweet-preview-popup";
 
 type menuItems = {
     title: string;
@@ -26,12 +27,17 @@ const items: menuItems[] = [
 ]
 
 
-const DraftPostMenu = ({id}:{id:string}) => {
+const DraftPostMenu = ({id, post}:{id:string, post:PostsType}) => {
 
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
      const menuref = useRef<HTMLDivElement>(null);
      const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false);
      const {deleteDraft} = UseX();
+       const [previewPopup, setPreviewPopup] = useState<boolean>(false);
+     
+       const showPreview = () => {
+         setPreviewPopup(true);
+       }
 
      useEffect(() => {
              const handleClickOutside = (event:MouseEvent) => {
@@ -73,6 +79,10 @@ const DraftPostMenu = ({id}:{id:string}) => {
             open={true}
             className='my-2'
             isActive={false}
+            onClick={() => {
+              showPreview();
+              setMenuOpen(false);
+            }}
           />
         )
         
@@ -102,6 +112,14 @@ const DraftPostMenu = ({id}:{id:string}) => {
         <AreYouSure closePopup={setDeleteConfirm} confirmFunction={() => {deleteDraft(id)}} description="This tweet will be deleted from the database and you will never be able to recover it." className="w-1/3 max-w-[500px]" />
       )}
       
+      {previewPopup && (
+          <TweetPreviewPopup
+          closePopup={setPreviewPopup}
+          className=''
+          currentPostMedia={post.file}
+          currentTweet={post.postContent}
+          />
+        )}
     </div>
   )
 }

@@ -12,7 +12,7 @@ import TweetlyIntelligencePopup from "./tweetly-intelligence-post";
 
 
 const RichTextEditor = ({ className }: { className: string }) => {
-  const { setCurrentTweet, editor } = UseX();
+  const { setCurrentTweet, editor , setCurrentPostMedia} = UseX();
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const emojiRef = useRef<HTMLDivElement>(null);
 
@@ -43,10 +43,12 @@ const RichTextEditor = ({ className }: { className: string }) => {
   };
 
 
-  const clearText = () => {
+  const clearTextAndMedia = () => {
 
   editor?.commands.clearContent();
+  
   setCurrentTweet("");
+  setCurrentPostMedia([]);
 
   }
 
@@ -164,7 +166,7 @@ const RichTextEditor = ({ className }: { className: string }) => {
       </div>
 
       {deleteConfirm && (
-        <AreYouSure closePopup={setDeleteConfirm} confirmFunction={clearText} description="Are you sure you want to clear the text and/or attachments of the post?" className="w-1/3 max-w-[500px]" />
+        <AreYouSure closePopup={setDeleteConfirm} confirmFunction={clearTextAndMedia} description="Are you sure you want to clear the text and/or attachments of the post?" className="w-1/3 max-w-[500px]" />
       )}
     </div>
   );

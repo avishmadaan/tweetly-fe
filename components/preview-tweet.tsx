@@ -1,7 +1,7 @@
 "use client";
 
 import { UseAi } from "@/lib/aiContext";
-import { UseX } from "@/lib/xContext";
+import { FileType } from "@/lib/xContext";
 import { Heart, MessageCircle, Repeat2, Share } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -11,12 +11,15 @@ import Skeleton from 'react-loading-skeleton';
 
 
 const PreviewTweet = ({
-  className
+  className,
+  currentTweet,
+  currentPostMedia
 }: {
-  className?: string;
+  className?: string,
+  currentTweet:string,
+  currentPostMedia:FileType[]
 }) => {
   const { Xdata } = UseAi();
-  const {currentTweet, currentPostMedia} = UseX();
 
   const isEmptyContent = (html:string) => {
 

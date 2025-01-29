@@ -3,71 +3,60 @@
 import TweetPreviewPopup from '@/components/tweet-preview-popup'
 import { Button } from '@/components/ui/button'
 import ToolTip from '@/components/ui/tooltip'
-import {  Eye } from 'lucide-react'
-import React, { useState } from 'react'
+import {  Eye, Loader2 } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 import { FaTwitter } from "react-icons/fa";
+import {  format } from "date-fns";
+import { PostsType, UseX } from '@/lib/xContext'
+import ReactPaginate from 'react-paginate'
 
-const posts = [
-  {
-    content: "Exploring the latest advancements in AI and how it impacts everyday life.",
-    dateCreated: "15th Jan",
-    media: "no"
-  },
-  {
-    content: "Top 10 tips to improve productivity while working remotely in 2024.",
-    dateCreated: "20th Jan",
-    media: "yes"
-  },
-  {
-    content: "An overview of the new web design trends for modern and responsive websites.",
-    dateCreated: "25th Jan",
-    media: "yes"
-  },
-  {
-    content: "Breaking down the pros and cons of React vs Angular for frontend development.",
-    dateCreated: "1st Feb",
-    media: "no"
-  },
-  {
-    content: "The importance of cybersecurity practices to protect personal data online.",
-    dateCreated: "5th Feb",
-    media: "yes"
-  },
-  {
-    content: "How cloud computing is reshaping the future of businesses and scalability. Explaining the basics of blockchain technology and its potential use cases.",
-    dateCreated: "10th Feb",
-    media: "no"
-  },
-  {
-    content: "Explaining the basics of blockchain technology and its potential use cases.",
-    dateCreated: "15th Feb",
-    media: "yes"
+const showTweetContent = (text:string) => {
+
+  if(text.length <80) {
+    return text;
+  }
+  else {
+    return text.slice(0,81).concat("...");
   }
 
-
-]
+}
 
 const Posted = () => {
 
+
+
   const [previewPopup, setPreviewPopup] = useState<boolean>(false);
-
-  const showPreview = () => {
-    setPreviewPopup(true);
-  }
+  const [loading, setLoading] = useState<boolean>(false);
+    const [selectedPost, setSelectedPost] = useState<PostsType |null>(null);
 
 
+    const {fetchAllDrafts,draftPosts } = UseX();
+     const [currentPage, setCurrentPage] = useState<number>(0);
+     const itemsPerPage = 5;
 
-  const showTweetContent = (text:string) => {
 
-    if(text.length <80) {
-      return text;
-    }
-    else {
-      return text.slice(0,81).concat("...");
-    }
-  
-  
-  }
+const handlePageClick = (event:{selected:number}) => {
+  setCurrentPage(event.selected);
+
+}
+
+     const itemsToShow = draftPosts.slice(
+         currentPage *itemsPerPage,
+         (currentPage+1)*itemsPerPage
+     )
+     
+       const loadingDrafts = async () => {
+         setLoading(true);
+         await fetchAllDrafts();
+         console.log(draftPosts);
+         setLoading(false);
+       }
+     
+       useEffect(() => {
+         loadingDrafts();
+       }, [])
+
+
 
 
   return (
@@ -75,15 +64,20 @@ const Posted = () => {
 
         <div className="flex  items-center gap-2" id="top">
 
-        <h1 className="text-2xl font-semibold">Published Posts</h1>
+        <h1 className="text-2xl font-semibold">Published</h1>
         <ToolTip>This section will show your posts already published.</ToolTip>
+
+        {loading && (
+        <Loader2 className='animate-spin' />
+      )}
+
 
         </div>
 
         <div className="flex flex-col flex-grow justify-between w-full mt-4" id="main">
 
 
-      {posts.length ===0 ? (
+      {itemsToShow.length ===0 ? (
         <div className="">
           There are no drafts post saved...
         </div>
@@ -103,17 +97,17 @@ const Posted = () => {
 </thead>
 <tbody className=''>
 
-  {posts.map((item,index) => (
+{itemsToShow.map((item,index) => (
 
     <tr key={index} className="flex flex-wrap border-t py-2">
 
 <td className="p-4 w-[40%] text-left self-center">
-{showTweetContent(item.content)}
+{showTweetContent(item.postContent)}
 </td>
 
-<td className="p-4 w-[20%] text-center self-center">{item.dateCreated}</td>
+<td className="p-4 w-[20%] text-center self-center">{format(item.updatedAt, "dd-MM-yyyy || hh:mm a")}</td>
 
-<td className="p-4 w-[15%] text-center self-center">{item.media}</td>
+<td className="p-4 w-[15%] text-center self-center">{item.files.length}</td>
 
 <td className="p-4 w-[20%] text-center self-center">
 
@@ -121,7 +115,10 @@ const Posted = () => {
 variant='primary'
 className='text-sm'
 startIcon={<Eye />}
-onClick={showPreview}
+onClick={() => {
+  setSelectedPost(item)
+  setPreviewPopup(true);
+}}
 
 >
 Preview
@@ -145,12 +142,7 @@ target='_blank'
 
 
 </td>
-<td className="p-4 w-[5%] text-center self-center">
 
-
-
-
-</td>
 
 
     </tr>
@@ -169,10 +161,39 @@ target='_blank'
       )}
 
         </div>
-        {previewPopup && (
+
+        {draftPosts.length >0  &&(
+            <ReactPaginate
+            className="flex items-center justify-center space-x-2 text-sm font-medium mt-auto mb-8 "  
+            pageCount={Math.ceil(draftPosts.length / itemsPerPage)}
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={3}
+            onPageChange={handlePageClick}
+            activeLinkClassName=''
+      
+            previousLabel={
+              <span className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800">Previous</span>
+            }
+            nextLabel={
+              <span className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800">Next</span>
+            }
+            breakLabel={"..."}
+            containerClassName="flex gap-2 mt-4" 
+            pageClassName="flex justify-center items-center w-8 h-8 rounded-md " 
+            activeClassName="bg-blue-500 text-white" 
+            previousClassName="flex justify-center items-center" 
+            nextClassName="flex justify-center items-center" 
+            breakClassName="flex justify-center items-center w-8 h-8" 
+          />
+
+        )}
+
+{previewPopup && (
           <TweetPreviewPopup
           closePopup={setPreviewPopup}
           className=''
+          currentPostMedia={selectedPost?.files || []}
+          currentTweet={selectedPost?.postContent || ""}
           />
         )}
 </div>

@@ -3,6 +3,7 @@ import { useNotification } from "@/components/notification/notificationContext";
 import { createContext, useContext, useState } from "react";
 import { domain } from "./utils";
 import axios from "axios";
+import { FileType } from "./xContext";
 
 type MediaContextType = {
     getMediaFiles: () =>  Promise<boolean>,
@@ -12,13 +13,14 @@ type MediaContextType = {
 
 }
 
-type FileType = {
-    id:string,
-    fileName:string,
-    fileType:string, 
-    fileSize:number,
-    fileURL:string
-}
+// type FileType = {
+//     id:string,
+//     fileName:string,
+//     fileType:string, 
+//     fileSize:number,
+//     fileURL:string,
+//     postIds:string[]
+// }
 
 const MediaContext = createContext<MediaContextType | undefined>(undefined);    
 

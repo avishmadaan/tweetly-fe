@@ -116,7 +116,7 @@ const DraftPostMenu = ({id, post}:{id:string, post:PostsType}) => {
           <TweetPreviewPopup
           closePopup={setPreviewPopup}
           className=''
-          currentPostMedia={post.file}
+          currentPostMedia={post.files}
           currentTweet={post.postContent}
           />
         )}

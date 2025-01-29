@@ -26,11 +26,11 @@ const items: menuItems[] = [
     url: "/dashboard/bots/chat",
     icon: <MessageCircle />,
   },
-  {
-    title: "Training",
-    url: "/dashboard/bots/training",
-    icon: <Wrench />,
-  },
+  // {
+  //   title: "Training",
+  //   url: "/dashboard/bots/training",
+  //   icon: <Wrench />,
+  // },
 
 ]
 const Bots = ({children}:{children:React.ReactNode}) => {

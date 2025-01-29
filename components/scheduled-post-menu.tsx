@@ -3,6 +3,8 @@ import { FaEllipsisVertical } from "react-icons/fa6";
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import { Eye, NotepadText, Pencil, Trash } from "lucide-react";
 import { NavbarItem } from "./ui/navbar-item";
+import { PostsType, UseX } from "@/lib/xContext";
+import AreYouSure from "./are-you-sure";
 
 type menuItems = {
     title: string;
@@ -26,19 +28,22 @@ const items: menuItems[] = [
       icon: <NotepadText size={20} />,
     },
 
-    {
-      title: "Preview ",
-      url: "/dashbord/publish/editor",
-      icon: <Eye size={20} />,
-    },
+    // {
+    //   title: "Preview ",
+    //   url: "/dashbord/publish/editor",
+    //   icon: <Eye size={20} />,
+    // },
 
 ]
 
 
-const SchedulePostMenu = () => {
+const SchedulePostMenu = ({ post}:{ post:PostsType}) => {
 
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
      const menuref = useRef<HTMLDivElement>(null);
+
+     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false);
+          const {deleteDraft} = UseX();
 
      useEffect(() => {
              const handleClickOutside = (event:MouseEvent) => {
@@ -92,6 +97,10 @@ const SchedulePostMenu = () => {
             open={true}
             className='my-2 mt-0 hover:bg-red-500 dark:hover:bg-red-500 hover:text-white cursor-pointer'
             isActive={false}
+            onClick={() => {
+              setDeleteConfirm(true);
+              setMenuOpen(false);
+            }}
           />
 
 
@@ -99,6 +108,10 @@ const SchedulePostMenu = () => {
    )
 
    }
+
+{deleteConfirm && (
+        <AreYouSure closePopup={setDeleteConfirm} confirmFunction={() => {deleteDraft(post.id)}} description="This tweet will be deleted from the database and you will never be able to recover it." className="w-1/3 max-w-[500px]" />
+      )}
       
     </div>
   )

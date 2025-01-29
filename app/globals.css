@@ -56,3 +56,72 @@ html, body {
   border-color: var(--border);
 
 }
+
+
+
+.rmdp-shadow{
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+.rmdp-ep-shadow:after  {
+  box-shadow: none !important;
+}
+
+
+.dark .rmdp-header-values , .dark .rmdp-time-picker div .rmdp-am {
+  color: white  !important;
+}
+.dark .ep-arrow,   .rmdp-ep-arrow {
+  visibility: hidden !important;
+} 
+
+/* Date Picker*/
+
+.custom-datepicker {
+  --rmdp-background: white;
+  --rmdp-text: black;
+  --rmdp-border: rgba(0, 0, 0, 0.2);
+}
+
+html.dark .custom-datepicker {
+  --rmdp-background: black !important;
+  --rmdp-text: white !important;
+  --rmdp-border: rgba(255, 255, 255, 0.2) !important;
+}
+.custom-datepicker .rmdp-container {
+  background-color: var(--rmdp-background) !important;
+  color: var(--rmdp-text) !important;
+  border-color: var(--rmdp-border) !important;
+}
+.custom-datepicker .rmdp-day {
+  color: var(--rmdp-text) !important;
+}
+
+.custom-datepicker .rmdp-day span {
+  color: var(--rmdp-text) !important;
+}
+.dark .rmdp-day span {
+  background-color: var(--rmdp-text) !important;
+  color: var(--rmdp-background) !important;
+  color: white !important;
+}
+
+.rmdp-calendar, .rmdp-wrapper  {
+  /* border: 1px solid black !important ; */
+  box-shadow: #000000 ;
+
+}
+
+/* emoji picker */
+
+.epr-search-container input {
+  background-color: black  !important;
+  border-width: 0px;
+}
+
+.dark .epr-main {
+  border: none !important;
+}
+.dark .epr-emoji-category-label {
+  background-color: black  !important;
+  color: #ffffff !important;
+}

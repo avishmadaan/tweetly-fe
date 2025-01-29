@@ -51,7 +51,9 @@ const SchedulingBar = () => {
        <WhenToPost />
        {whenToPost != "now" && (
 
-         <DateTimePicker />
+         <DateTimePicker 
+         
+         />
        )
 
        }

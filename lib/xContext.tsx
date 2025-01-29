@@ -33,7 +33,8 @@ export type FileType = {
     fileName:string,
     fileType:string, 
     fileSize:number,
-    fileURL:string
+    fileURL:string,
+    postIds:string[]
 }
 
 type WhenToPost = "now" | "schedule";
@@ -42,7 +43,8 @@ export type PostsType = {
     id:string,
     postContent:string,
     updatedAt:string,
-    file:FileType[],
+    files:FileType[],
+    fileIds:string[]
 }
 
 const XContext =  createContext<xContextType | undefined>(undefined);
@@ -117,7 +119,7 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
 
         const post = draftPosts.filter((post) => post.id == id)[0];
         const postContent = post.postContent;
-        const mediaFiles = post.file
+        const mediaFiles = post.files
 
         setCurrentTweet(postContent);
         setCurrentPostMedia(mediaFiles);
@@ -142,6 +144,7 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
             })
 
             setDraftsPosts(draftPosts.filter((post) => post.id !=id));
+            setCurrentPostId(null);
 
             return true;
 

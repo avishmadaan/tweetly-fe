@@ -20,6 +20,7 @@ const RichTextEditor = ({ className }: { className: string }) => {
   const [addMedia, setAddMedia] = useState<boolean>(false);
   const [tweetlyIntelligence, setTweetlyIntelligence] =useState<boolean>(false);
 
+
   useEffect(() => {
 
     const handleClickOutside = (event:MouseEvent) => {
@@ -55,7 +56,15 @@ const RichTextEditor = ({ className }: { className: string }) => {
   return (
     <div
       className={`border rounded-md p-4  flex flex-col w-full  cursor-text ${className} `}
-      onClick={() => editor?.commands.focus()}
+      onClick={(event) => {
+
+        if (
+        !(emojiRef.current && emojiRef.current.contains(event.target as Node))) {
+      editor?.commands.focus();
+    }
+        
+      
+      }}
     >
 
 
@@ -96,7 +105,14 @@ const RichTextEditor = ({ className }: { className: string }) => {
     className="absolute z-50 shadow-md left-[130%] top-0 -translate-y-1/2"
     
   >
-    <EmojiPicker width={300} height={400} onEmojiClick={addEmoji} />
+    <EmojiPicker 
+    width={300} 
+    height={400} 
+    onEmojiClick={addEmoji}
+    className="dark:bg-black "
+
+    
+    />
   </div>
 )}
           </div>
@@ -113,12 +129,24 @@ const RichTextEditor = ({ className }: { className: string }) => {
             )
 
             }
+
+            <div className="rounded-md border px-4 py-[8px] flex gap-2 items-center hover:border-customBlue group cursor-pointer"
+            onClick={() => setTweetlyIntelligence(val => !val)}
+            >
             <FaMagic
             size={18}
             title="Tweetly Intelligence"
-            className="text-gray-500 cursor-pointer hover:text-customBlue"
+            className="text-gray-500 cursor-pointer group-hover:text-customBlue"
             onClick={() => setTweetlyIntelligence(val => !val)}
             />
+            <p className="text-[12px] text-gray-500 group-hover:text-customBlue">
+            Let AI Tweet
+
+            </p>
+
+            </div>
+
+           
             {
               tweetlyIntelligence && (
                 <TweetlyIntelligencePopup
@@ -126,10 +154,6 @@ const RichTextEditor = ({ className }: { className: string }) => {
                 />
               )
             }
-
-
-
-
       
         </div>
 
@@ -159,7 +183,6 @@ const RichTextEditor = ({ className }: { className: string }) => {
             className="text-red-500 cursor-pointer" 
             onClick={() =>setDeleteConfirm(!deleteConfirm)}
             size={20}
-      
             />
       
         </div>

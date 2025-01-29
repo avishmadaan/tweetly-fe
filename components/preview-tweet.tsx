@@ -48,7 +48,7 @@ const PreviewTweet = ({
   const gridClass = alignment[currentPostMedia.length.toString()] || alignment.default;
 
   return (
-    <div className={`${className} bg-[#F7F7F7] dark:bg-gray-800 p-6 `}>
+    <div className={`${className} bg-[#F7F7F7] dark:bg-gray-800 p-6 rounded-md `}>
 
       <div className="border p-4 rounded-md bg-white dark:bg-black grid grid-cols-[1fr_15fr] gap-2 w-full">
         
@@ -135,7 +135,7 @@ const PreviewTweet = ({
         <span className="text-lg text-gray-800 dark:text-white">Preview</span>
       </div>
 
-      <p className="text-gray-500 dark:text-white text-xs text-center w-3/4 mx-auto">
+      <p className="text-gray-500 dark:text-white text-xs text-center w-full px-4 mx-auto">
         Social media platforms often update their formatting, which may cause
         your posts to appear slightly different once published.
       </p>

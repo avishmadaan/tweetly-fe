@@ -1,7 +1,7 @@
 import React, { Dispatch, useEffect, useRef, useState } from 'react'
 import { useMedia } from '@/lib/mediaContext'
 import Image from 'next/image';
-import { ArrowUpFromLine, CircleX, Loader2, Trash2 } from 'lucide-react';
+import { ArrowUpFromLine, Loader2, Trash2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { FileType, UseX } from '@/lib/xContext';
 import { useNotification } from './notification/notificationContext';

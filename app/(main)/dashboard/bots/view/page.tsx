@@ -22,14 +22,14 @@ const View = () => {
           <ToolTip>These are pre built custom bots provided by tweetly.</ToolTip>
         </h2>
 
-        <Button
+        {/* <Button
           className='text-sm'
           startIcon={<Pencil size={16} />}
           variant='primary'
           onClick={() => setCreateBotBox(!createBotBox)}
           >
           Create Your Bot
-          </Button>
+          </Button> */}
           
           {createBotBox && (
 
@@ -81,7 +81,7 @@ const View = () => {
       </div>
 
 {/* Custom Bots */}
-      <div className="mt-6" id="Custom Bots">
+      {/* <div className="mt-6" id="Custom Bots">
         <h2 className="font-semibold text-2xl flex items-center gap-2">Custom Bots
 
           <ToolTip>These are custom bots created by you.</ToolTip>
@@ -96,7 +96,7 @@ const View = () => {
         </div>
 
 
-      </div>
+      </div> */}
      
       
     </div>

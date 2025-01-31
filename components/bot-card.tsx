@@ -11,12 +11,16 @@ type bot = {
     name:string,
     tag:string,
     xProfile:string,
-    customBot?:boolean
+    customBot?:boolean,
+    social?:boolean 
   }
 
 const BotCard = (props:bot) => {
+  const {social=true} = props;
+
   return (
       <div className='border rounded-md  p-4 flex flex-col justify-center items-center hover:shadow-md relative'>
+
         <div className="absolute right-2 top-2 text-center">
         <ToolTip className='text-gray-300'>{props.tooltip} </ToolTip>
 
@@ -31,9 +35,10 @@ const BotCard = (props:bot) => {
 
         <h3 className="font-semibold text-xl mt-2 text-center">{props.name}</h3>
 
-                 <div className="bg-customBlue text-white px-4 rounded-3xl text-xs mt-1 text-center">{props.tag}</div>
-         
-         <div className="flex items-center gap-4" id="icons">
+        <div className="bg-customBlue text-white px-4 rounded-3xl text-xs mt-1 text-center">{props.tag}</div>
+
+                 {social && (
+                  <div className="flex items-center gap-4" id="icons">
          <Link 
          href={props.xProfile}
          target='_blank'
@@ -61,6 +66,11 @@ const BotCard = (props:bot) => {
         
 
          </div>
+
+
+                 )}
+         
+         
       
     </div>
   )

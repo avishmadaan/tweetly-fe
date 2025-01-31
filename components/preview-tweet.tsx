@@ -13,10 +13,12 @@ import Skeleton from 'react-loading-skeleton';
 const PreviewTweet = ({
   className,
   currentTweet,
-  currentPostMedia
+  currentPostMedia,
+  previewClaim=true
 }: {
   className?: string,
   currentTweet:string,
+  previewClaim?:boolean
   currentPostMedia:FileType[]
 }) => {
   const { Xdata } = UseAi();
@@ -131,15 +133,23 @@ const PreviewTweet = ({
         </div>
       </div>
 
-      <div className="flex items-center gap-1  mx-auto text-center justify-center">
-        <FaXTwitter size={24} className="my-4 " />
-        <span className="text-lg text-gray-800 dark:text-white">Preview</span>
-      </div>
+      {previewClaim && (
 
-      <p className="text-gray-500 dark:text-white text-xs text-center w-full px-4 mx-auto">
-        Social media platforms often update their formatting, which may cause
-        your posts to appear slightly different once published.
-      </p>
+<div className="" id="claim">
+<div className="flex items-center gap-1  mx-auto text-center justify-center">
+  <FaXTwitter size={24} className="my-4 " />
+  <span className="text-lg text-gray-800 dark:text-white">Preview</span>
+</div>
+
+<p className="text-gray-500 dark:text-white text-xs text-center w-full px-4 mx-auto">
+  Social media platforms often update their formatting, which may cause
+  your posts to appear slightly different once published.
+</p>
+</div>
+      )}
+   
+
+  
     </div>
   );
 };

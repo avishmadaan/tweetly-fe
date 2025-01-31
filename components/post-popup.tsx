@@ -30,7 +30,7 @@ className='text-customBlue mr-1'
 
 
 
-  <PreviewTweet currentPostMedia={currentPostMedia} currentTweet={currentTweet} className='rounded-none' />
+  <PreviewTweet currentPostMedia={currentPostMedia} currentTweet={currentTweet} className='rounded-none' previewClaim={false} />
 
 </div>
 

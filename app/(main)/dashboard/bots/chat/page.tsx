@@ -1,4 +1,5 @@
 "use client"
+import BotSelection from '@/components/bot-selection'
 import ChatWithBot from '@/components/chat-with-bot'
 import { Button } from '@/components/ui/button'
 import { NavbarItem } from '@/components/ui/navbar-item'
@@ -45,14 +46,14 @@ const Chat = () => {
       })
 
   return (
-    <div className=''>
+    <div className='flex flex-col flex-grow max-h-full overflow-none' >
       <div className="flex justify-between items-center mb-4 relative">
         <h2 className="font-semibold text-2xl flex items-center gap-2">Test Your Bot
 
           <ToolTip>You can test this bot here, how they will write the post here and respond to comment.</ToolTip>
         </h2>
 
-        <Button
+        {/* <Button
           className='text-sm'
           endIcon={<ChevronDown size={16} />}
           variant='primary'
@@ -83,14 +84,24 @@ const Chat = () => {
             })}
 
           </div>
-          )}
+          )} */}
 
 
 
           </div>
 
-          <div className="" id="chatbox">
+          <div className="flex gap-4 mt-2 flex-grow h-full overflow-hidden"  id="chatbox">
+
+            <div className="w-1/4 h-full overflow-hidden" id="botSelection">
+
+            <BotSelection />
+
+            </div>
+
+            <div className="w-3/4 h-full overflow-hidden" id="chatbox">
             <ChatWithBot />
+
+            </div>
 
           </div>
 

@@ -39,7 +39,7 @@ const Schedule = ({children}:{children:React.ReactNode}) => {
   
 
   return (
-    <div className='w-full h-full' id='schedule'>
+    <div className='w-full h-full flex flex-col' id='schedule'>
 
       <div className="border-b h-16 pb-6 flex items-center  gap-4" id="navigation">
 
@@ -56,7 +56,7 @@ const Schedule = ({children}:{children:React.ReactNode}) => {
 
    
       </div>
-      <div className="mt-6 h-full w-full" id="chagingpart">
+      <div className="mt-6 w-full h-full flex-grow"  id="chagingpartt">
         {children}
       </div>
        

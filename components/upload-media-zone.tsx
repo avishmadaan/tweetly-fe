@@ -7,7 +7,7 @@ const UploadMediaZone = (
  }
 ) => {
   return (
-    <div className='p-6 '>
+    <div className='p-6 h-full'>
         <OurUploadDropzone 
         setSelectedMenu={setSelectedMenu}
         

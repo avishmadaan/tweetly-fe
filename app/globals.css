@@ -105,16 +105,22 @@ html.dark .custom-datepicker {
   color: white !important;
 }
 
+
 .rmdp-calendar, .rmdp-wrapper  {
   /* border: 1px solid black !important ; */
   box-shadow: #000000 ;
 
 }
 
+.dark .rmdp-disabled  span{
+  color: #656565 !important;
+  /* background-color: yellow !important; */
+}
+
 /* emoji picker */
 
-.epr-search-container input {
-  background-color: black  !important;
+.dark .epr-search-container input {
+  background-color: rgb(61, 61, 61)  !important;
   border-width: 0px;
 }
 

@@ -50,19 +50,19 @@ const PreviewTweet = ({
   return (
     <div className={`${className} bg-[#F7F7F7] dark:bg-gray-800 p-6 rounded-md `}>
 
-      <div className="border p-4 rounded-md bg-white dark:bg-black grid grid-cols-[1fr_15fr] gap-2 w-full">
+      <div className="border p-4 rounded-md bg-white dark:bg-black grid grid-cols-[1fr_18fr] gap-2 w-full">
         
-        <div className="min-w-8" id="left">
+        <div className="min-w-6" id="left">
           {Xdata?.profilePicture ? (
             <Image
               src={Xdata?.profilePicture}
               alt={"profile pic"}
-              width={28}
-              height={28}
+              width={40}
+              height={40}
               className="rounded-full "
             />
           ) : (
-            <CgProfile size={28} className="rounded-full " />
+            <CgProfile size={30} className="rounded-full " />
           )}
         </div>
 
@@ -80,9 +80,10 @@ const PreviewTweet = ({
           <div className="mt-2 " id="content" >
 
             <div className="" id="contentsskeleton">
-            <div className="mb-4 break-all whitespace-pre-line  [&>p]:mb-4" id="content2" dangerouslySetInnerHTML={{ __html: currentTweet }}>
+            <div className="mb-4 break-all [&>p]:min-h-2 " id="content2" dangerouslySetInnerHTML={{ __html: currentTweet }}>
+             
         </div>
-
+        {/* break-all whitespace-pre-line  [&>p]:mb-2 */}
 
             {isEmptyContent(currentTweet)&& (
                 <div className="">
@@ -94,12 +95,12 @@ const PreviewTweet = ({
 
             </div>
 
-            <div className={` grid gap-1 ${gridClass} `} id="media">
+            <div className={` grid gap-3 ${gridClass} `} id="media">
                {currentPostMedia.map((file, index) => (
                       
                       
                           <Image  key={index} src={file.fileURL} alt="media preview" title="twitter image"
-                          width={26} height={4} className={`w-full h-full  ${currentPostMedia.length ==3 && index ==0 && "row-span-2"} `}  />
+                          width={500} height={500} className={`w-full h-full rounded-lg ${currentPostMedia.length ==3 && index ==0 && "row-span-2"} `}  />
 
                         
                ))}

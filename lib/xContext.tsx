@@ -11,6 +11,7 @@ import Link from "@tiptap/extension-link";
 import { useNotification } from "@/components/notification/notificationContext";
 import {Editor, useEditor} from "@tiptap/react"
 import { useRouter } from "next/navigation";
+import type{Value} from "react-multi-date-picker"
 
 type xContextType = {
     currentTweet:string;
@@ -24,8 +25,11 @@ type xContextType = {
     draftPosts:PostsType[]
     editor:Editor | null
     usingDraft:(id:string) => void;
+    usingScheduled:(id:string) => void
     deleteDraft:(id:string) => void;
-      
+    currentPostTime:Value,
+    setCurrentPostTime:React.Dispatch<React.SetStateAction<Value>>
+    moveToDraft:(id:string) => Promise<boolean>
 }
 
 export type FileType = {
@@ -57,6 +61,8 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
     const [draftPosts, setDraftsPosts] = useState<PostsType[]>([]);
     const [currentTweet, setCurrentTweet] = useState<string>("");
     const [currentPostMedia, setCurrentPostMedia] = useState<FileType[]>([]);
+    const [currentPostTime, setCurrentPostTime] = useState<Value>(new Date());
+    
     const [currentPostId, setCurrentPostId] = useState<string | null>(null);
     const router = useRouter();
 
@@ -131,6 +137,21 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
 
     }
 
+    const usingScheduled = (id:string) => {
+
+        const post = draftPosts.filter((post) => post.id == id)[0];
+        const postContent = post.postContent;
+        const mediaFiles = post.files
+
+        setCurrentTweet(postContent);
+        setCurrentPostMedia(mediaFiles);
+        editor?.commands.clearContent();
+        editor?.commands.insertContent(postContent);
+        setCurrentPostId(id);
+        router.push("/dashboard/publish/editor");
+
+    }
+
     const deleteDraft = async (id:string) => {
 
         
@@ -162,10 +183,38 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
 
     }
 
+    const moveToDraft = async(id:string) => {
+
+         
+        try {
+            const URL = `${domain}/api/v1/user/posts/movetodraft/${id}`;
+            const result = await axios.put(URL,{},{withCredentials:true});
+
+            showNotification({
+                message:result.data.message,
+                type:"positive"
+            })
+            return true;
+
+
+        }
+        catch(err) {
+            console.log(err);
+            showNotification({
+                message:"Failed To Update Post Status",
+                type:"negative"
+            })
+            return false;
+        }
+
+
+
+    }
+
     const editorInstance = useEditor({
         content: currentTweet,
         extensions: [StarterKit, Bold, Italic, Underline, Link, HardBreak],
-        onUpdate: ({ editor }) => setCurrentTweet(editor.getText().slice(0,280)),
+        onUpdate: ({ editor }) => setCurrentTweet(editor.getHTML()),
       });
 
 
@@ -180,7 +229,7 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
     },[editorInstance])
 
     return (
-        <XContext.Provider value={{currentTweet,setCurrentTweet, whenToPost, setWhenToPost, currentPostMedia, setCurrentPostMedia, createOrUpdateDraftPost, fetchAllDrafts, draftPosts, editor, usingDraft, deleteDraft}} >
+        <XContext.Provider value={{currentTweet,setCurrentTweet, whenToPost, setWhenToPost, currentPostMedia, setCurrentPostMedia, createOrUpdateDraftPost, fetchAllDrafts, draftPosts, editor, usingDraft, deleteDraft, setCurrentPostTime, currentPostTime, moveToDraft, usingScheduled}} >
             {children}
         </XContext.Provider>
     )

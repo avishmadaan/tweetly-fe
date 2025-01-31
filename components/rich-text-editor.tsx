@@ -140,7 +140,7 @@ const RichTextEditor = ({ className }: { className: string }) => {
             onClick={() => setTweetlyIntelligence(val => !val)}
             />
             <p className="text-[12px] text-gray-500 group-hover:text-customBlue">
-            Let AI Tweet
+            Let Bots Write Tweet
 
             </p>
 
@@ -164,7 +164,7 @@ const RichTextEditor = ({ className }: { className: string }) => {
 
 </ToolTip>
 <p className={`text-red-500 text-sm flex items-center gap-2 
-          ${(editor?.getText().length 
+          ${(editor?.getHTML().length 
           || 1)>280?"block":"hidden"}`}>
             <TriangleAlert size={16} />
             Upto 280 Characters Allowed</p>

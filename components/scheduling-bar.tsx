@@ -34,7 +34,24 @@ const SchedulingBar = () => {
   }
 
   const postOrSchedule = () => {
-    setPostPopup(true);
+    console.log(currentTweet);
+
+    if(currentTweet.length >280) {
+      showNotification({
+        message:"Your Tweet Length is exceeding twitter character count limit of 280",
+        type:"negative"
+      })
+    }
+    else if (currentTweet.length ==0 && currentPostMedia.length ==0) {
+      showNotification({
+        message:"No Content To Post, Write atleast one character or use media",
+        type:"negative"
+      })
+    }
+    else {
+
+      setPostPopup(true);
+    }
   }
 
   return (

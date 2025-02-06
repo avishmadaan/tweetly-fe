@@ -17,8 +17,8 @@ export default function Home() {
   
 
   return (
-    <div className="w-full">
-       <div className="flex justify-between items-center mb-8 w-full ">
+    <div className="">
+       <div className="flex justify-between items-center mb-8  ">
         <h2 className="font-semibold text-2xl flex items-center gap-2">Welcome, {user?.name?.split(" ")[0] || "User"}
 
           <ToolTip>This your app home where you will be see your stats and other basic details.</ToolTip>

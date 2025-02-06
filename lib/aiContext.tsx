@@ -2,7 +2,7 @@
 
 import { useNotification } from "@/components/notification/notificationContext";
 import axios from "axios";
-import { useContext , createContext, useState, useEffect} from "react";
+import { useContext , createContext, useState, useEffect, ReactElement} from "react";
 import { domain } from "./utils";
 import Cookies from "js-cookie";
 
@@ -18,6 +18,8 @@ type AiContextType = {
     Xdata:Xdata | null
     isXIntegrated:boolean;
     logOutXAccount:() => void
+    selectedBot:Bot | null,
+    setSelectedBot:React.Dispatch<React.SetStateAction<Bot | null>>;
 }
 
 type Xdata = {
@@ -29,6 +31,12 @@ type Xdata = {
     refreshToken:string
 }
 
+export type Bot = {
+  image: ReactElement;
+  name: string;
+  };
+
+
 const AiContext =  createContext<AiContextType | undefined> (undefined);
 
 
@@ -39,6 +47,9 @@ export const AiContextProvider = ({children}:{children:React.ReactNode}) => {
     const [openAiKey, setOpenAiKey] = useState<string>("");
     const [Xdata, setXdata] = useState<Xdata | null>(null)
     const [isXIntegrated, setIsXIntegrated] = useState<boolean>(false);
+
+    //bots
+    const [selectedBot, setSelectedBot] = useState<Bot | null>(null);
     
 
     useEffect(() => {
@@ -167,7 +178,7 @@ export const AiContextProvider = ({children}:{children:React.ReactNode}) => {
     }
 
     return (
-        <AiContext.Provider value={{checkValidAPI, isKeyAuthenticated, removeApiKey, openAiKey, integrateX, getXDetails, Xdata, isXIntegrated, logOutXAccount}} >
+        <AiContext.Provider value={{checkValidAPI, isKeyAuthenticated, removeApiKey, openAiKey, integrateX, getXDetails, Xdata, isXIntegrated, logOutXAccount, setSelectedBot,selectedBot }} >
             {children}
         </AiContext.Provider>
     )

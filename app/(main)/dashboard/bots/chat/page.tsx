@@ -46,7 +46,7 @@ const Chat = () => {
       })
 
   return (
-    <div className='flex flex-col flex-grow max-h-full overflow-none' >
+    <div className='flex flex-col h-full overflow-hidden' >
       <div className="flex justify-between items-center mb-4 relative">
         <h2 className="font-semibold text-2xl flex items-center gap-2">Test Your Bot
 
@@ -90,18 +90,22 @@ const Chat = () => {
 
           </div>
 
-          <div className="flex gap-4 mt-2 flex-grow h-full overflow-hidden"  id="chatbox">
+          <div className="flex flex-col md:flex-row gap-4 mt-2  h-full overflow-hidden"  id="chatbox">
 
-            <div className="w-1/4 h-full overflow-hidden" id="botSelection">
+          <div className="md:w-1/4 h-full overflow-hidden" id="botSelection">
 
-            <BotSelection />
+<BotSelection />
 
-            </div>
+</div>
 
-            <div className="w-3/4 h-full overflow-hidden" id="chatbox">
+          <div className="md:w-3/4 h-full overflow-hidden" id="chatbox">
             <ChatWithBot />
 
             </div>
+
+
+
+          
 
           </div>
 

@@ -15,7 +15,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
           <MediaContextProvider>
     <div className="md:flex h-screen max-h-screen overflow-hidden">
       <AppSidebar />
-      <div className="flex flex-col flex-grow overflow-hidden">
+      <div className="flex flex-col flex-grow overflow-hidden h-screen">
               {children}
             </div>
     </div>

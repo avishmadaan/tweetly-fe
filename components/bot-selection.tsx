@@ -1,8 +1,10 @@
+"use client"
 import Image from 'next/image';
 import React, { ReactElement } from 'react'
 import BotCard from './bot-card';
 import { NavbarItem } from './ui/navbar-item';
 import { Bot } from 'lucide-react';
+import { UseAi } from '@/lib/aiContext';
 
 type bot = {
   image: ReactElement;
@@ -57,18 +59,19 @@ const bots:bot[] = [
 ]
 
 const BotSelection = () => {
+  const {setSelectedBot} = UseAi();
   return (
-    <div className='border p-4 h-full rounded-md flex flex-col'>
-        <div className="">
-        <h1 className="font-semibold text-lg flex gap-2 items-center">
+    <div className='border  h-full rounded-md flex flex-col'>
+        <div className="border-b p-4 h-16">
+        <h1 className="font-semibold  flex gap-2 items-center">
             <Bot />
             Select Your Bot
             </h1>
 
-            <hr className='mt-4'/>
+           
         </div>
 
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-auto">
 
        
 
@@ -81,7 +84,10 @@ const BotSelection = () => {
                       open={true}
                       icon={bot.image}
                       url="/"
-                      onClick={() => console.log("hello")}
+                      onClick={() => {
+                        console.log("bot selected")
+                        setSelectedBot(bot);
+                      }}
                       className='my-4 text-lg'
                       isActive={false}
                       />

@@ -41,7 +41,7 @@ const Bots = ({children}:{children:React.ReactNode}) => {
   
 
   return (
-    <div className='w-full h-full' id='schedule'>
+    <div className='w-full h-full flex flex-col' id='schedule'>
 
       <div className="border-b pb-4 justify-between  flex items-center  gap-4" id="navigation">
 
@@ -67,7 +67,7 @@ const Bots = ({children}:{children:React.ReactNode}) => {
 
    
       </div>
-      <div className="mt-6 h-full w-full" id="chagingpart">
+      <div className="mt-6 flex-1 overflow-auto" id="chagingpart">
         {children}
       </div>
        

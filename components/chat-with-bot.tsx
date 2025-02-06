@@ -1,34 +1,97 @@
-import React from 'react'
-import { Button } from './ui/button'
-import Input from './ui/input'
-import { SendHorizonal } from 'lucide-react'
+"use client"
+import React, { useRef, useState } from "react";
+import { Button } from "./ui/button";
+import Input from "./ui/input";
+import { SendHorizonal } from "lucide-react";
+import { UseAi } from "@/lib/aiContext";
 
 const ChatWithBot = () => {
+  const {selectedBot} = UseAi();
+  const messageRef = useRef<HTMLInputElement>(null);
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [chats, setChats] = useState([
+    {
+      type:"user",
+      message:"Hello, this is my first message."
+    },
+    {
+      type:"bot",
+      message:"How I can help you out"
+    }
+  ]);
+
+
   return (
-    <div className='border min-h-[300px] flex-grow rounded-md flex flex-col justify-between shadow-md w-full'>
-        <div className="" id="chats"></div>
+    <div className="border flex-1 rounded-md flex flex-col  shadow-md w-full h-full  overflow-hidden ">
 
-        <div className="border-t min-h-[80px] p-4 relative w-full" id="input">
+      <div className="flex border-b items-center justify-center p-4 w-full dark:bg-black bg-white h-16" >
+        <h1 className="font-semibold  flex gap-2 items-center">
+            Selected Bot: 
+            
+            <p className="bg-gray-800 p-1 px-2 rounded-md flex gap-2 items-center">
+              {selectedBot?.image}
+              {selectedBot?.name}
+              </p>
+            </h1>
+      </div>  
 
-            <div className="flex items-center gap-2 w-full" id="inputCompo">
+   
+      <div className="flex flex-col-reverse   items-start p-4   h-full overflow-auto" id="chats">
 
-            <Input type="text"
-            placeholder='Send a message'
-            className=' h-[110%] my-0'
-            />
+        {chats.map((chat, index) => (
+          <span 
+          key={index} 
+          className={`${chat.type == "user"?"self-end":"self-start"} p-2 bg-customBlue rounded-full mt-2 text-sm max-w-[50%]`}>
+            {chat.message}
+            </span>
+        ))}
 
-            <Button
-                variant='primary'
-                className='  '
-                endIcon={<SendHorizonal size={16} />}
-                >Send</Button>
-                </div>
-                
+      </div>
 
+
+      <div className="border-t h-[80px] p-4 relative w-full flex gap-4 items-center " id="input">
+        
+        <div className="w-[90%] p-0">
+        <Input
+        ref={messageRef}
+        onChange={(e) => {
+          setSearchInput(e.target.value);
+        }}
+        value={searchInput}
+            type="text h-full"
+            placeholder="Send a message"
+            className=""
+            onClick={(event) => {
+              console.log(event)
+            }}
+            onKeyDown={(event) => {
+              console.log(event)
+            }}
+          />
         </div>
-    
-    </div>
-  )
-}
+        
 
-export default ChatWithBot
+          <Button
+            variant="primary"
+            className="py-[10px]  "
+            endIcon={<SendHorizonal size={16} />}
+            onClick={() => {
+              const newChat = [ {
+                 message:searchInput ,
+                type:"user"
+              }, ...chats]
+
+              setChats(newChat);
+              setSearchInput("");
+
+            }}
+          >
+            Send
+          </Button>
+ 
+      </div>
+    </div>
+  );
+};
+
+export default ChatWithBot;

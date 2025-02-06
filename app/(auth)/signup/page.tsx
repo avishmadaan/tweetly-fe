@@ -57,7 +57,7 @@ const Signup = () => {
 
   return (
     <div className=" md:w-[30%] sm:min-w-[350px]">
-      <div className="p-4  border rounded-md hadow-[1px_1px_2px_rgba(255,255,255,0.1)] ">
+      <div className="p-4  border rounded-md shadow-[1px_1px_2px_rgba(255,255,255,0.1)] ">
         <h1 className="text-3xl font-bold  mb-2">Create an account</h1>
         <p className="text-gray-500  mb-4">
           Enter your email below to create your account

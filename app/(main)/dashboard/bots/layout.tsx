@@ -1,7 +1,7 @@
 "use client";
 
 import { NavbarItem } from '@/components/ui/navbar-item';
-import {   List, MessageCircle, Wrench } from 'lucide-react';
+import {   List, MessageCircle } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React, { ReactElement } from 'react';
 

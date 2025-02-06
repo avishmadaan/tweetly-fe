@@ -1,7 +1,6 @@
 "use client"
 import Image from 'next/image';
 import React, { ReactElement } from 'react'
-import BotCard from './bot-card';
 import { NavbarItem } from './ui/navbar-item';
 import { Bot } from 'lucide-react';
 import { UseAi } from '@/lib/aiContext';

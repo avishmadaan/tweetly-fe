@@ -4,8 +4,10 @@ import { Button } from "./ui/button";
 import Input from "./ui/input";
 import { SendHorizonal } from "lucide-react";
 import { UseAi } from "@/lib/aiContext";
+import { useNotification } from "./notification/notificationContext";
 
 const ChatWithBot = () => {
+  const {showNotification} = useNotification();
   const {selectedBot} = UseAi();
   const messageRef = useRef<HTMLInputElement>(null);
   const [searchInput, setSearchInput] = useState<string>("");
@@ -19,6 +21,28 @@ const ChatWithBot = () => {
       message:"How I can help you out"
     }
   ]);
+
+  const onMessage = () => {
+
+    if(searchInput == ""){
+      showNotification({
+        message:"Empty Input",
+        type:"negative"
+      })
+      return ;
+
+
+    }
+    const newChat = [ {
+      message:searchInput ,
+     type:"user"
+   }, ...chats]
+
+   setChats(newChat);
+   setSearchInput("");
+
+
+  }
 
 
   return (
@@ -39,11 +63,13 @@ const ChatWithBot = () => {
       <div className="flex flex-col-reverse   items-start p-4   h-full overflow-auto" id="chats">
 
         {chats.map((chat, index) => (
+
           <span 
-          key={index} 
-          className={`${chat.type == "user"?"self-end":"self-start"} p-2 bg-customBlue rounded-full mt-2 text-sm max-w-[50%]`}>
+          key={index}
+          className={`${chat.type == "user"?"self-end":"self-start"} p-2 bg-customBlue rounded-md mt-2 text-sm max-w-[50%] whitespace-pre-line break-all `}>
             {chat.message}
             </span>
+  
         ))}
 
       </div>
@@ -65,7 +91,11 @@ const ChatWithBot = () => {
               console.log(event)
             }}
             onKeyDown={(event) => {
-              console.log(event)
+              if(event.key == "Enter") {
+                onMessage()
+
+              }
+
             }}
           />
         </div>
@@ -75,16 +105,7 @@ const ChatWithBot = () => {
             variant="primary"
             className="py-[10px]  "
             endIcon={<SendHorizonal size={16} />}
-            onClick={() => {
-              const newChat = [ {
-                 message:searchInput ,
-                type:"user"
-              }, ...chats]
-
-              setChats(newChat);
-              setSearchInput("");
-
-            }}
+            onClick={onMessage}
           >
             Send
           </Button>

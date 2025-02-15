@@ -18,8 +18,9 @@ type AiContextType = {
     Xdata:Xdata | null
     isXIntegrated:boolean;
     logOutXAccount:() => void
-    selectedBot:Bot | null,
-    setSelectedBot:React.Dispatch<React.SetStateAction<Bot | null>>;
+    selectedBot:AiBot | null,
+    setSelectedBot:React.Dispatch<React.SetStateAction<AiBot | null>>;
+    aiBots:AiBot[]
 }
 
 type Xdata = {
@@ -36,6 +37,15 @@ export type Bot = {
   name: string;
   };
 
+  export type AiBot = {
+    id:string,
+    name:string,
+    tag:string,
+    imageURL:string,
+    twitterLink:string,
+    profile?:string
+  }
+
 
 const AiContext =  createContext<AiContextType | undefined> (undefined);
 
@@ -49,7 +59,8 @@ export const AiContextProvider = ({children}:{children:React.ReactNode}) => {
     const [isXIntegrated, setIsXIntegrated] = useState<boolean>(false);
 
     //bots
-    const [selectedBot, setSelectedBot] = useState<Bot | null>(null);
+    const [selectedBot, setSelectedBot] = useState<AiBot | null>(null);
+    const [aiBots, setAiBots] = useState<AiBot[]>([]);
     
 
     useEffect(() => {
@@ -74,6 +85,7 @@ export const AiContextProvider = ({children}:{children:React.ReactNode}) => {
 
 
         checkIfApiKeyValidOnStart();
+        getBots();
 
 
     },[])
@@ -177,8 +189,23 @@ export const AiContextProvider = ({children}:{children:React.ReactNode}) => {
         })
     }
 
+    const getBots = async () => {
+        try {
+            const URL = `${domain}/api/v1/user/ai/getbots`;
+            const result = await axios.get(URL, {
+                withCredentials:true
+            })
+
+            setAiBots(result.data.bots);
+            setSelectedBot(result.data.bots[0]);
+        } catch(err){
+            console.log(err);
+        }
+
+    }
+
     return (
-        <AiContext.Provider value={{checkValidAPI, isKeyAuthenticated, removeApiKey, openAiKey, integrateX, getXDetails, Xdata, isXIntegrated, logOutXAccount, setSelectedBot,selectedBot }} >
+        <AiContext.Provider value={{checkValidAPI, isKeyAuthenticated, removeApiKey, openAiKey, integrateX, getXDetails, Xdata, isXIntegrated, logOutXAccount, setSelectedBot,selectedBot, aiBots }} >
             {children}
         </AiContext.Provider>
     )

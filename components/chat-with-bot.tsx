@@ -6,6 +6,11 @@ import { SendHorizonal } from "lucide-react";
 import { useNotification } from "./notification/notificationContext";
 import { DataAPIClient} from "@datastax/astra-db-ts"
 import OpenAI from "openai"
+import { domain } from "@/lib/utils";
+import axios from "axios";
+import QuickQuestions from "./quick-questions";
+import { UseAi } from "@/lib/aiContext";
+import Image from "next/image";
 
 interface Message {
   role: "system" | "user" | "assistant";
@@ -18,65 +23,39 @@ const ChatWithBot = () => {
   // const {selectedBot, openAiKey} = UseAi();
   const messageRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const {selectedBot} = UseAi();
 
-//   const onMessage = async () => {
+  const getContext = async (embeddingVector:number[]) => {
 
-//     if(searchInput == ""){
-//       showNotification({
-//         message:"Empty Input",
-//         type:"negative"
-//       })
-//       return ;
+    try {
+      const URL = `${domain}/api/v1/user/ai/getcontext`;
+      const result = await axios.post(URL,{embeddingVector}, {
+        withCredentials:true
+      } )
+      console.log(result.data)
+  
+      return result.data.context;
 
-
-//     }
-//     const newChat = [ {
-//       content:searchInput ,
-//      role:"user"
-//    }, ...chats]
-
- 
-//    const result = await llm.invoke(newChat);
-//    console.log(result);
-//    const responseChat = [ {
-//     role:"assistant",
-//     content:result.content as string || "test",
-   
-//  }, ...newChat];
-//  console.log(responseChat);
-//  setChats(responseChat);
-//  setSearchInput("4");
-//   }
-
-//   //chatbot
-//   const llm = new ChatOpenAI({
-//     model: "gpt-4o-mini",
-//     temperature: 0,
-//     openAIApiKey:openAiKey
-//   });
+    } catch(err){
+      console.log(err);
+      showNotification({
+        //@ts-expect-error  because of message
+        message:e.response.data.message || "Internal Server Error",
+        type:"negative"
+      })
 
 
-//   const sendLLM = async () => {
-//     const result = await llm.invoke([
-//       { role: "user", content: "Hi! I'm Bob" },
-//       { role: "assistant", content: "Hello Bob! How can I assist you today?" },
-//       { role: "user", content: "What's my name?" },
-//     ]);
-//     console.log(result);
-
-//   }
-
-  //ai lib
+    }
 
 
-
- console.log("NEXT_PUBLIC_OPENAI_API_KEY:", process.env.NEXT_PUBLIC_OPENAI_API_KEY);
-
-
+  }
   const openai = new OpenAI({
     apiKey:process.env.NEXT_PUBLIC_OPENAI_API_KEY,
     dangerouslyAllowBrowser:true
   })
+
+
   const client = new DataAPIClient(process.env.NEXT_PUBLIC_ASTRA_DB_APPLICATION_TOKEN)
   const db = client.db(process.env.NEXT_PUBLIC_ASTRA_DB_API_ENDPOINT as string, {namespace:process.env.NEXT_PUBLIC_ASTRA_DB_NAMESPACE})
 
@@ -95,15 +74,29 @@ const ChatWithBot = () => {
 
     }
     const newMessage: Message = { role: "user", content: input };
-    const newChats = [...chats, newMessage];
+    const newChats = [newMessage, ...chats ];
+    
     setChats(newChats);
     setInput("");
 
-    await getAssistantReply(chats)
+    await getAssistantReply(newChats)
+  }
+
+  const getQuickQuestionReply = async (text:string) => {
+    const newMessage: Message = { role: "user", content: text };
+    const newChats = [newMessage, ...chats ];
+    setChats(newChats);
+    setInput("");
+
+    await getAssistantReply(newChats)
+
   }
 
   const getAssistantReply = async (chatHistory: Message[]) => {
-    const lastMessage = chatHistory[chatHistory.length - 1]?.content;
+    setLoading(true);
+    console.log(chatHistory);
+    const lastMessage = chatHistory[0]?.content;
+    console.log(lastMessage);
 
     let embeddingVector:number[] =[];
     try {
@@ -118,24 +111,11 @@ const ChatWithBot = () => {
       console.error("Error getting embedding:", err);
       showNotification({ message: "Error getting embedding", type: "negative" });
       return;
-    }
+      setLoading(false);
+    } 
+    console.log(embeddingVector)
 
-    let docContext = "";
-    try {
-      const collection = await db.collection(
-        process.env.NEXT_PUBLIC_ASTRA_DB_COLLECTION as string
-      );
-      const cursor = await collection.find(null, {
-        sort: { $vector: embeddingVector },
-        limit: 10,
-      });
-      const documents = await cursor.toArray();
-      const docsMap = documents.map((doc: any) => doc.text);
-      docContext = JSON.stringify(docsMap);
-    } catch (err) {
-      console.error("Error querying Astra DB:", err);
-      docContext = "";
-    }
+    const docContext = await getContext(embeddingVector);
 
     const systemMessage: Message = {
       role: "system",
@@ -159,32 +139,16 @@ QUESTION: ${lastMessage}
 
     try {
 
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method:"POST",
-        headers:{
-          "Content-Type":"applicaion/json",
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`
-        },
-        body: JSON.stringify({
-          model:"gpt-4",
-          stream:false,
-          messages:[systemMessage, ...chatHistory]
-        })
-      }
-      )
+      const response = await openai.chat.completions.create({
+        messages:[...chatHistory, systemMessage ],
+        model:"gpt-4"
+      })
 
-      if (!response.ok || !response.body) {
-        const errText = await response.text();
-        console.error("Error from OpenAI API:", errText);
-        showNotification({ message: "Error from OpenAI API", type: "negative" });
-        return;
-      }
-
-      const result = await response.json();
-      const assistantReply = result.choices[0].message.content;
+      const assistantReply = response.choices[0].message.content || "";
   
       // Update chat state with the complete assistant reply.
-      setChats((prevChats) => [...prevChats, { role: "assistant", content: assistantReply }]);
+      setChats((prevChats) => [ { role: "assistant", content: assistantReply},  ...prevChats]);
+
 
     }
     catch(err) {
@@ -194,12 +158,12 @@ QUESTION: ${lastMessage}
         type: "negative",
       });
 
+    } finally {
+      setLoading(false);
     }
 
 
   }
-
-
 
 
 
@@ -208,23 +172,33 @@ QUESTION: ${lastMessage}
 
       <div className="flex border-b items-center justify-center p-4 w-full dark:bg-black bg-white h-16" >
         <h1 className="font-semibold  flex gap-2 items-center">
-            Selected Bot: 
+        Selected Bot: 
+          <div className="dark:bg-gray-800 bg-gray-100 p-1 px-2 rounded-md flex gap-2 items-center">
             
-            {/* <p className="bg-gray-800 p-1 px-2 rounded-md flex gap-2 items-center">
-              {selectedBot?.image}
+            <Image width={24} height={24} src={selectedBot?.imageURL || ""} alt="profilepic" className="rounded-full" />
+            <p className="">
+              
               {selectedBot?.name}
-              </p> */}
+              </p>
+              </div>
             </h1>
+            
       </div>  
 
    
-      <div className="flex flex-col-reverse   items-start p-4   h-full overflow-auto" id="chats">
+      <div className="flex flex-col-reverse   items-start p-4   h-full overflow-auto relative" id="chats">
+
+        {chats.length == 0 && (
+          <div className=" absolute  top-1/2 -translate-y-1/2 " >
+          <QuickQuestions getQuickQuestionReply={getQuickQuestionReply} />
+          </div>
+        )}
 
         {chats.reverse().map((chat, index) => (
 
           <span 
           key={index}
-          className={`${chat.role == "user"?"self-end":"self-start"} p-2 bg-customBlue rounded-md mt-2 text-sm max-w-[50%] whitespace-pre-line break-all `}>
+          className={`${chat.role == "user"?"self-end":"self-start"} p-3 bg-customBlue text-white rounded-lg mt-2 text-sm max-w-[50%] whitespace-pre-line `}>
             {chat.content}
             </span>
   
@@ -264,7 +238,7 @@ QUESTION: ${lastMessage}
             variant="primary"
             className="py-[10px]  "
             endIcon={<SendHorizonal size={16} />}
-            
+            loading={loading}
             type="submit"
           >
             Send

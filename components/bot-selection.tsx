@@ -1,64 +1,14 @@
 "use client"
 import Image from 'next/image';
-import React, { ReactElement } from 'react'
+import React from 'react'
 import { NavbarItem } from './ui/navbar-item';
 import { Bot } from 'lucide-react';
 import { UseAi } from '@/lib/aiContext';
 
-type bot = {
-  image: ReactElement;
-  name: string;
-  };
 
-const bots:bot[] = [
-
-  {
-    image:<Image alt='harkirat' src={"https://i.postimg.cc/qgMRmVxm/Playground-Image4.avif"} width={28} height={28} className='rounded-full'/>,
-    name:"Harkirat singh"
-  },
-  {
-    image:<Image alt='harkirat' src={"https://i.postimg.cc/LJDxSNTD/Playground-Image6.avif"} width={28} height={28} className='rounded-full'/>,
-    name:"Striver Aka Raj"
-  }, {
-    image:<Image alt='harkirat' src={"https://i.postimg.cc/qgMRmVxm/Playground-Image4.avif"} width={28} height={28} className='rounded-full'/>,
-    name:"Harkirat singh"
-  },
-  {
-    image:<Image alt='harkirat' src={"https://i.postimg.cc/LJDxSNTD/Playground-Image6.avif"} width={28} height={28} className='rounded-full'/>,
-    name:"Striver Aka Raj"
-  }, {
-    image:<Image alt='harkirat' src={"https://i.postimg.cc/qgMRmVxm/Playground-Image4.avif"} width={28} height={28} className='rounded-full'/>,
-    name:"Harkirat singh"
-  },
-  {
-    image:<Image alt='harkirat' src={"https://i.postimg.cc/LJDxSNTD/Playground-Image6.avif"} width={28} height={28} className='rounded-full'/>,
-    name:"Striver Aka Raj"
-  }, {
-    image:<Image alt='harkirat' src={"https://i.postimg.cc/qgMRmVxm/Playground-Image4.avif"} width={28} height={28} className='rounded-full'/>,
-    name:"Harkirat singh"
-  },
-  {
-    image:<Image alt='harkirat' src={"https://i.postimg.cc/LJDxSNTD/Playground-Image6.avif"} width={28} height={28} className='rounded-full'/>,
-    name:"Striver Aka Raj"
-  }, {
-    image:<Image alt='harkirat' src={"https://i.postimg.cc/qgMRmVxm/Playground-Image4.avif"} width={28} height={28} className='rounded-full'/>,
-    name:"Harkirat singh"
-  },
-  {
-    image:<Image alt='harkirat' src={"https://i.postimg.cc/LJDxSNTD/Playground-Image6.avif"} width={28} height={28} className='rounded-full'/>,
-    name:"Striver Aka Raj"
-  }, {
-    image:<Image alt='harkirat' src={"https://i.postimg.cc/qgMRmVxm/Playground-Image4.avif"} width={28} height={28} className='rounded-full'/>,
-    name:"Harkirat singh"
-  },
-  {
-    image:<Image alt='harkirat' src={"https://i.postimg.cc/LJDxSNTD/Playground-Image6.avif"} width={28} height={28} className='rounded-full'/>,
-    name:"Striver Aka Raj"
-  }
-]
 
 const BotSelection = () => {
-  const {setSelectedBot} = UseAi();
+  const {setSelectedBot, aiBots, selectedBot} = UseAi();
   return (
     <div className='border  h-full rounded-md flex flex-col'>
         <div className="border-b p-4 h-16">
@@ -74,21 +24,21 @@ const BotSelection = () => {
 
        
 
-       {bots.map((bot, index) => {
+       {aiBots.map((bot, index) => {
       
                     return (
                       <NavbarItem
                       name={bot.name}
                       key={index}
                       open={true}
-                      icon={bot.image}
+                      icon={<Image alt='harkirat' src={bot.imageURL} width={28} height={28} className='rounded-full'/>}
                       url="/"
                       onClick={() => {
                         console.log("bot selected")
                         setSelectedBot(bot);
                       }}
                       className='my-4 text-lg'
-                      isActive={false}
+                      isActive={selectedBot?.id == bot.id}
                       />
       
                     )

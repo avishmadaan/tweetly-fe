@@ -3,6 +3,7 @@ import BotCard from '@/components/bot-card'
 import CreateYourBot from '@/components/create-your-bot'
 import { Button } from '@/components/ui/button'
 import ToolTip from '@/components/ui/tooltip'
+import { UseAi } from '@/lib/aiContext'
 import { Pencil } from 'lucide-react'
 
 import React, { useState } from 'react'
@@ -11,6 +12,7 @@ import React, { useState } from 'react'
 
 const View = () => {
   const [createBotBox,setCreateBotBox] = useState<boolean>(false);
+  const {aiBots} =UseAi();
 
   return (
     <div className=''>
@@ -41,38 +43,21 @@ const View = () => {
 
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 mt-4 gap-4" id="prebuiltbots">
 
-        <BotCard
-        tooltip='This bot has been trained on Harkirat&apos;s Twitter Profile'
-        imageURL='https://i.postimg.cc/qgMRmVxm/Playground-Image4.avif'
-        name='Harkirt Singh'
-        tag="WebDev Pro"
-        xProfile='https://x.com/kirat_tw'
-        
-        />
-        <BotCard
-        tooltip='This bot has been trained on Striver&apos;s Twitter Profile'
-        imageURL='https://i.postimg.cc/LJDxSNTD/Playground-Image6.avif'
-        name='Striver Aka Raj'
-        tag="DSA Pro"
-        xProfile='https://x.com/striver_79'
-        
-        />
-        <BotCard
-        tooltip='This bot has been trained on Harry&apos;s Twitter Profile'
-        imageURL='https://i.postimg.cc/5Yf1yxQv/Playground-Image8.avif'
-        name='Code With Harry'
-        tag="Best Teacher"
-        xProfile='https://x.com/codewithharry'
-        
-        />
-        <BotCard
-        tooltip='This bot has been trained on EzSnippets&apos;s Twitter Profile'
-        imageURL='https://i.postimg.cc/Fk5pbjB6/Playground-Image12.avif'
-        name='EzSnippet'
-        tag="Build In Public Pro"
-        xProfile='https://www.instagram.com/ezsnippet/?hl=en'
-        
-        />
+          {
+            aiBots.map((bot, index) => (
+              <BotCard
+              key={index}
+              tooltip={`This bot has been trained on ${bot.name} Twitter Profile`}
+              imageURL={bot.imageURL}
+              name={bot.name}
+              tag={bot.tag}
+              xProfile={bot.twitterLink}
+              
+              />
+            ))
+
+          }
+
         
 
         </div>

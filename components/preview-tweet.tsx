@@ -102,7 +102,7 @@ const PreviewTweet = ({
                       
                       
                           <Image  key={index} src={file.fileURL} alt="media preview" title="twitter image"
-                          width={500} height={500} className={`w-full h-full rounded-lg ${currentPostMedia.length ==3 && index ==0 && "row-span-2"} `}  />
+                          width={500} height={500} className={`w-full h-full rounded-lg aspect-square ${currentPostMedia.length ==3 && index ==0 && "row-span-2"} `}  />
 
                         
                ))}

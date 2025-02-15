@@ -6,6 +6,7 @@ import PreviewTweet from './preview-tweet'
 import Input from './ui/input'
 import { Button } from './ui/button'
 import { FaRandom } from 'react-icons/fa'
+import { UseAi } from '@/lib/aiContext'
 
 const TweetlyIntelligencePopup = (
   { className, closePopup, children}:{
@@ -15,6 +16,8 @@ const TweetlyIntelligencePopup = (
   
   }
 ) => {
+
+   const {aiBots} =UseAi();
   return (
     <Popup
     closePopup={closePopup}

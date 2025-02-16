@@ -3,10 +3,11 @@ import Popup from './ui/popup'
 import ToolTip from './ui/tooltip'
 import { WandSparkles } from 'lucide-react'
 import PreviewTweet from './preview-tweet'
-import Input from './ui/input'
 import { Button } from './ui/button'
 import { FaRandom } from 'react-icons/fa'
 import { UseAi } from '@/lib/aiContext'
+import QuickActions from './quick-actions'
+import { FaBoltLightning } from "react-icons/fa6";
 
 const TweetlyIntelligencePopup = (
   { className, closePopup, children}:{
@@ -17,7 +18,7 @@ const TweetlyIntelligencePopup = (
   }
 ) => {
 
-   const {aiBots} =UseAi();
+   const {aiBots, setSelectedBot, selectedBot} =UseAi();
   return (
     <Popup
     closePopup={closePopup}
@@ -37,18 +38,38 @@ className='text-customBlue mr-1'
 
 <div className="flex h-full gap-2 mt-4 px-6 my-4 flex-grow " id="content">
 
-  <div className=" p-2 w-1/2  flex flex-col h-full flex-grow" id="left">
+  <div className=" p-2 w-[45%]  flex flex-col min-h-full flex-grow" id="left">
 
     <h2 className="font-semibold">Select Your Bot:</h2>
-    <select className='mt-2 w-full p-2 rounded' title='Select Your Bot' name="Bot Selector" id="botselector">
-      <option value="C" >Code With Harry</option>
-      <option value="H">Harkirat</option>
+    <select className='mt-2 w-full p-2 rounded bg-gray-50 dark:bg-gray-800' title='Select Your Bot' name="Bot Selector" id="botselector" 
+    defaultValue={selectedBot?.id}
+    onChange={
+      (e) => {
+        console.log(e.target.value)
+       setSelectedBot(aiBots.find(bot => bot.id == e.target.value) || null );
+      }
+      
+    }>
+      {aiBots.map((bot, index) => (
+        <option
+        key={index} 
+        value={bot.id}
+        
+        onClick={() => {
+          console.log("bot selection")
+          setSelectedBot(bot);
+        }}
+         >
+          {bot.name}
+        </option>
+      ))}
+
     </select>
 
     <div className="mt-4" id="inputorRandom">
 
-      <h2 className="">Enter Your Thoughts </h2>
-      <textarea className='p-2 w-full mt-2 rounded-md' placeholder='Write a Topic To Tweet On' />
+      <h2 className="font-semibold">Enter Your Thoughts: </h2>
+      <textarea className='p-2 w-full mt-2 rounded-md bg-gray-50 dark:bg-gray-800' placeholder='Write a Topic To Tweet On' />
 
       <div className='mt-2'>
 
@@ -73,6 +94,18 @@ className='text-customBlue mr-1'
     Generate High Engagment Tweet
   </Button>
 
+  <div className="mt-4 flex flex-wrap gap-4 justify-center items-center  p-3 rounded-md relative" id="ideas">
+
+  <QuickActions  getQuickQuestionReply={(text) => console.log(text)}
+  className='text-xs bg-gray-200 hover:bg-gray-300 dark:hover:bg-gray-300' 
+  />
+
+  {/* <FaBoltLightning 
+  className='absolute left-0 top-0 bg-gray-200' 
+  /> */}
+  </div>
+
+
 </div>
 
 </div>
@@ -82,7 +115,7 @@ className='text-customBlue mr-1'
 
   </div>
 
-  <div className="w-1/2 p-4 bg-gray-800 rounded-md h-full " id="right">
+  <div className="w-[60%] p-4 dark:bg-gray-800 rounded-md min-h-full " id="right">
 
    <PreviewTweet currentTweet='' currentPostMedia={[]} />
   </div>

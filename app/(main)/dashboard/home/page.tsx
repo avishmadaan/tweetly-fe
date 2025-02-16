@@ -18,14 +18,14 @@ export default function Home() {
 
   return (
     <div className="">
-       <div className="flex justify-between items-center mb-8  ">
+       <div className="flex justify-between items-center mb-8 flex-wrap ">
         <h2 className="font-semibold text-2xl flex items-center gap-2">Welcome, {user?.name?.split(" ")[0] || "User"}
 
           <ToolTip>This your app home where you will be see your stats and other basic details.</ToolTip>
         </h2>
 
 </div>
-<div className="flex  gap-4" id="content">
+<div className="flex  gap-4 flex-wrap" id="content">
 <OnboardChecklist />
 <PostsCount />
 <div className=" flex flex-col gap-4" id="3nd">

@@ -1,4 +1,6 @@
+import { Bot } from 'lucide-react'
 import React from 'react'
+import QuickActions from './quick-actions'
 
 const questions = [
 
@@ -12,21 +14,15 @@ const QuickQuestions = ({getQuickQuestionReply}:{
 }) => {
   return (
     <div className='flex flex-wrap gap-3 w-[70%] justify-center mx-auto'>
-
+       
+            
+        <Bot className='' size={64} />
         <p className="text-center text-md">
             This is a ultimate place where you can ask any question about the bots or give them any thing to write upon.
         </p>
-        {questions.map((ques, index) => (
 
-            <div 
-            className="p-2 bg-gray-100 dark:bg-white dark:text-black  rounded-md text-sm cursor-pointer" 
-            key={index}
-            onClick={() => getQuickQuestionReply(ques)}
-
-            >
-                {ques}
-            </div>
-        ))}
+        <QuickActions getQuickQuestionReply={getQuickQuestionReply}/>
+      
       
     </div>
   )

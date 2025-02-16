@@ -20,7 +20,7 @@ const BotSelection = () => {
            
         </div>
 
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto p-2">
 
        
 
@@ -37,7 +37,7 @@ const BotSelection = () => {
                         console.log("bot selected")
                         setSelectedBot(bot);
                       }}
-                      className='my-4 text-lg'
+                      className='my-2 mb-4 text-lg'
                       isActive={selectedBot?.id == bot.id}
                       />
       

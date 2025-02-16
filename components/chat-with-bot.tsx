@@ -4,7 +4,6 @@ import { Button } from "./ui/button";
 import Input from "./ui/input";
 import { SendHorizonal } from "lucide-react";
 import { useNotification } from "./notification/notificationContext";
-import { DataAPIClient} from "@datastax/astra-db-ts"
 import OpenAI from "openai"
 import { domain } from "@/lib/utils";
 import axios from "axios";
@@ -56,8 +55,7 @@ const ChatWithBot = () => {
   })
 
 
-  const client = new DataAPIClient(process.env.NEXT_PUBLIC_ASTRA_DB_APPLICATION_TOKEN)
-  const db = client.db(process.env.NEXT_PUBLIC_ASTRA_DB_API_ENDPOINT as string, {namespace:process.env.NEXT_PUBLIC_ASTRA_DB_NAMESPACE})
+  
 
   const [chats, setChats] = useState<Message[]>([
   ]);
@@ -174,8 +172,10 @@ QUESTION: ${lastMessage}
         <h1 className="font-semibold  flex gap-2 items-center">
         Selected Bot: 
           <div className="dark:bg-gray-800 bg-gray-100 p-1 px-2 rounded-md flex gap-2 items-center">
+            {selectedBot?.imageURL && (
+              <Image width={24} height={24} src={selectedBot?.imageURL} alt="profilepic" className="rounded-full" />
+            )}
             
-            <Image width={24} height={24} src={selectedBot?.imageURL || ""} alt="profilepic" className="rounded-full" />
             <p className="">
               
               {selectedBot?.name}

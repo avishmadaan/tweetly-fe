@@ -57,13 +57,9 @@ const RichTextEditor = ({ className }: { className: string }) => {
     <div
       className={`border rounded-md p-4  flex flex-col w-full  cursor-text ${className} `}
       onClick={(event) => {
-
-        if (
-        !(emojiRef.current && emojiRef.current.contains(event.target as Node))) {
-      editor?.commands.focus();
-    }
-        
-      
+        if(event.target instanceof HTMLDivElement) {
+          editor?.commands.focus();
+        }
       }}
     >
 

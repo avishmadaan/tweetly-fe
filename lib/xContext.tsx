@@ -30,6 +30,7 @@ type xContextType = {
     currentPostTime:Value,
     setCurrentPostTime:React.Dispatch<React.SetStateAction<Value>>
     moveToDraft:(id:string) => Promise<boolean>
+    settinngAiTweet:(text:string) => void;
 }
 
 export type FileType = {
@@ -211,6 +212,11 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
 
     }
 
+    const settinngAiTweet = (text:string) => {
+        setCurrentTweet(text);
+        editor?.commands.setContent(text);
+    }
+
     const editorInstance = useEditor({
         content: currentTweet,
         extensions: [StarterKit, Bold, Italic, Underline, Link, HardBreak],
@@ -229,7 +235,7 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
     },[editorInstance])
 
     return (
-        <XContext.Provider value={{currentTweet,setCurrentTweet, whenToPost, setWhenToPost, currentPostMedia, setCurrentPostMedia, createOrUpdateDraftPost, fetchAllDrafts, draftPosts, editor, usingDraft, deleteDraft, setCurrentPostTime, currentPostTime, moveToDraft, usingScheduled}} >
+        <XContext.Provider value={{currentTweet,setCurrentTweet, whenToPost, setWhenToPost, currentPostMedia, setCurrentPostMedia, createOrUpdateDraftPost, fetchAllDrafts, draftPosts, editor, usingDraft, deleteDraft, setCurrentPostTime, currentPostTime, moveToDraft, usingScheduled, settinngAiTweet}} >
             {children}
         </XContext.Provider>
     )

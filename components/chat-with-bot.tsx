@@ -1,20 +1,13 @@
 "use client"
-import React, {  useRef, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import Input from "./ui/input";
 import { SendHorizonal } from "lucide-react";
 import { useNotification } from "./notification/notificationContext";
-import OpenAI from "openai"
-import { domain } from "@/lib/utils";
-import axios from "axios";
 import QuickQuestions from "./quick-questions";
-import { UseAi } from "@/lib/aiContext";
+import { Message, UseAi } from "@/lib/aiContext";
 import Image from "next/image";
 
-interface Message {
-  role: "system" | "user" | "assistant";
-  content:string;
-}
 
 const ChatWithBot = () => {
   const {showNotification} = useNotification();
@@ -23,146 +16,57 @@ const ChatWithBot = () => {
   const messageRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
-  const {selectedBot} = UseAi();
+  const {selectedBot, getAssistantReply, chats, setChats} = UseAi();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const getContext = async (embeddingVector:number[]) => {
-
-    try {
-      const URL = `${domain}/api/v1/user/ai/getcontext`;
-      const result = await axios.post(URL,{embeddingVector}, {
-        withCredentials:true
-      } )
-      console.log(result.data)
-  
-      return result.data.context;
-
-    } catch(err){
-      console.log(err);
-      showNotification({
-        //@ts-expect-error  because of message
-        message:e.response.data.message || "Internal Server Error",
-        type:"negative"
-      })
-
-
-    }
-
-
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollTo({
+      top: messagesEndRef.current?.scrollHeight,
+      behavior: "smooth",
+    });
   }
-  const openai = new OpenAI({
-    apiKey:process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-    dangerouslyAllowBrowser:true
-  })
 
+  useEffect(() => {
+    scrollToBottom()
+  }, [chats]);
 
   
-
-  const [chats, setChats] = useState<Message[]>([
-  ]);
 
   const handleSendMessage = async (e) => {
-
+    setLoading(true)
       e.preventDefault();
     if(!input.trim()) {
             showNotification({
         message:"Empty Input",
         type:"negative"
       })
+      setLoading(false);
       return ;
 
     }
     const newMessage: Message = { role: "user", content: input };
-    const newChats = [newMessage, ...chats ];
+    const newChats = [...chats, newMessage ];
     
     setChats(newChats);
     setInput("");
 
-    await getAssistantReply(newChats)
+    await getAssistantReply(newChats, setChats);
+    setLoading(false);
   }
 
   const getQuickQuestionReply = async (text:string) => {
+    setLoading(true);
     const newMessage: Message = { role: "user", content: text };
     const newChats = [newMessage, ...chats ];
     setChats(newChats);
     setInput("");
 
-    await getAssistantReply(newChats)
+    await getAssistantReply(newChats, setChats);
+    setLoading(false);
 
   }
 
-  const getAssistantReply = async (chatHistory: Message[]) => {
-    setLoading(true);
-    console.log(chatHistory);
-    const lastMessage = chatHistory[0]?.content;
-    console.log(lastMessage);
-
-    let embeddingVector:number[] =[];
-    try {
-      const embeddingResponse = await openai.embeddings.create({
-        model: "text-embedding-3-small",
-        input: lastMessage,
-        encoding_format: "float",
-      });
-      embeddingVector = embeddingResponse.data[0].embedding;
-
-    } catch (err) {
-      console.error("Error getting embedding:", err);
-      showNotification({ message: "Error getting embedding", type: "negative" });
-      return;
-      setLoading(false);
-    } 
-    console.log(embeddingVector)
-
-    const docContext = await getContext(embeddingVector);
-
-    const systemMessage: Message = {
-      role: "system",
-      content: `
-You are an AI assistant who knows everything about Formula One.
-Use the below context to augment your knowledge about Formula One racing.
-The context provides recent page data from Wikipedia, the official F1 website, and others.
-If the context doesn't include the needed info, answer based on your existing knowledge without mentioning the source.
-Format responses using markdown where applicable and do not return images.
-
---------
-START CONTEXT
-${docContext}
-END CONTEXT
-
-----
-QUESTION: ${lastMessage}
-----
-      `,
-    };
-
-    try {
-
-      const response = await openai.chat.completions.create({
-        messages:[...chatHistory, systemMessage ],
-        model:"gpt-4"
-      })
-
-      const assistantReply = response.choices[0].message.content || "";
   
-      // Update chat state with the complete assistant reply.
-      setChats((prevChats) => [ { role: "assistant", content: assistantReply},  ...prevChats]);
-
-
-    }
-    catch(err) {
-      console.error("Error during chat completion:", err);
-      showNotification({
-        message: "Error during chat completion",
-        type: "negative",
-      });
-
-    } finally {
-      setLoading(false);
-    }
-
-
-  }
-
 
 
   return (
@@ -186,7 +90,8 @@ QUESTION: ${lastMessage}
       </div>  
 
    
-      <div className="flex flex-col-reverse   items-start p-4   h-full overflow-auto relative" id="chats">
+      <div className="flex flex-col   items-end p-4  h-full  overflow-auto relative" ref={messagesEndRef} id="chats"
+      >
 
         {chats.length == 0 && (
           <div className=" absolute  top-1/2 -translate-y-1/2 " >
@@ -194,7 +99,7 @@ QUESTION: ${lastMessage}
           </div>
         )}
 
-        {chats.reverse().map((chat, index) => (
+        {chats.map((chat, index) => (
 
           <span 
           key={index}
@@ -218,7 +123,7 @@ QUESTION: ${lastMessage}
             placeholder="Ask me anything..."
             className=""
             onChange={(e) => {
-                setInput(chat => e.target.value)
+                setInput(e.target.value)
             }}
             // onClick={(event) => {
             //   console.log(event)

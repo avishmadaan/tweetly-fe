@@ -5,6 +5,7 @@ import axios from "axios";
 import { useContext , createContext, useState, useEffect, ReactElement} from "react";
 import { domain } from "./utils";
 import Cookies from "js-cookie";
+import OpenAI from "openai"
 
 
 
@@ -21,6 +22,11 @@ type AiContextType = {
     selectedBot:AiBot | null,
     setSelectedBot:React.Dispatch<React.SetStateAction<AiBot | null>>;
     aiBots:AiBot[]
+    getAssistantReply:(messages:Message[], setMessages:React.Dispatch<React.SetStateAction<Message[]>>) => void
+    chats: Message[]
+    setChats: React.Dispatch<React.SetStateAction<Message[]>>
+    tIChats:Message[]
+    setTIChats:React.Dispatch<React.SetStateAction<Message[]>>
 }
 
 type Xdata = {
@@ -46,6 +52,10 @@ export type Bot = {
     profile?:string
   }
 
+  export interface Message {
+    role: "system" | "user" | "assistant";
+    content:string;
+  }
 
 const AiContext =  createContext<AiContextType | undefined> (undefined);
 
@@ -61,6 +71,8 @@ export const AiContextProvider = ({children}:{children:React.ReactNode}) => {
     //bots
     const [selectedBot, setSelectedBot] = useState<AiBot | null>(null);
     const [aiBots, setAiBots] = useState<AiBot[]>([]);
+     const [chats, setChats] = useState<Message[]>([]);
+     const [tIChats, setTIChats] = useState<Message[]>([]);
     
 
     useEffect(() => {
@@ -204,8 +216,158 @@ export const AiContextProvider = ({children}:{children:React.ReactNode}) => {
 
     }
 
+
+  const getContext = async (embeddingVector:number[]) => {
+
+    try {
+      const URL = `${domain}/api/v1/user/ai/getcontext`;
+      const result = await axios.post(URL,{embeddingVector}, {
+        withCredentials:true
+      } )
+  
+      return result.data.context;
+
+    } catch(err){
+      console.log(err);
+      showNotification({
+        //@ts-expect-error  because of message
+        message:e.response.data.message || "Internal Server Error",
+        type:"negative"
+      })
+
+
+    }
+
+
+  }
+  const openai = new OpenAI({
+    apiKey:openAiKey,
+    dangerouslyAllowBrowser:true
+  })
+
+  const getAssistantReply = async (chatHistory: Message[], setMessages:React.Dispatch<React.SetStateAction<Message[]>>) => {
+    const lastMessage = chatHistory[0]?.content;
+    const embeddingVector = await getEmbedding(lastMessage);
+    const tweetContext = await getContext(embeddingVector);
+
+    const systemMessage: Message = {
+        role: "system",
+        content: `
+        You are ${selectedBot?.name}, ${selectedBot?.profile}
+  
+        Below is some context gathered from 5 of your recent tweets (via vector search). Use this context to guide your responses if it’s relevant, but keep your unique voice and style. If the context lacks the necessary details, rely on your extensive coding experience without mentioning the source.
+  
+        --------
+        START CONTEXT
+        ${tweetContext}
+        END CONTEXT
+  
+        ----
+        QUESTION: ${lastMessage}
+        ----
+        `,
+      };
+      const requestBody = {
+        model:"gpt-4",
+        messages:[systemMessage, ...chatHistory],
+        stream:true
+      }
+      try {
+
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${openAiKey}`
+          },
+          body: JSON.stringify(requestBody)
+        })
+  
+        if (!response.ok || !response.body) {
+          throw new Error("Stream response error");
+        }
+  
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let done = false;
+        let assistantReply ="";
+  
+  
+        setMessages((prev) => [...prev, {role:"assistant", content:" "}]);
+  
+        while(!done) {
+          const {value, done:doneReading} = await reader.read();
+          done = doneReading;
+          const chunkValue = decoder.decode(value, {stream:true})
+  
+          const lines = chunkValue.split("\n").filter((line) => line.trim() !=="");
+  
+          for(const line of lines) {
+            if(line.startsWith("data: ")) {
+              const dataStr = line.replace("data: ","").trim();
+              if(dataStr === "[DONE]") {
+                done= true;
+                break;
+              }
+              try {
+                const parsed = JSON.parse(dataStr);
+                const content = parsed.choices[0]?.delta?.content;
+  
+                if(content) {
+                  assistantReply += content;
+  
+                  setMessages((prev) => {
+                    const updated = [...prev]
+                    const lastIndex = updated.length -1;
+                    updated[lastIndex] = {role:"assistant", content:assistantReply};
+                    return updated;
+                  })
+                }
+              } catch(err) {
+                console.error("Error parsing stream chunk:", err);
+              }
+            }
+          }
+  
+        }
+  
+  
+      }
+      catch(err) {
+        console.error("Error during chat completion:", err);
+        showNotification({
+          message: "Error during chat completion",
+          type: "negative",
+        });
+  
+      }
+
+
+
+  }
+
+  const getEmbedding = async (message:string) => {
+    let embeddingVector:number[] =[];
+    try {
+      const embeddingResponse = await openai.embeddings.create({
+        model: "text-embedding-3-small",
+        input: message,
+        encoding_format: "float",
+      });
+      embeddingVector = embeddingResponse.data[0].embedding;
+      return embeddingVector;
+
+    } catch (err) {
+      console.error("Error getting embedding:", err);
+      showNotification({ message: "Error getting embedding", type: "negative" });
+      return [];
+      
+    } 
+  }
+
+
     return (
-        <AiContext.Provider value={{checkValidAPI, isKeyAuthenticated, removeApiKey, openAiKey, integrateX, getXDetails, Xdata, isXIntegrated, logOutXAccount, setSelectedBot,selectedBot, aiBots }} >
+        <AiContext.Provider value={{checkValidAPI, isKeyAuthenticated, removeApiKey, openAiKey, integrateX, getXDetails, Xdata, isXIntegrated, logOutXAccount, setSelectedBot,selectedBot, aiBots, getAssistantReply, chats, setChats, setTIChats, tIChats }} >
             {children}
         </AiContext.Provider>
     )

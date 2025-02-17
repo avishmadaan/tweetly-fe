@@ -17,7 +17,7 @@ export default function Home() {
   
 
   return (
-    <div className="">
+    <div className="mb-8">
        <div className="flex justify-between items-center mb-8 flex-wrap ">
         <h2 className="font-semibold text-2xl flex items-center gap-2">Welcome, {user?.name?.split(" ")[0] || "User"}
 
@@ -36,10 +36,7 @@ export default function Home() {
 </div>
 </div>
 
-  
-  
-
-      
+       
     </div>
   )
 }

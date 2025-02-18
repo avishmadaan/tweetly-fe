@@ -2,14 +2,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { domain } from "./utils";
 import axios from "axios";
-import StarterKit from "@tiptap/starter-kit";
-import HardBreak from '@tiptap/extension-hard-break';
-import Bold from "@tiptap/extension-bold";
-import Italic from "@tiptap/extension-italic";
-import Underline from "@tiptap/extension-underline";
-import Link from "@tiptap/extension-link";
 import { useNotification } from "@/components/notification/notificationContext";
-import {Editor, useEditor} from "@tiptap/react"
 import { useRouter } from "next/navigation";
 import type{Value} from "react-multi-date-picker"
 
@@ -23,7 +16,6 @@ type xContextType = {
     createOrUpdateDraftPost:() => Promise<boolean>,
     fetchAllDrafts:() => Promise<boolean>,
     draftPosts:PostsType[]
-    editor:Editor | null
     usingDraft:(id:string) => void;
     usingScheduled:(id:string) => void
     deleteDraft:(id:string) => void;
@@ -56,7 +48,6 @@ const XContext =  createContext<xContextType | undefined>(undefined);
 
 export const XContextProvider = ({children}:{children:React.ReactNode}) => {
 
-    const [editor, setEditor] = useState<Editor | null>(null);
     const {showNotification} = useNotification();
     const [whenToPost, setWhenToPost] = useState<WhenToPost>("now");
     const [draftPosts, setDraftsPosts] = useState<PostsType[]>([]);
@@ -84,7 +75,6 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
 
             setCurrentTweet("");
             setCurrentPostMedia([]);
-            editor?.commands.clearContent();
             setCurrentPostId(null);
             return true;
 
@@ -130,8 +120,6 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
 
         setCurrentTweet(postContent);
         setCurrentPostMedia(mediaFiles);
-        editor?.commands.clearContent();
-        editor?.commands.insertContent(postContent);
         setCurrentPostId(id);
         router.push("/dashboard/publish/editor");
 
@@ -146,8 +134,6 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
 
         setCurrentTweet(postContent);
         setCurrentPostMedia(mediaFiles);
-        editor?.commands.clearContent();
-        editor?.commands.insertContent(postContent);
         setCurrentPostId(id);
         router.push("/dashboard/publish/editor");
 
@@ -214,33 +200,15 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
 
     const settinngAiTweet = (text:string) => {
         setCurrentTweet(text);
-        editor?.commands.setContent(text);
     }
 
-    const editorInstance = useEditor({
-        content: currentTweet,
-        extensions: [StarterKit, Bold, Italic, Underline, Link, HardBreak],
-        onUpdate: ({ editor }) => setCurrentTweet(editor.getHTML()),
-        immediatelyRender:false
-      });
-
-
-    useEffect(() => {
-        // createDraftPost()
-        // setEditor(editorNew); 
-        if (editorInstance) {
-
-            setEditor(editorInstance);
-          }
-       
-    },[editorInstance])
 
     useEffect(() => {
         fetchAllDrafts();
     }, [])
 
     return (
-        <XContext.Provider value={{currentTweet,setCurrentTweet, whenToPost, setWhenToPost, currentPostMedia, setCurrentPostMedia, createOrUpdateDraftPost, fetchAllDrafts, draftPosts, editor, usingDraft, deleteDraft, setCurrentPostTime, currentPostTime, moveToDraft, usingScheduled, settinngAiTweet}} >
+        <XContext.Provider value={{currentTweet,setCurrentTweet, whenToPost, setWhenToPost, currentPostMedia, setCurrentPostMedia, createOrUpdateDraftPost, fetchAllDrafts, draftPosts, usingDraft, deleteDraft, setCurrentPostTime, currentPostTime, moveToDraft, usingScheduled, settinngAiTweet}} >
             {children}
         </XContext.Provider>
     )

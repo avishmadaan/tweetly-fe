@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { EditorContent } from "@tiptap/react";
 import { UseX } from "@/lib/xContext";
 import { SmilePlus, Trash2, ImageIcon, TriangleAlert } from "lucide-react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
@@ -12,7 +11,7 @@ import TweetlyIntelligencePopup from "./tweetly-intelligence-post";
 
 
 const RichTextEditor = ({ className }: { className: string }) => {
-  const { setCurrentTweet, editor , setCurrentPostMedia} = UseX();
+  const { setCurrentTweet , currentTweet, setCurrentPostMedia} = UseX();
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const emojiRef = useRef<HTMLDivElement>(null);
 
@@ -40,14 +39,12 @@ const RichTextEditor = ({ className }: { className: string }) => {
 
 
   const addEmoji = (emojiObject: EmojiClickData) => {
-    editor?.commands.insertContent(emojiObject.emoji);
+    setCurrentTweet((val) => val.concat(emojiObject.emoji))
   };
 
 
   const clearTextAndMedia = () => {
 
-  editor?.commands.clearContent();
-  
   setCurrentTweet("");
   setCurrentPostMedia([]);
 
@@ -56,30 +53,22 @@ const RichTextEditor = ({ className }: { className: string }) => {
   return (
     <div
       className={`border rounded-md p-4  flex flex-col w-full  cursor-text ${className} `}
-      onClick={(event) => {
-        if(event.target instanceof HTMLDivElement) {
-          editor?.commands.focus();
-        }
-      }}
     >
 
 
       {/* Editor */}
       <div className="flex-grow p-2 relative">
 
-       
 
-        {!editor?.getText() && (
-          <p className={`absolute top-2 left-2 text-gray-400 italic pointer-events-none`}>
-            What&apos;s on you mind? Lets share this with others...
-          </p>
-        )}
-
-        {/* Editor Input */}
-        <EditorContent 
-        editor={editor} 
-        className="font-normal min-h-[150px]  " 
+        <textarea
+        className={`p-2 rounded-md w-full focus:outline-none  whitespace-pre-wrap h-full dark:bg-transparent`}
+        value={currentTweet}
+        onChange={(e) => setCurrentTweet(e.target.value)}
+        placeholder="What's on your mind? Let's share this with others..."
         />
+
+
+
       </div>
 
       {/* Toolbar */}
@@ -160,16 +149,16 @@ const RichTextEditor = ({ className }: { className: string }) => {
 
 </ToolTip>
 <p className={`text-red-500 text-sm flex items-center gap-2 
-          ${(editor?.getHTML().length 
+          ${(currentTweet.length 
           || 1)>280?"block":"hidden"}`}>
             <TriangleAlert size={16} />
             Upto 280 Characters Allowed</p>
 
 
           <p className={`
-          ${(editor?.getText().length 
+          ${(currentTweet.length 
           || 1)>280?"text-red-500":""}`}>
-            {editor?.getText().length}
+            {currentTweet.length}
 
             
             </p>

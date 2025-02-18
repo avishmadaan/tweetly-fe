@@ -6,7 +6,7 @@ const PostsCount = () => {
   const {draftPosts} = UseX();
 
   return (
-    <div className='border p-6 rounded-md min-h-72 relative'>
+    <div className='border p-6 rounded-md min-h-72 relative h-full'>
 
 <div className="flex  items-center gap-2 border-b pb-4" id="top">
 

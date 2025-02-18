@@ -50,11 +50,11 @@ const PreviewTweet = ({
   const gridClass = alignment[currentPostMedia.length.toString()] || alignment.default;
 
   return (
-    <div className={`${className} bg-[#F7F7F7] dark:bg-gray-800 p-6 rounded-md `}>
+    <div className={`${className} bg-[#F7F7F7] dark:bg-gray-800 p-6 rounded-md w-full `}>
 
-      <div className="border p-4 rounded-md bg-white dark:bg-black grid grid-cols-[1fr_18fr] gap-2 w-full">
+      <div className="border p-4 rounded-md bg-white dark:bg-black flex gap-2 w-full">
         
-        <div className="min-w-6" id="left">
+        <div className="w-[5%]" id="left">
           {Xdata?.profilePicture ? (
             <Image
               src={Xdata?.profilePicture}
@@ -68,7 +68,7 @@ const PreviewTweet = ({
           )}
         </div>
 
-        <div className="" id="right">
+        <div className="w-[95%]  flex-wrap" id="right">
 
           <div className="flex flex-grow gap-2 items-center" id="meta">
             <h2 className="font-bold ">{Xdata?.name || "Your Name Here"}</h2>
@@ -82,7 +82,8 @@ const PreviewTweet = ({
           <div className="mt-2 " id="content" >
 
             <div className="" id="contentsskeleton">
-            <div className="mb-4 break-all [&>p]:min-h-2 " id="content2" dangerouslySetInnerHTML={{ __html: currentTweet }}>
+            <div className="mb-4 whitespace-pre-wrap break-words overflow-hidden  " id="content2" >
+              {currentTweet}
              
         </div>
         {/* break-all whitespace-pre-line  [&>p]:mb-2 */}

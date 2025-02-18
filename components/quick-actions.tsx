@@ -1,11 +1,11 @@
 import React from 'react'
 
 const questions = [
-
-    "Can you write a viral tweet for me?",
-    "Can you write a tweet on AI?",
-    "Write tweet on machine learning?"
-]
+  "Can you craft a witty tweet about coding?",
+  "Write a tweet on AI and its future impact.",
+  "Can you create a tweet celebrating open-source?",
+  "Can you make a funny tweet about developer life?"
+];
 const QuickActions =  ({getQuickQuestionReply, className}:{
     getQuickQuestionReply:(text:string) => void,
     textPart?:boolean

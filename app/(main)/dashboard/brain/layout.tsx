@@ -1,7 +1,7 @@
 "use client"
 import { NavbarItem } from '@/components/ui/navbar-item'
 
-import {  Brain } from 'lucide-react'
+import {  Brain, FileSearch } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import React, { ReactElement } from 'react'
 import { BiCategory } from "react-icons/bi";
@@ -25,6 +25,12 @@ const items: menuItems[] = [
     title: "Categories",
     url: "/dashboard/brain/categories",
     icon: <BiCategory size={24}/>,
+  }
+  ,
+  {
+    title: "Ai Search",
+    url: "/dashboard/brain/aisearch",
+    icon: <FileSearch size={24}/>,
   }
 
 ]

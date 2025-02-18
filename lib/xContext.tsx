@@ -221,6 +221,7 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
         content: currentTweet,
         extensions: [StarterKit, Bold, Italic, Underline, Link, HardBreak],
         onUpdate: ({ editor }) => setCurrentTweet(editor.getHTML()),
+        immediatelyRender:false
       });
 
 
@@ -233,6 +234,10 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
           }
        
     },[editorInstance])
+
+    useEffect(() => {
+        fetchAllDrafts();
+    }, [])
 
     return (
         <XContext.Provider value={{currentTweet,setCurrentTweet, whenToPost, setWhenToPost, currentPostMedia, setCurrentPostMedia, createOrUpdateDraftPost, fetchAllDrafts, draftPosts, editor, usingDraft, deleteDraft, setCurrentPostTime, currentPostTime, moveToDraft, usingScheduled, settinngAiTweet}} >

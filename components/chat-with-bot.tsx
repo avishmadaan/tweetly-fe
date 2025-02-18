@@ -2,7 +2,7 @@
 import React, {  useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import Input from "./ui/input";
-import { SendHorizonal } from "lucide-react";
+import {  SendHorizonal } from "lucide-react";
 import { useNotification } from "./notification/notificationContext";
 import QuickQuestions from "./quick-questions";
 import { Message, UseAi } from "@/lib/aiContext";
@@ -90,7 +90,7 @@ const ChatWithBot = () => {
       </div>  
 
    
-      <div className="flex flex-col   items-end p-4  h-full  overflow-auto relative" ref={messagesEndRef} id="chats"
+      <div className="flex flex-col   items-start p-4  h-full  overflow-auto relative" ref={messagesEndRef} id="chats"
       >
 
         {chats.length == 0 && (
@@ -108,6 +108,12 @@ const ChatWithBot = () => {
             </span>
   
         ))}
+
+        {/* {loading &&  <span 
+          
+          className={` "self-start" p-3 bg-customBlue text-white rounded-lg mt-2 text-sm max-w-[50%] whitespace-pre-line `}>
+            <Loader2 className="animate-spin" />
+            </span>} */}
 
       </div>
 

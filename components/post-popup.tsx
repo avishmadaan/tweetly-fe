@@ -26,7 +26,7 @@ className='text-customBlue mr-1'
 <ToolTip>This is where you can review the post one more last time and schedule or publish.</ToolTip>
 
 </div>
-      <div className="flex gap-2 flex-grow h-full" id="2sections">
+  <div className="flex gap-2 max-h-1/2" id="2sections">
 
 
 

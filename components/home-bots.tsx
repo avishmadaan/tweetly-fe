@@ -1,7 +1,9 @@
 import React from 'react'
 import ToolTip from './ui/tooltip'
+import { UseAi } from '@/lib/aiContext'
 
 const HomeBots = () => {
+  const {aiBots} = UseAi();
   return (
     <div className='border p-6 rounded-md min-h-72 relative'>
 
@@ -14,7 +16,7 @@ const HomeBots = () => {
     
     <div className="" id="content">
     <div className="mt-4" id='Bots'>
-        <h2 className='text-6xl text-bold'>5</h2>
+        <h2 className='text-6xl text-bold'>{aiBots.length}</h2>
         <h3 className='mt-1 dark:text-gray-300  text-lg'>Prebuilt Bots Active</h3>
         </div>
     

@@ -55,7 +55,7 @@ size={26}
         
         >No
         </Button>
-        <Button variant='primary' className='bg-red-500  dark:text-white  dark:bg-red-700'
+        <Button variant='primary' className='dark:!bg-red-500 bg-red-500  dark:text-white '
         loading={loading}
         onClick={confirmingFunction}
         

@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect, useRef, useState } from 'react'
+import React, { Dispatch, useEffect, useState } from 'react'
 import { useMedia } from '@/lib/mediaContext'
 import Image from 'next/image';
 import { ArrowUpFromLine, Loader2, Trash2 } from 'lucide-react';

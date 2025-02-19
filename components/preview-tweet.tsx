@@ -52,9 +52,9 @@ const PreviewTweet = ({
   return (
     <div className={`${className} bg-[#F7F7F7] dark:bg-gray-800 p-6 rounded-md w-full `}>
 
-      <div className="border p-4 rounded-md bg-white dark:bg-black flex gap-2 w-full">
+      <div className="border p-4 rounded-md bg-white dark:bg-black flex gap-1 w-full">
         
-        <div className="w-[5%]" id="left">
+        <div className="w-[10%]" id="left">
           {Xdata?.profilePicture ? (
             <Image
               src={Xdata?.profilePicture}
@@ -68,7 +68,7 @@ const PreviewTweet = ({
           )}
         </div>
 
-        <div className="w-[95%]  flex-wrap" id="right">
+        <div className="w-[90%] pl-1 flex-wrap" id="right">
 
           <div className="flex flex-grow gap-2 items-center" id="meta">
             <h2 className="font-bold ">{Xdata?.name || "Your Name Here"}</h2>
@@ -79,17 +79,20 @@ const PreviewTweet = ({
 
           </div>
 
-          <div className="mt-2 " id="content" >
+          <div className=" " id="content" >
 
             <div className="" id="contentsskeleton">
-            <div className="mb-4 whitespace-pre-wrap break-words overflow-hidden  " id="content2" >
-              {currentTweet}
-             
-        </div>
+              {currentTweet && (
+        <div className=" whitespace-pre-wrap break-words overflow-hidden  " id="content2" >
+        {currentTweet}
+       
+  </div>
+              )}
+    
         {/* break-all whitespace-pre-line  [&>p]:mb-2 */}
 
             {isEmptyContent(currentTweet)&& (
-                <div className="">
+                <div className="p-0 mt-2">
                 <Skeleton count={1} height={8} className="block bg-gray-300 -mb-3 "/>
                 <Skeleton count={1} height={8} className="block bg-gray-300 -mb-3 "/>
                 <Skeleton count={1} height={8} className="block bg-gray-300 -mb-3 w-1/2"/>
@@ -98,12 +101,23 @@ const PreviewTweet = ({
 
             </div>
 
-            <div className={` grid gap-3 ${gridClass} `} id="media">
+            <div className={`mt-2 grid gap-1 ${gridClass} `} id="media">
                {currentPostMedia.map((file, index) => (
                       
                       
-                          <Image  key={index} src={file.fileURL} alt="media preview" title="twitter image"
-                          width={500} height={500} className={`w-full h-full rounded-lg aspect-square ${currentPostMedia.length ==3 && index ==0 && "row-span-2"} `}  />
+                      <Image
+                      key={index}
+                      src={file.fileURL}
+                      alt="media preview"
+                      title="twitter image"
+                      width={500}
+                      height={500}
+                      className={`
+                        w-full h-full rounded-lg 
+                        ${currentPostMedia.length === 1 ? '' : 'aspect-square'} 
+                        ${currentPostMedia.length === 3 && index === 0 ? "row-span-2" : ""}
+                      `}
+                    />
 
                         
                ))}

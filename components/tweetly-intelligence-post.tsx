@@ -80,7 +80,7 @@ const TweetlyIntelligencePopup = (
   return (
     <Popup
     closePopup={closePopup}
-    className={`${className} ${"p-[0px] w-[70%] min-h-[70%] flex flex-col"}`}
+    className={`${className} ${"p-[0px] w-[70%] min-h-[70%] max-h-[90vh] flex flex-col "}`}
     >
 
     <div className="flex flex-col flex-grow h-full" id='top'>
@@ -186,7 +186,7 @@ className='text-customBlue mr-1'
 
   </div>
 
-  <div className="w-[60%]  dark:bg-gray-800 bg-gray-50 rounded-md min-h-full " id="right">
+  <div className="w-[60%]  dark:bg-gray-800 bg-gray-50 rounded-md min-h-full max-h-[70vh] overflow-auto" id="right">
 
    <PreviewTweet currentTweet={
     tIChats.length>1 && tIChats[tIChats.length-1].role ==="assistant"?tIChats[tIChats.length-1].content:""

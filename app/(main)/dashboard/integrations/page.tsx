@@ -1,4 +1,4 @@
-import DevTwitter from '@/components/dev-twitter'
+// import DevTwitter from '@/components/dev-twitter'
 import OpenAiIntegration from '@/components/open-ai'
 import TwitterIntegration from '@/components/twitter-integration'
 import React from 'react'

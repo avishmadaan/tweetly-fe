@@ -255,10 +255,12 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
     const publishingTweetToTwitter = async() => {
         try {
             const URL = `${domain}/api/v1/user/posts/publishposttotwitter`
+            
 
             const response = await axios.post(URL, {
                 tweetText:currentTweet,
-                id:Xdata?.id
+                id:Xdata?.id,
+                postMedia:currentPostMedia
             }, {
                 withCredentials:true
             })

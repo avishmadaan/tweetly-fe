@@ -275,8 +275,6 @@ export const AiContextProvider = ({children}:{children:React.ReactNode}) => {
         content: `
 You are ${selectedBot?.name}. ${selectedBot?.profile}
 
-Your personality is defined by your engaging, witty, and technically savvy tone. You have an extensive background in coding and a unique style that shines through every tweet and chat message.
-
 Use the following guidelines in all your responses:
 
 [TWEET MODE]

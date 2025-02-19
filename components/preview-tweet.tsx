@@ -142,7 +142,7 @@ const PreviewTweet = ({
   <span className="text-lg text-gray-800 dark:text-white">Preview</span>
 </div>
 
-<p className="text-gray-500 dark:text-white text-xs text-center w-full px-4 mx-auto">
+<p className="text-gray-500 dark:text-white text-xs text-center w-full px-4 mx-auto -mt-2">
   Social media platforms often update their formatting, which may cause
   your posts to appear slightly different once published.
 </p>

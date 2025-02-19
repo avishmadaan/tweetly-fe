@@ -84,7 +84,7 @@ const OpenAiIntegration = () => {
       {isKeyAuthenticated ? (
         <Button
           variant="primary"
-          className="bg-red-600 dark:bg-red-500 dark:text-white w-full  bg-opacity-100 mt-auto"
+          className="bg-red-500 dark:!bg-red-500 dark:text-white w-full  bg-opacity-100 mt-auto"
           onClick={removeApiKey}
           loading={loading}
         >

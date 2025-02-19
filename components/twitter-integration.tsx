@@ -85,8 +85,8 @@ const TwitterIntegration = () => {
         {
             isXIntegrated ? (
                 <Button variant='primary' 
-                className='bg-red-600
-                 dark:bg-red-500
+                className='bg-red-500
+                 dark:!bg-red-500
                 dark:text-white w-full cursor-pointer mt-auto '
                 onClick={logOutXAccount}
                 >

@@ -23,7 +23,7 @@ const TweetlyIntelligencePopup = (
    const inputAreaRef = useRef<HTMLTextAreaElement>(null);
    const [loading, setLoading] = useState<boolean>(false);
    const {showNotification} = useNotification();
-   const {settinngAiTweet} = UseX();
+   const {settinngAiTweet, currentPostMedia} = UseX();
 
    const handleSendMessage = async () => {
 
@@ -99,7 +99,7 @@ className='text-customBlue mr-1'
   <div className=" p-2 w-[45%]  flex flex-col min-h-full flex-grow" id="left">
 
     <h2 className="font-semibold">Select Your Bot:</h2>
-    <select className='mt-2 w-full p-2 rounded bg-gray-50 dark:bg-gray-800' title='Select Your Bot' name="Bot Selector" id="botselector" 
+    <select className='mt-2 w-full p-2 rounded bg-gray-50 dark:bg-gray-900' title='Select Your Bot' name="Bot Selector" id="botselector" 
     defaultValue={selectedBot?.id}
     onChange={
       (e) => {
@@ -127,7 +127,7 @@ className='text-customBlue mr-1'
     <div className="mt-4" id="inputorRandom">
 
       <h2 className="font-semibold">Enter Your Thoughts: </h2>
-      <textarea className='p-2 w-full mt-2 rounded-md bg-gray-50 dark:bg-gray-800' placeholder='Write a Topic To Tweet On' 
+      <textarea className='p-2 w-full mt-2 rounded-md bg-gray-50 dark:bg-gray-900' placeholder='Write a Topic To Tweet On' 
       ref={inputAreaRef}
       />
       <Button
@@ -186,11 +186,11 @@ className='text-customBlue mr-1'
 
   </div>
 
-  <div className="w-[60%] p-4 dark:bg-gray-800 bg-gray-50 rounded-md min-h-full " id="right">
+  <div className="w-[60%]  dark:bg-gray-800 bg-gray-50 rounded-md min-h-full " id="right">
 
    <PreviewTweet currentTweet={
     tIChats.length>1 && tIChats[tIChats.length-1].role ==="assistant"?tIChats[tIChats.length-1].content:""
-    } currentPostMedia={[]} />
+    } currentPostMedia={currentPostMedia} previewClaim={false} />
   </div>
 
 

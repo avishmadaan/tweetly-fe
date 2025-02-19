@@ -18,7 +18,7 @@ const YourImages = ({setSelectedMenu, closePopup}:{
   const {showNotification} = useNotification();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const tempImages = useRef<FileType[]>([]);
+  const [tempImages, setTempImages] = useState<FileType[]>([]);
 
   useEffect(() => {
     findMedia();
@@ -33,7 +33,7 @@ const YourImages = ({setSelectedMenu, closePopup}:{
   const addMediaFileToArray = (file:FileType) => {
     console.log("add media called");
 
-      if(tempImages.current.length>=4) {
+      if(tempImages.length>=4) {
 
           showNotification({
             type:"negative",
@@ -43,14 +43,16 @@ const YourImages = ({setSelectedMenu, closePopup}:{
         }
         else {
 
-          tempImages.current.push(file);
+          setTempImages([...tempImages,file])
+          console.log("pushed to temp array")
+          console.log(tempImages);
         }
     
   }
 
   const removeMediaFileToArray = (file:FileType) => {
 
-    tempImages.current= tempImages.current.filter((element) => element !=file);
+    setTempImages(tempImages.filter((element) => element !=file));
   }
 
   const deletingMedia = async (id:string) => {
@@ -64,7 +66,7 @@ const YourImages = ({setSelectedMenu, closePopup}:{
   const useSelected = () => {
 
     const size = currentPostMedia.length;
-    const newSize = tempImages.current.length;
+    const newSize = tempImages.length;
 
     if(size + newSize >4) {
       showNotification({
@@ -74,7 +76,7 @@ const YourImages = ({setSelectedMenu, closePopup}:{
     }
     else {
 
-      setCurrentPostMedia([...currentPostMedia, ...tempImages.current]);
+      setCurrentPostMedia([...currentPostMedia, ...tempImages]);
   
       closePopup((val: boolean) => !val)
 
@@ -90,7 +92,7 @@ const YourImages = ({setSelectedMenu, closePopup}:{
         <h2 className="font-semibold text-xl flex items-center gap-2">Image Gallery
 
         <p className="text-xs">
-          ({` ${tempImages.current.length} Selected `})
+          ({` ${tempImages.length} Selected `})
 
           </p>
           {loading && (
@@ -142,8 +144,9 @@ const YourImages = ({setSelectedMenu, closePopup}:{
                 variant='primary'
                 className='px-[8px] py-[4px] text-xs '
                 onClick={() => {
-                  console.log("hello")
-                  addMediaFileToArray(file)}}
+                  console.log("file added")
+                  addMediaFileToArray(file)
+                }}
                
                 >
                   Use
@@ -153,7 +156,7 @@ const YourImages = ({setSelectedMenu, closePopup}:{
 
                   <div 
                   className={`bg-black/50 absolute flex items-center justify-center inset-0
-                    ${tempImages.current.includes(file)?" block":" hidden"}
+                    ${tempImages.includes(file)?" block":" hidden"}
                     `} 
                   id="unselect">
 
@@ -191,9 +194,9 @@ const YourImages = ({setSelectedMenu, closePopup}:{
 
           <Button
           variant='primary'
-          disabled={tempImages.current.length ==0?true:false}
+          disabled={tempImages.length ==0?true:false}
           className={`py-[10px] px-[10px] text-sm bg-customBlue dark:bg-customBlue 
-          ${tempImages.current.length>0?"":"dark:bg-gray-500 bg-gray-500"}
+          ${tempImages.length>0?"":"dark:bg-gray-500 bg-gray-500"}
           `}
           onClick={useSelected}
           >

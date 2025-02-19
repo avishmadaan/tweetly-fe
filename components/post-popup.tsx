@@ -8,7 +8,7 @@ import { Clock, Eye, Send } from 'lucide-react'
 import ToolTip from './ui/tooltip'
 
 const PostPopup = ({closePopup}:{closePopup:React.Dispatch<React.SetStateAction<boolean>>}) => {
-  const {currentTweet, currentPostMedia, whenToPost,currentPostTime }= UseX();
+  const {currentTweet, currentPostMedia, whenToPost,currentPostTime, publishingTweetToTwitter }= UseX();
 
   return (
     <Popup
@@ -59,6 +59,7 @@ className='text-customBlue mr-1'
            className='py-1'
            startIcon={<Send />}
            variant='primary' 
+           onClick={publishingTweetToTwitter}
       
            >
              Post Now

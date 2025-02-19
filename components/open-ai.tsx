@@ -12,7 +12,7 @@ import ToolTip from "./ui/tooltip";
 const OpenAiIntegration = () => {
   const apiKeyRef = useRef(null);
 
-  const { checkValidAPI, isKeyAuthenticated, removeApiKey, openAiKey } = UseAi();
+  const { checkValidAPI, isKeyAuthenticated, removeApiKey, openAiKey, setOpenAiKey } = UseAi();
   const [loading, setLoading] = useState<boolean>(false);
      const {showNotification} = useNotification();
 
@@ -23,11 +23,20 @@ const OpenAiIntegration = () => {
   }, [openAiKey])
 
   const ValidateAPIKey = async () => {
+    //@ts-expect-error because of the Input
+    const key = apiKeyRef.current?.value;
+    if(!key) {
+      showNotification({
+        message:"Empty Input",
+        type:"negative"
+      })
+      return;
+    }
     setLoading(true);
 
     console.log("Checking API Key");
-    //@ts-expect-error because of the Input
-    const key = apiKeyRef.current?.value;
+    
+   
     console.log("sending key :"+key)
     const response = await checkValidAPI(key);
 
@@ -37,6 +46,7 @@ const OpenAiIntegration = () => {
         type:"positive"
       })
       localStorage.setItem("openAiAuth", key);
+      setOpenAiKey(key);
     }
     setLoading(false);
   };

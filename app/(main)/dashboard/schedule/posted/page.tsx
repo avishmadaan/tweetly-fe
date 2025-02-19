@@ -9,6 +9,7 @@ import { FaTwitter } from "react-icons/fa";
 import {  format } from "date-fns";
 import { PostsType, UseX } from '@/lib/xContext'
 import ReactPaginate from 'react-paginate'
+import { UseAi } from '@/lib/aiContext'
 
 const showTweetContent = (text:string) => {
 
@@ -30,7 +31,8 @@ const Posted = () => {
     const [selectedPost, setSelectedPost] = useState<PostsType |null>(null);
 
 
-    const {fetchAllDrafts,draftPosts } = UseX();
+    const {fetchAllPublished,publishedPosts } = UseX();
+    const {Xdata} =UseAi();
      const [currentPage, setCurrentPage] = useState<number>(0);
      const itemsPerPage = 5;
 
@@ -40,20 +42,20 @@ const handlePageClick = (event:{selected:number}) => {
 
 }
 
-     const itemsToShow = draftPosts.slice(
+     const itemsToShow = publishedPosts.slice(
          currentPage *itemsPerPage,
          (currentPage+1)*itemsPerPage
      )
      
-       const loadingDrafts = async () => {
+       const loadingPublished = async () => {
          setLoading(true);
-         await fetchAllDrafts();
-         console.log(draftPosts);
+         await fetchAllPublished();
+         console.log(publishedPosts);
          setLoading(false);
        }
      
        useEffect(() => {
-         loadingDrafts();
+        loadingPublished();
        }, [])
 
 
@@ -130,15 +132,14 @@ Preview
 
 <td className="p-4 w-[5%] text-center self-center">
 
-
+<a href={`http://www.x.com/${Xdata?.username}/status/${item.tweetId}`} target='_blank'>
 <FaTwitter
 size={24}
 title='Visit Tweet On Twitter'
 className='cursor-pointer text-customBlue'
-href='http://www.x.com'
 target='_blank'
-
 />
+</a>
 
 
 </td>
@@ -162,10 +163,10 @@ target='_blank'
 
         </div>
 
-        {draftPosts.length >0  &&(
+        {publishedPosts.length >0  &&(
             <ReactPaginate
             className="flex items-center justify-center space-x-2 text-sm font-medium mt-auto mb-8 "  
-            pageCount={Math.ceil(draftPosts.length / itemsPerPage)}
+            pageCount={Math.ceil(publishedPosts.length / itemsPerPage)}
             pageRangeDisplayed={5}
             marginPagesDisplayed={3}
             onPageChange={handlePageClick}

@@ -14,6 +14,7 @@ type AiContextType = {
     isKeyAuthenticated:boolean;
     removeApiKey:() => void;
     openAiKey:string;
+    setOpenAiKey:React.Dispatch<React.SetStateAction<string>>
     integrateX:() => void
     getXDetails: () => Promise<boolean>
     Xdata:Xdata | null
@@ -30,6 +31,7 @@ type AiContextType = {
 }
 
 type Xdata = {
+    id:string,
     twitterId:string,
     username:string,
     name:string,
@@ -138,6 +140,7 @@ export const AiContextProvider = ({children}:{children:React.ReactNode}) => {
 
         localStorage.removeItem("openAiAuth")
         setIsKeyAuthenticated(false);
+        setOpenAiKey("");
 
         showNotification({
             message:"API Key Deleted",
@@ -248,7 +251,21 @@ export const AiContextProvider = ({children}:{children:React.ReactNode}) => {
     dangerouslyAllowBrowser:true
   })
 
+    const checkIfKeyPresent =  () => {
+    if(!openAiKey) {
+        return false;
+    }
+    return true;
+  }
+
   const getAssistantReply = async (chatHistory: Message[], setMessages:React.Dispatch<React.SetStateAction<Message[]>>) => {
+    if(!checkIfKeyPresent()) {
+        showNotification({
+            message:"OpenAi API Key Not Added, Go To Integrations Tab.",
+            type:"negative"
+        })
+        return;
+    }
     const lastMessage = chatHistory[0]?.content;
     const embeddingVector = await getEmbedding(lastMessage);
     const tweetContext = await getContext(embeddingVector);
@@ -385,7 +402,7 @@ If the provided context lacks sufficient details for the request, rely on your p
 
 
     return (
-        <AiContext.Provider value={{checkValidAPI, isKeyAuthenticated, removeApiKey, openAiKey, integrateX, getXDetails, Xdata, isXIntegrated, logOutXAccount, setSelectedBot,selectedBot, aiBots, getAssistantReply, chats, setChats, setTIChats, tIChats }} >
+        <AiContext.Provider value={{checkValidAPI, isKeyAuthenticated, removeApiKey, openAiKey, integrateX, getXDetails, Xdata, isXIntegrated, logOutXAccount, setSelectedBot,selectedBot, aiBots, getAssistantReply, chats, setChats, setTIChats, tIChats, setOpenAiKey}} >
             {children}
         </AiContext.Provider>
     )

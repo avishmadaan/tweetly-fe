@@ -18,7 +18,7 @@ export const ThemeSwitcher = ({
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className={`border p-2 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 ${className} `}
+      className={`border p-2 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 ${className} h-12 w-12 flex items-center justify-center`}
     >
       {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
     </button>

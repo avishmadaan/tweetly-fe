@@ -11,7 +11,7 @@ const TwitterConnected = () => {
 
   return (
     <Link className='md:block' hidden href={"/dashboard/integrations"}>
-    <div className="flex border bg-gray-800 p-2 px-4 rounded-md gap-2 cursor-pointer text-white dark:bg-gray-00 relative items-center">
+    <div className="flex border bg-gray-800 p-2 px-4 rounded-md gap-2 cursor-pointer text-white dark:bg-gray-00 relative items-center h-12">
                 {Xdata?.profilePicture ? (
                   <Image
                     src={Xdata?.profilePicture}

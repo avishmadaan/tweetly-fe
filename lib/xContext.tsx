@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNotification } from "@/components/notification/notificationContext";
 import { useRouter } from "next/navigation";
 import type{Value} from "react-multi-date-picker"
+import { UseAi } from "./aiContext";
 
 type xContextType = {
     currentTweet:string;
@@ -15,7 +16,10 @@ type xContextType = {
     setCurrentPostMedia:React.Dispatch<React.SetStateAction<FileType[]>>
     createOrUpdateDraftPost:() => Promise<boolean>,
     fetchAllDrafts:() => Promise<boolean>,
+    fetchAllPublished:() => Promise<boolean>,
     draftPosts:PostsType[]
+    publishedPosts:PostsType[]
+    scheduledPost:PostsType[]
     usingDraft:(id:string) => void;
     usingScheduled:(id:string) => void
     deleteDraft:(id:string) => void;
@@ -23,6 +27,7 @@ type xContextType = {
     setCurrentPostTime:React.Dispatch<React.SetStateAction<Value>>
     moveToDraft:(id:string) => Promise<boolean>
     settinngAiTweet:(text:string) => void;
+    publishingTweetToTwitter:() => void;
 }
 
 export type FileType = {
@@ -41,16 +46,19 @@ export type PostsType = {
     postContent:string,
     updatedAt:string,
     files:FileType[],
-    fileIds:string[]
+    fileIds:string[],
+    tweetId?:string
 }
 
 const XContext =  createContext<xContextType | undefined>(undefined);
 
 export const XContextProvider = ({children}:{children:React.ReactNode}) => {
-
+    const { Xdata} = UseAi();
     const {showNotification} = useNotification();
     const [whenToPost, setWhenToPost] = useState<WhenToPost>("now");
     const [draftPosts, setDraftsPosts] = useState<PostsType[]>([]);
+    const [publishedPosts, setPublishedPosts] = useState<PostsType[]>([]);
+    const [scheduledPost, setScheduledPosts] = useState<PostsType[]>([]);
     const [currentTweet, setCurrentTweet] = useState<string>("");
     const [currentPostMedia, setCurrentPostMedia] = useState<FileType[]>([]);
     const [currentPostTime, setCurrentPostTime] = useState<Value>(new Date());
@@ -105,6 +113,48 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
             console.log(err);
             showNotification({
                 message:"Failed To Fetch Draft Posts",
+                type:"negative"
+            })
+            return false;
+        }
+
+    }
+
+    const fetchAllPublished = async () => {
+
+        try {
+            const URL = `${domain}/api/v1/user/posts/getpublishedpost`;
+            const result = await axios.get(URL,{withCredentials:true});
+            console.log(result.data)
+            setPublishedPosts(result.data.publishedPosts);
+            return true;
+
+        }
+        catch(err) {
+            console.log(err);
+            showNotification({
+                message:"Failed To Fetch Published Posts",
+                type:"negative"
+            })
+            return false;
+        }
+
+    }
+
+    const fetchAllScheduled = async () => {
+
+        try {
+            const URL = `${domain}/api/v1/user/posts/getscheduledpost`;
+            const result = await axios.get(URL,{withCredentials:true});
+            console.log(result.data)
+            setScheduledPosts(result.data.scheduledPosts);
+            return true;
+
+        }
+        catch(err) {
+            console.log(err);
+            showNotification({
+                message:"Failed To Fetch Published Posts",
                 type:"negative"
             })
             return false;
@@ -202,13 +252,36 @@ export const XContextProvider = ({children}:{children:React.ReactNode}) => {
         setCurrentTweet(text);
     }
 
+    const publishingTweetToTwitter = async() => {
+        try {
+            const URL = `${domain}/api/v1/user/posts/publishposttotwitter`
+
+            const response = await axios.post(URL, {
+                tweetText:currentTweet,
+                id:Xdata?.id
+            }, {
+                withCredentials:true
+            })
+            console.log("reached here")
+            console.log(response.data)
+
+        } catch(err) {
+            console.log(err);
+            showNotification({
+                message:"Failed To Post Tweet",
+                type:"negative"
+            })
+
+        }
+    }
+
 
     useEffect(() => {
         fetchAllDrafts();
     }, [])
 
     return (
-        <XContext.Provider value={{currentTweet,setCurrentTweet, whenToPost, setWhenToPost, currentPostMedia, setCurrentPostMedia, createOrUpdateDraftPost, fetchAllDrafts, draftPosts, usingDraft, deleteDraft, setCurrentPostTime, currentPostTime, moveToDraft, usingScheduled, settinngAiTweet}} >
+        <XContext.Provider value={{currentTweet,setCurrentTweet, whenToPost, setWhenToPost, currentPostMedia, setCurrentPostMedia, createOrUpdateDraftPost, fetchAllDrafts, draftPosts, usingDraft, deleteDraft, setCurrentPostTime, currentPostTime, moveToDraft, usingScheduled, settinngAiTweet, publishedPosts, fetchAllPublished, publishingTweetToTwitter}} >
             {children}
         </XContext.Provider>
     )

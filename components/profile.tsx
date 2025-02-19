@@ -27,7 +27,7 @@ const Profile = () => {
 
   })
   return (
-    <div ref={menuref} className='flex border bg-gray-100 p-2 rounded-md gap-2 cursor-pointer dark:bg-gray-800 relative items-center'>
+    <div ref={menuref} className='flex border bg-gray-100 p-2 rounded-md gap-2 cursor-pointer dark:bg-gray-800 relative items-center h-12 w-12' >
         
         <div className="flex items-center gap-2" onClick={()=> setMenuOpen(!menuOpen)}>
 {/* 
